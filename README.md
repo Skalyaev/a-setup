@@ -1,2 +1,2 @@
-# setup
-$HOME
+# A kali setup
+> work in progress
