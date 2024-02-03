@@ -1,2 +1,2 @@
-# A kali setup
+# A Kali setup
 > work in progress
