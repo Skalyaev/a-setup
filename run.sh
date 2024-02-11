@@ -9,16 +9,20 @@ resources="$root/resources"
 list="$root/list"
 files=$(find "$resources" -type f)
 
+echo $root
+echo $resources
+echo $HOME
+
 echo "================================ Copying resources..."
 mkdir -p "$backup"
 for src in "$files"; do
 
-    dst=$(echo "$src" | sed "s/$resources/$HOME/")
+    echo -n "$src..."
+    dst=$(echo "$src" | sed "s=$resources=$HOME=")
     dir=$(dirname "$dst")
-    echo -n "$dst..."
     if [ -e "$dst" ]; then
 
-        backup_dir=$(echo "$dir" | sed "s/$HOME/$backup/")
+        backup_dir=$(echo "$dir" | sed "s=$HOME=$backup=")
         mkdir -p "$backup_dir"
         cp "$dst" "$backup_dir"
     else
@@ -29,34 +33,46 @@ for src in "$files"; do
 done
 
 echo "================================ Terminal config..."
-shells=$(cat "$list/shell.md" | grep -v "^#")
-exports=$(cat "$list/env.md" | grep -v "^#")
-aliases=$(cat "$list/alias.md" | grep -v "^#")
-for shell in "$shells"; do
+shells=$(cat "$list/terminal/shell.md" | grep -v "^#" | grep -v "^$")
+exports=$(cat "$list/terminal/env.md" | grep -v "^#" | grep -v "^$")
+aliases=$(cat "$list/terminal/alias.md" | grep -v "^#" | grep -v "^$")
+while IFS= read -r shell; do
 
     if [ -e "$HOME/$shell" ]; then
         cp "$HOME/$shell" "$backup"
     fi
 
-    pattern="================================ exports"
+    pattern="#================================ exports"
     if ! grep -q "$pattern" "$HOME/$shell"; then
         echo -e "\n$pattern" >> "$HOME/$shell"
     fi
-    for export in "$exports"; do
-        if ! grep -q "$export" "$HOME/$shell"; then
-            sed -i "s/$pattern/$pattern\n$export/" "$HOME/$shell"
+    while IFS= read -r export; do
+
+        b_export=$(echo $export | cut -d = -f 1)
+        if ! grep -q "$b_export" "$HOME/$shell"; then
+            # Caractères d'échappement ici
+            export=$(echo $export | sed 's/;/\\;/g')
+            export=$(echo $export | sed 's/&/\\&/g')
+            sed -i "s;$pattern;$pattern\n$export;" "$HOME/$shell"
         fi
-    done
+    done <<< "$exports"
     echo -e "enironment variables [$GREEN OK $NC]"
 
-    pattern="================================ aliases"
+    pattern="#================================ aliases"
     if ! grep -q "$pattern" "$HOME/$shell"; then
         echo -e "\n$pattern" >> "$HOME/$shell"
     fi
-    for alias in "$aliases"; do
-        if ! grep -q "$alias" "$HOME/$shell"; then
-            sed -i "s/$pattern/$pattern\n$alias/" "$HOME/$shell"
+    while IFS= read -r alias; do
+
+        b_alias=$(echo $alias | cut -d = -f 1)
+        if ! grep -q "alias $b_alias=" "$HOME/$shell"; then
+            # Caractères d'échappement ici
+            alias=$(echo $alias | sed 's/;/\\;/g')
+            alias=$(echo $alias | sed 's/&/\\&/g')
+            alias="alias $alias"
+            sed -i "s;$pattern;$pattern\n$alias;" "$HOME/$shell"
         fi
-    done
+    done <<< "$aliases"
     echo -e "aliases [$GREEN OK $NC]"
-done
+
+done <<< "$shells"
