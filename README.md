@@ -1,3 +1,3 @@
 # A linux setup
-`work in progress`
+> work in progress
 
