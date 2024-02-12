@@ -5,3 +5,5 @@ REPORTS=$HOME/reports
 DOC=$HOME/doc
 FT=$HOME/42
 GIT=$HOME/git
+
+# To classify

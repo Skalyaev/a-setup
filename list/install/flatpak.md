@@ -9,3 +9,5 @@ io.github.realmazharhussain.GdmSettings
 
 # Social
 flathub com.discordapp.Discord
+
+# To classify

@@ -18,11 +18,11 @@ mkdir -p "$backup"
 for src in "$files"; do
 
     echo -n "$src..."
-    dst=$(echo "$src" | sed "s=$resources=$HOME=")
+    dst=$(echo "$src" | sed "s;$resources;$HOME;")
     dir=$(dirname "$dst")
     if [ -e "$dst" ]; then
 
-        backup_dir=$(echo "$dir" | sed "s=$HOME=$backup=")
+        backup_dir=$(echo "$dir" | sed "s;$HOME;$backup;")
         mkdir -p "$backup_dir"
         cp "$dst" "$backup_dir"
     else
@@ -50,10 +50,10 @@ while IFS= read -r shell; do
 
         b_export=$(echo $export | cut -d = -f 1)
         if ! grep -q "$b_export" "$HOME/$shell"; then
-            # Caractères d'échappement ici
-            export=$(echo $export | sed 's/;/\\;/g')
+            # Échappements ici
             export=$(echo $export | sed 's/&/\\&/g')
-            sed -i "s;$pattern;$pattern\n$export;" "$HOME/$shell"
+            export=$(echo $export | sed 's=/=\\/=g')
+            sed -i "s/$pattern/$pattern\n$export/" "$HOME/$shell"
         fi
     done <<< "$exports"
     echo -e "enironment variables [$GREEN OK $NC]"
@@ -66,11 +66,11 @@ while IFS= read -r shell; do
 
         b_alias=$(echo $alias | cut -d = -f 1)
         if ! grep -q "alias $b_alias=" "$HOME/$shell"; then
-            # Caractères d'échappement ici
-            alias=$(echo $alias | sed 's/;/\\;/g')
+            # Échappements ici
             alias=$(echo $alias | sed 's/&/\\&/g')
+            alias=$(echo $alias | sed 's=/=\\/=g')
             alias="alias $alias"
-            sed -i "s;$pattern;$pattern\n$alias;" "$HOME/$shell"
+            sed -i "s/$pattern/$pattern\n$alias/" "$HOME/$shell"
         fi
     done <<< "$aliases"
     echo -e "aliases [$GREEN OK $NC]"

@@ -5,3 +5,5 @@ aptfull='sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -
 code='flatpak run com.visualstudio.code'
 vim='nvim'
 python='python3'
+
+# To classify
