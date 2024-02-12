@@ -1,4 +1,3 @@
-# A Kali setup
-
-## $HOME
+# A linux setup
+`work in progress`
 
