@@ -1,14 +1,14 @@
 # Information Gathering
-nmap
+nmap: nmap
 
 # Editor
-neovim
+neovim: neovim
 
 # Misc
-git
-make
+git: git
+make: make
 
-# Python
-python3-pwntools
+# Python Libraries
+pwntools: python3-pwntools
 
 # To classify
