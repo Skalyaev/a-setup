@@ -9,39 +9,30 @@ resources="$root/resources"
 list="$root/list"
 files=$(find "$resources" -type f)
 
-echo $root
-echo $resources
-echo $HOME
+cp_resources()
+{
+    echo "================================ Copying resources..."
+    mkdir -p "$backup"
+    for src in "$files"; do
 
-echo "================================ Copying resources..."
-mkdir -p "$backup"
-for src in "$files"; do
+        echo -n "$src..."
+        dst=$(echo "$src" | sed "s;$resources;$HOME;")
+        dir=$(dirname "$dst")
+        if [ -e "$dst" ]; then
 
-    echo -n "$src..."
-    dst=$(echo "$src" | sed "s;$resources;$HOME;")
-    dir=$(dirname "$dst")
-    if [ -e "$dst" ]; then
+            backup_dir=$(echo "$dir" | sed "s;$HOME;$backup;")
+            mkdir -p "$backup_dir"
+            cp "$dst" "$backup_dir"
+        else
+            mkdir -p "$dir"
+        fi
+        cp "$src" "$dst"
+        echo -e "[$GREEN OK $NC]"
+    done
+}
 
-        backup_dir=$(echo "$dir" | sed "s;$HOME;$backup;")
-        mkdir -p "$backup_dir"
-        cp "$dst" "$backup_dir"
-    else
-        mkdir -p "$dir"
-    fi
-    cp "$src" "$dst"
-    echo -e "[$GREEN OK $NC]"
-done
-
-echo "================================ Terminal config..."
-shells=$(cat "$list/terminal/shell.md" | grep -v "^#" | grep -v "^$")
-exports=$(cat "$list/terminal/env.md" | grep -v "^#" | grep -v "^$")
-aliases=$(cat "$list/terminal/alias.md" | grep -v "^#" | grep -v "^$")
-while IFS= read -r shell; do
-
-    if [ -e "$HOME/$shell" ]; then
-        cp "$HOME/$shell" "$backup"
-    fi
-
+add_exports()
+{
     pattern="#================================ exports"
     if ! grep -q "$pattern" "$HOME/$shell"; then
         echo -e "\n$pattern" >> "$HOME/$shell"
@@ -57,7 +48,10 @@ while IFS= read -r shell; do
         fi
     done <<< "$exports"
     echo -e "enironment variables [$GREEN OK $NC]"
+}
 
+add_aliases()
+{
     pattern="#================================ aliases"
     if ! grep -q "$pattern" "$HOME/$shell"; then
         echo -e "\n$pattern" >> "$HOME/$shell"
@@ -74,5 +68,65 @@ while IFS= read -r shell; do
         fi
     done <<< "$aliases"
     echo -e "aliases [$GREEN OK $NC]"
+}
 
-done <<< "$shells"
+term_conf()
+{
+    echo "================================ Terminal config..."
+    mkdir -p "$backup"
+    shells=$(cat "$list/terminal/shell.md" | grep -v "^#" | grep -v "^$")
+    exports=$(cat "$list/terminal/env.md" | grep -v "^#" | grep -v "^$")
+    aliases=$(cat "$list/terminal/alias.md" | grep -v "^#" | grep -v "^$")
+    while IFS= read -r shell; do
+
+        if [ -e "$HOME/$shell" ]; then
+            cp "$HOME/$shell" "$backup"
+        fi
+        if [ $do_env = true ]; then
+            add_exports
+        fi
+        if [ $do_aliases = true ]; then
+            add_aliases
+        fi
+    done <<< "$shells"
+}
+
+echo Copy resources?
+select answ in "Yes" "No"; do
+    case $answ in
+        Yes ) cp_resources; break;;
+        No ) break;;
+    esac
+done
+
+echo Edit terminal config?
+do_term_conf=false
+select answ in "Yes" "No"; do
+    case $answ in
+        Yes ) do_term_conf=true; break;;
+        No ) break;;
+    esac
+done
+
+if [ $do_term_conf = true ]; then
+    do_env=false
+    do_aliases=false
+
+    echo Add environment variables?
+    select answ in "Yes" "No"; do
+        case $answ in
+            Yes ) do_env=true; break;;
+            No ) break;;
+        esac
+    done
+
+    echo Add aliases?
+    select answ in "Yes" "No"; do
+        case $answ in
+            Yes ) do_aliases=true; break;;
+            No ) break;;
+        esac
+    done
+
+    term_conf
+fi
