@@ -1,14 +1,62 @@
-# Information Gathering
+# Info Gathering
+### DNS Analysis
+dnsrecon: dnsrecon
+dnsenum: dnsenum
+### Identify live hosts
+nc: netcat-traditional
 nmap: nmap
+### Network Scanners
+nmap: nmap
+### OSINT Analysis
+dmitry: dmitry
+### SMB Analysis
+smbmap: smbmap
 
-# Editor
-neovim: neovim
+# Webapp Analysis
+### Web Crawlers
+gobuster: gobuster
+ffuf: ffuf
 
-# Misc
-git: git
-make: make
+# Database Assessment
+sqlmap: sqlmap
 
-# Python Libraries
+# Password Attacks
+### Online Attacks
+hydra: hydra
+medusa: medusa
+### Offline Attacks
+john: john
+hashcat: hashcat
+### Profiling
+crunch: crunch
+cupp: cupp
+
+# Exploitation Tools
+sqlmap: sqlmap
 pwntools: python3-pwntools
 
-# To classify
+# Sniffing & Spoofing
+wireshark: wireshark
+tcpdump: tcpdump
+dsniff: dsniff
+ettercap: ettercap-graphical
+bettercap: bettercap
+yersinia: yersinia
+scapy: python3-scapy
+
+# Wireless Attacks
+aircrack-ng: aircrack-ng
+reaver: reaver
+wifite: wifite
+### Bluetooth
+btscanner: btscanner
+
+# Vulnerability Analysis
+### Stress Testing
+siege: siege
+### CISCO
+yersinia: yersinia
+
+# Reverse Engineering
+gdb: gdb
+strace: strace

@@ -6,7 +6,7 @@ NC='\033[0m'
 root=$(dirname $(realpath $0))
 list="$root/list"
 
-echo "================================ Apt packages..."
+echo "================ Apt packages..."
 packages=$(
     cat "$list/install/apt.md" \
     | grep -v "^#" \
