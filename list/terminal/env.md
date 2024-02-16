@@ -1,3 +1,5 @@
+PATH=$PATH:$HOME/tools/bin
+
 # Répertoires
 TOOLS=$HOME/tools
 PROCESS=$HOME/process
