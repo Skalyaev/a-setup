@@ -56,7 +56,7 @@ fi
 
 if [ "$do_git" = true ]; then
     echo "================ Git repositories..."
-    mkdir -p "$root/git"
+    mkdir -p "$HOME/git"
     packages=$(
         cat "$list/install/git.md" \
         | grep -v "^#" \
@@ -67,13 +67,14 @@ if [ "$do_git" = true ]; then
     )
     for package in $packages; do
         echo "Cloning $package..."
-        git clone $package "$root/git/$(basename $package)"
+        name=$(echo $(basename $package) | cut -d'.' -f1)
+        git clone $package "$HOME/git/$name"
     done
 fi
 
 if [ "$do_wget" = true ]; then
     echo "================ Other web resources..."
-    mkdir -p "$root/wget"
+    mkdir -p "$HOME/wget"
     packages=$(
         cat "$list/install/wget.md" \
         | grep -v "^#" \
@@ -84,7 +85,7 @@ if [ "$do_wget" = true ]; then
     )
     for package in $packages; do
         echo "Downloading $package..."
-        wget -P "$root/wget" $package
+        wget -P "$HOME/wget" $package
     done
 fi
 
