@@ -97,7 +97,7 @@ fi
 echo "Type=$type" >> "$file"
 case "$type" in
     "Application")
-        echo "Exec=$value" >> "$file"
+        echo "Exec=terminator -e \"$value; exec bash\"" >> "$file"
         ;;
     "Link")
         echo "URL=$value" >> "$file"

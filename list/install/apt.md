@@ -60,3 +60,9 @@ yersinia: yersinia
 # Reverse Engineering
 gdb: gdb
 strace: strace
+
+# Misc
+zsh: zsh
+terminator: terminator
+git: git
+make: make

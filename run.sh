@@ -43,30 +43,35 @@ fi
 root=$(dirname $(realpath $0))
 backup="$root/backup/$(date +%Y-%m-%d-%H-%M-%S)"
 
-if [ $do_resources = true ]; then
-    echo -n "================ Copying resources..."
+if [ "$do_resources" = true ]; then
+    echo -ne "\n================ Copying resources..."
     mkdir -p "$backup"
     resources="$root/resources"
     ignore=$(cat "$resources/ignore")
-    files=$(find "$resources" -type f)
-    for x in $ignore; do
-        files=$(echo "$files" | grep -v "$x")
-    done
-    for src in "$files"; do
 
-        dst=$(echo "$src" | sed "s;$resources;$HOME;")
-        dir=$(dirname "$dst")
-        if [ -e "$dst" ]; then
-
-            backup_dir=$(echo "$dir" | sed "s;$HOME;$backup;")
-            mkdir -p "$backup_dir"
-            cp "$dst" "$backup_dir"
-        else
-            mkdir -p "$dir"
+    # Utilisation de find avec -print0 pour gérer correctement les espaces et caractères spéciaux
+    find "$resources" -type f -print0 | while IFS= read -r -d $'\0' src; do
+        skip=false
+        for x in $ignore; do
+            if [[ "$src" == *"$x"* ]]; then
+                skip=true
+                break
+            fi
+        done
+        if [ "$skip" = false ]; then
+            dst=$(echo "$src" | sed "s;$resources;$HOME;")
+            dir=$(dirname "$dst")
+            if [ -e "$dst" ]; then
+                backup_dir=$(echo "$dir" | sed "s;$HOME;$backup;")
+                mkdir -p "$backup_dir"
+                cp "$dst" "$backup_dir"
+            else
+                mkdir -p "$dir"
+            fi
+            cp "$src" "$dst"
         fi
-        cp "$src" "$dst"
-        echo -e "[$GREEN OK $NC]"
     done
+    echo -e "[$GREEN OK $NC]"
 fi
 
 if [ $do_term_conf = true ]; then
@@ -93,29 +98,35 @@ if [ $do_term_conf = true ]; then
                     # Échappements ici
                     export=$(echo "$export" | sed 's/&/\\&/g')
                     export=$(echo "$export" | sed 's=/=\\/=g')
+                    export="export $export"
                     sed -i "s/$pattern/$pattern\n$export/" "$HOME/$shell"
                 fi
             done <<< "$exports"
         fi
         if [ $do_aliases = true ]; then
 
+            case "$shell"  in
+                .bashrc ) alias_file=".bash_aliases";;
+                * ) alias_file="$shell";;
+            esac
             aliases=$(cat "$list/terminal/alias.md" | grep -v "^#" | grep -v "^$")
+
             pattern="#================ aliases"
-            if ! grep -q "$pattern" "$HOME/$shell"; then
-                echo -e "\n$pattern" >> "$HOME/$shell"
+            if ! grep -q "$pattern" "$HOME/$alias_file"; then
+                echo -e "\n$pattern" >> "$HOME/$alias_file"
             fi
             while IFS= read -r alias; do
 
                 b_alias=$(echo "$alias" | cut -d = -f 1)
-                if ! grep -q "alias $b_alias=" "$HOME/$shell"; then
+                if ! grep -q "alias $b_alias=" "$HOME/$alias_file"; then
                     # Échappements ici
-                    alias=$(echo "$alias" | sed 's/&/\\&/g')
                     alias=$(echo "$alias" | sed 's=/=\\/=g')
+                    alias=$(echo "$alias" | sed 's/&/\\&/g')
                     alias="alias $alias"
-                    sed -i "s/$pattern/$pattern\n$alias/" "$HOME/$shell"
+                    sed -i "s/$pattern/$pattern\n$alias/" "$HOME/$alias_file"
                 fi
             done <<< "$aliases"
         fi
-        echo -e "[$GREEN OK $NC]"
     done <<< "$shells"
+    echo -e "[$GREEN OK $NC]"
 fi
