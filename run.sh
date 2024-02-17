@@ -49,7 +49,6 @@ if [ "$do_resources" = true ]; then
     resources="$root/resources"
     ignore=$(cat "$resources/ignore")
 
-    # Utilisation de find avec -print0 pour gérer correctement les espaces et caractères spéciaux
     find "$resources" -type f -print0 | while IFS= read -r -d $'\0' src; do
         skip=false
         for x in $ignore; do
