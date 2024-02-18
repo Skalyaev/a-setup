@@ -62,8 +62,7 @@ gdb: gdb
 strace: strace
 
 # Misc
-terminator: terminator
 zsh: zsh
+vim: vim
 git: git
 make: make
-vim: vim
