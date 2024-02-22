@@ -1,5 +1,6 @@
 # Répertoires
-TOOLS=$HOME/tools
-REPORTS=$HOME/reports
-PROCESS=$HOME/process
-DOC=$HOME/doc
+REPORTS="$HOME/reports"
+PROCESS="$HOME/process"
+DOC="$HOME/doc"
+TOOLS="$HOME/tools"
+FT="$HOME/42"

@@ -1,131 +1,87 @@
 #!/bin/bash
+PATH='/bin:/sbin:/usr/bin:/usr/sbin'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo "Copy resources?"
-do_resources=false
-select answ in "Yes" "No"; do
-    case $answ in
-        Yes ) do_resources=true; break;;
+echo "What to do?"
+echo "use apt?"
+do_apt=false
+select x in "Yes" "No"; do
+    case $x in
+        Yes ) do_apt=true; break;;
+        No ) break;;
+    esac
+done
+echo "use sudo?"
+do_sudo=false
+select x in "Yes" "No"; do
+    case $x in
+        Yes ) do_sudo=true; break;;
+        No ) break;;
+    esac
+done
+echo "setup gnome?"
+do_gnome=false
+select x in "Yes" "No"; do
+    case $x in
+        Yes ) do_gnome=true; break;;
+        No ) break;;
+    esac
+done
+echo "setup terminal?"
+do_terminal=false
+select x in "Yes" "No"; do
+    case $x in
+        Yes ) do_terminal=true; break;;
+        No ) break;;
+    esac
+done
+echo "setup vim?"
+do_vim=false
+select x in "Yes" "No"; do
+    case $x in
+        Yes ) do_vim=true; break;;
+        No ) break;;
+    esac
+done
+echo "setup tools?"
+do_tools=false
+select x in "Yes" "No"; do
+    case $x in
+        Yes ) do_tools=true; break;;
         No ) break;;
     esac
 done
 
-echo "Edit terminal config?"
-do_term_conf=false
-select answ in "Yes" "No"; do
-    case $answ in
-        Yes ) do_term_conf=true; break;;
-        No ) break;;
-    esac
-done
-do_env=false
-do_aliases=false
-if [ $do_term_conf = true ]; then
-
-    echo "Terminal config: Environment variables?"
-    select answ in "Yes" "No"; do
-        case $answ in
-            Yes ) do_env=true; break;;
-            No ) break;;
-        esac
-    done
-    echo "Terminal config: Aliases?"
-    select answ in "Yes" "No"; do
-        case $answ in
-            Yes ) do_aliases=true; break;;
-            No ) break;;
-        esac
-    done
+if [ "$do_apt" = true ]; then
+    echo "Updating apt..."
+    if [ "$do_sudo" = true ]; then
+        sudo apt update -y
+    else
+        apt update -y
+    fi
 fi
 
 root=$(dirname $(realpath $0))
 backup="$root/backup/$(date +%Y-%m-%d-%H-%M-%S)"
-
-if [ "$do_resources" = true ]; then
-    echo -ne "\n================ Copying resources..."
-    mkdir -p "$backup"
-    resources="$root/resources"
-    ignore=$(cat "$resources/ignore")
-
-    find "$resources" -type f -print0 | while IFS= read -r -d $'\0' src; do
-        skip=false
-        for x in $ignore; do
-            if [[ "$src" == *"$x"* ]]; then
-                skip=true
-                break
-            fi
-        done
-        if [ "$skip" = false ]; then
-            dst=$(echo "$src" | sed "s;$resources;$HOME;")
-            dir=$(dirname "$dst")
-            if [ -e "$dst" ]; then
-                backup_dir=$(echo "$dir" | sed "s;$HOME;$backup;")
-                mkdir -p "$backup_dir"
-                cp "$dst" "$backup_dir"
-            else
-                mkdir -p "$dir"
-            fi
-            cp "$src" "$dst"
-        fi
-    done
-    echo -e "[$GREEN OK $NC]"
+src="$root/src"
+if [ $do_gnome = true ]; then
+	echo "================ Gnome setup"
+	echo -e "================ Gnome setup:$GREEN OK $NC"
+fi
+if [ $do_terminal = true ]; then
+	echo "================ Terminal setup"
+	"$src/terminal.sh" "$root" "$backup"
+	echo -e "================ Terminal setup:$GREEN OK $NC"
+fi
+if [ $do_vim = true ]; then
+	echo "================ Vim setup"
+	"$src/vim.sh" "$root" "$backup" "$do_apt" "$do_sudo"
+	echo -e "================ Vim setup:$GREEN OK $NC"
+fi
+if [ $do_tools = true ]; then
+	echo "================ Tools setup"
+	echo -e "================ Tools setup:$GREEN OK $NC"
 fi
 
-if [ $do_term_conf = true ]; then
-    echo -n "================ Terminal config..."
-    mkdir -p "$backup"
-    list="$root/list"
-    shells=$(cat "$list/terminal/shell.md" | grep -v "^#" | grep -v "^$")
-    while IFS= read -r shell; do
-
-        if [ -e "$HOME/$shell" ]; then
-            cp "$HOME/$shell" "$backup"
-        fi
-        if [ $do_env = true ]; then
-
-            exports=$(cat "$list/terminal/env.md" | grep -v "^#" | grep -v "^$")
-            pattern="#================ exports"
-            if ! grep -q "$pattern" "$HOME/$shell"; then
-                echo -e "\n$pattern" >> "$HOME/$shell"
-            fi
-            while IFS= read -r export; do
-
-                b_export=$(echo "$export" | cut -d = -f 1)
-                if ! grep -q "$b_export" "$HOME/$shell"; then
-                    # Échappements ici
-                    export=$(echo "$export" | sed 's/&/\\&/g')
-                    export=$(echo "$export" | sed 's=/=\\/=g')
-                    export="export $export"
-                    sed -i "s/$pattern/$pattern\n$export/" "$HOME/$shell"
-                fi
-            done <<< "$exports"
-        fi
-        if [ $do_aliases = true ]; then
-
-            case "$shell"  in
-                .bashrc ) alias_file=".bash_aliases";;
-                * ) alias_file="$shell";;
-            esac
-            aliases=$(cat "$list/terminal/alias.md" | grep -v "^#" | grep -v "^$")
-
-            pattern="#================ aliases"
-            if ! grep -q "$pattern" "$HOME/$alias_file"; then
-                echo -e "\n$pattern" >> "$HOME/$alias_file"
-            fi
-            while IFS= read -r alias; do
-
-                b_alias=$(echo "$alias" | cut -d = -f 1)
-                if ! grep -q "alias $b_alias=" "$HOME/$alias_file"; then
-                    # Échappements ici
-                    alias=$(echo "$alias" | sed 's=/=\\/=g')
-                    alias=$(echo "$alias" | sed 's/&/\\&/g')
-                    alias="alias $alias"
-                    sed -i "s/$pattern/$pattern\n$alias/" "$HOME/$alias_file"
-                fi
-            done <<< "$aliases"
-        fi
-    done <<< "$shells"
-    echo -e "[$GREEN OK $NC]"
-fi
