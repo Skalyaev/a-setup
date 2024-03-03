@@ -1,0 +1,42 @@
+#!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+UI_GROUP=(
+    terminal
+    ide
+    gui
+    browser
+    tools
+)
+PENTEST_GROUP=(
+    info
+    info_gathering
+    vuln
+    vuln_analysis
+    web
+    web_analysis
+    db
+    db_assessment
+    passw
+    passw_atk
+    exploit
+    exploitation
+    prives
+    sniff
+    sniffing
+    spoof
+    spoofing
+    wire
+    wireless_atk
+    rev
+    reverse
+    report
+)
+
+CONFIG_FILE=~/.config/setup/config
+EXCLUDED=()
+SILENT=0
+DO_APT=1
+DO_GIT=1
+DO_CURL=1
+
