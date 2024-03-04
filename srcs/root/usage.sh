@@ -13,7 +13,6 @@ ${GREEN}ui${NC} group:\n
 \t  ${BLUE}terminal${NC}\n
 \t  ${BLUE}ide${NC}\n
 \t  ${BLUE}gui${NC}\n
-\t  ${BLUE}browser${NC}\n
 \t  ${BLUE}tools${NC}\n
 \n
 ${GREEN}pentest${NC} group:\n
@@ -24,8 +23,7 @@ ${GREEN}pentest${NC} group:\n
 \t  ${BLUE}pass${GRAY}[w_atk]${NC}\n
 \t  ${BLUE}exploit${GRAY}[ation]${NC}\n
 \t  ${BLUE}privesc${NC}\n
-\t  ${BLUE}sniff${GRAY}[ing]${NC}\n
-\t  ${BLUE}spoof${GRAY}[ing]${NC}\n 
+\t  ${BLUE}sniff${GRAY}[_spoof]${NC}\n
 \t  ${BLUE}wire${GRAY}[less_atk]${NC}\n
 \t  ${BLUE}rev${GRAY}[erse]${NC}\n
 \t  ${BLUE}report${NC}\n

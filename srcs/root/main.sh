@@ -5,7 +5,6 @@ UI_GROUP=(
     terminal
     ide
     gui
-    browser
     tools
 )
 PENTEST_GROUP=(
@@ -23,9 +22,7 @@ PENTEST_GROUP=(
     exploitation
     prives
     sniff
-    sniffing
-    spoof
-    spoofing
+    sniff_spoof
     wire
     wireless_atk
     rev
