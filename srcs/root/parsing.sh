@@ -1,4 +1,8 @@
+#
+#
 #================================== PARSING - ARGUMENTS
+
+#======================== ARGUMENTS
 if [ $# -lt 2 ]; then
     echo -e $USAGE
     exit 1
@@ -21,18 +25,9 @@ if [ "$GROUP" != all \
 fi
 
 shift 2
-TARGETS=()
 
-is_inside() {
-    local tab=("${@:1:$#-1}")
-    local item="${@: -1}"
-    for x in "${tab[@]}"; do
-        if [ "$x" = "$item" ]; then
-            return 0
-        fi
-    done
-    return 1
-}
+TARGETS=()
+EXCLUDED=()
 
 find_it() {
     local found=1
@@ -58,6 +53,14 @@ while [ $# -gt 0 ]; do
     TARGETS+=("$1")
     shift
 done
+if [ ${#TARGETS[@]} -eq 0 ]; then
+    if [ $GROUP = all -o $GROUP = ui ]; then
+        TARGETS+=(${UI_GROUP[@]})
+    fi
+    if [ $GROUP = all -o $GROUP = pentest ]; then
+        TARGETS+=(${PENTEST_GROUP[@]})
+    fi
+fi
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -116,6 +119,66 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-#================================== PARSING - CONFIG
-CONFIG_FILE=$CONFIG_FILE
-
+#======================== CONFIG
+in_block=0
+while IFS= read -r line; do
+    if [ "${line:0:10}" = '#======== ' ]; then
+        in_block=0
+        for target in ${TARGETS[@]}; do
+            if echo "$line" | grep -iq $target; then
+                in_block=1
+                break
+            fi
+        done
+    elif [ $in_block -eq 1 ]; then
+        if [ -z "$line" -o "${line:0:1}" = '#' ]; then
+            continue
+        fi
+        case "$line" in
+        'DO_I3=1') DO_I3=1 ;;
+        'DO_PICOM=1') DO_PICOM=1 ;;
+        'DO_LIGHTDM=1') DO_LIGHTDM=1 ;;
+        'DO_USER_DIRS=1') DO_USER_DIRS=1 ;;
+        'DO_BASH=1') DO_BASH=1 ;;
+        'DO_XTERM=1') DO_XTERM=1 ;;
+        'DO_TERMINATOR=1') DO_TERMINATOR=1 ;;
+        'DO_VIM=1') DO_VIM=1 ;;
+        'DO_GIT=1') DO_GIT=1 ;;
+        'DO_MISCS_TOOLS=1') DO_MISCS_TOOLS=1 ;;
+        'DO_LIVE_HOST_IDENTIFIERS=1') DO_LIVE_HOST_IDENTIFIERS=1 ;;
+        'DO_NETWORK_SCANNERS=1') DO_NETWORK_SCANNERS=1 ;;
+        'DO_DNS_ANALYSERS=1') DO_DNS_ANALYSERS=1 ;;
+        'DO_SSL_ANALYSERS=1') DO_SSL_ANALYSERS=1 ;;
+        'DO_SMB_ANALYSERS=1') DO_SMB_ANALYSERS=1 ;;
+        'DO_OSINT_ANALYSERS=1') DO_OSINT_ANALYSERS=1 ;;
+        'DO_WEB_CRAWLERS=1') DO_WEB_CRAWLERS=1 ;;
+        'DO_WEB_PROXIES=1') DO_WEB_PROXIES=1 ;;
+        'DO_WEB_VULN_SCANNERS=1') DO_WEB_VULN_SCANNERS=1 ;;
+        'DO_CMS_IDENTIFIERS=1') DO_CMS_IDENTIFIERS=1 ;;
+        'DO_WORDPRESS_ANALYSERS=1') DO_WORDPRESS_ANALYSERS=1 ;;
+        'DO_MISC_DB_ASSESSMENT_TOOLS=1') DO_MISC_DB_ASSESSMENT_TOOLS=1 ;;
+        'DO_ONLINE_ATK_TOOLS=1') DO_ONLINE_ATK_TOOLS=1 ;;
+        'DO_OFFLINE_ATK_TOOLS=1') DO_OFFLINE_ATK_TOOLS=1 ;;
+        'DO_PROFILERS=1') DO_PROFILERS=1 ;;
+        'DO_MISC_EXPLOITATION_TOOLS=1') DO_MISC_EXPLOITATION_TOOLS=1 ;;
+        'DO_LINUX_PRIVESC_TOOLS=1') DO_LINUX_PRIVESC_TOOLS=1 ;;
+        'DO_WINDOWS_PRIVESC_TOOLS=1') DO_WINDOWS_PRIVESC_TOOLS=1 ;;
+        'DO_MISC_SNIFFING_TOOLS=1') DO_MISC_SNIFFING_TOOLS=1 ;;
+        'DO_MISC_SPOOFING_TOOLS=1') DO_MISC_SPOOFING_TOOLS=1 ;;
+        'DO_MISC_WIRELESS_ATK_TOOLS=1') DO_MISC_WIRELESS_ATK_TOOLS=1 ;;
+        'DO_BLUETHOOTH_ATK_TOOLS=1') DO_BLUETHOOTH_ATK_TOOLS=1 ;;
+        'DO_STRESS_TESTERS=1') DO_STRESS_TESTERS=1 ;;
+        'DO_CISCO_TESTERS=1') DO_CISCO_TESTERS=1 ;;
+        'DO_VOIP_TESTERS=1') DO_VOIP_TESTERS=1 ;;
+        'DO_GHIDRA=1') DO_GHIDRA=1 ;;
+        'DO_GDB=1') DO_GDB=1 ;;
+        'DO_RADARE=1') DO_RADARE=1 ;;
+        'DO_STRACE=1') DO_STRACE=1 ;;
+        'DO_MISC_REPORTING_TOOLS=1') DO_MISC_REPORTING_TOOLS=1 ;;
+        *)
+            echo -e "[$RED ERROR $NC] Unknown config input: $line"
+            exit 1
+            ;;
+        esac
+    fi
+done <"$CONFIG_FILE"

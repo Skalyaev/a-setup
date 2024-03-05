@@ -1,8 +1,6 @@
 NAME=setup
-SRC_DIR=src
+SRC_DIR=srcs
 SRC=$(SRC_DIR)/root/main.sh \
-	$(SRC_DIR)/root/colors.sh \
-	$(SRC_DIR)/root/usage.sh \
 	$(SRC_DIR)/root/parsing.sh \
 	$(SRC_DIR)/ui/terminal.sh \
 	$(SRC_DIR)/ui/ide.sh \
