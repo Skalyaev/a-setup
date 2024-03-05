@@ -9,14 +9,13 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 UI_GROUP=(
+    gui
     terminal
     ide
-    gui
     tools
 )
 PENTEST_GROUP=(
     info_gathering
-    vuln_analysis
     web_analysis
     db_assessment
     passw_atk
@@ -24,6 +23,7 @@ PENTEST_GROUP=(
     prives
     sniff_spoof
     wireless_atk
+    vuln_analysis
     reverse
     report
 )
@@ -68,9 +68,9 @@ GROUP:\n
 \n
 ${GRAY}===================${NC}targets\n
 ${GREEN}ui${NC} group:\n
+\t  ${BLUE}gui${NC}\n
 \t  ${BLUE}terminal${NC}\n
 \t  ${BLUE}ide${NC}\n
-\t  ${BLUE}gui${NC}\n
 \t  ${BLUE}tools${NC}\n
 \n
 ${GREEN}pentest${NC} group:\n
@@ -104,7 +104,7 @@ ${GRAY}===================${NC}options\n
 \n
 ${GRAY}===================${NC}exemples\n
 ${YELLOW}setup ${GREEN}install all ${BLUE}terminal privesc report -c ~/exemple -s${NC}\n
-${YELLOW}setup ${GREEN}install pentest ${BLUE}-e wireless_atk vuln_analysis${NC}\n
+${YELLOW}setup ${GREEN}install pentest ${BLUE}-e reverse vuln_analysis${NC}\n
 ${YELLOW}setup ${GREEN}install ui ${BLUE}terminal tools -n${NC}\n
 ${YELLOW}setup ${GREEN}update all ${BLUE}--no-apt${NC}\n
 "
