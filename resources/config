@@ -1,8 +1,10 @@
+USER=skalya
+HOME=/home/skalya
+
 #======== UI GROUP - GUI
 DO_I3=1
 DO_PICOM=1
 DO_LIGHTDM=1
-DO_USER_DIRS=1
 
 #======== UI GROUP - TERMINAL
 DO_BASH=1
@@ -11,7 +13,6 @@ DO_TERMINATOR=1
 
 #======== UI GROUP - IDE
 DO_VIM=1
-DO_GIT=1
 
 #======== UI GROUP - TOOLS
 DO_MISCS_TOOLS=1

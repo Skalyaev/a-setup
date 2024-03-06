@@ -2,17 +2,22 @@
 #
 #================================== UI GROUP - GUI
 do_i3() {
-    echo i3
+    case $COMMAND in
+    install) ;;
+    restore) ;;
+    esac
 }
 
 do_picom() {
-    echo picom
+    case $COMMAND in
+    install) ;;
+    restore) ;;
+    esac
 }
 
 do_lightdm() {
-    echo lightdm
-}
-
-do_user_dirs() {
-    echo user_dirs
+    case $COMMAND in
+    install) ;;
+    restore) ;;
+    esac
 }

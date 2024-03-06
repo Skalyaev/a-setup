@@ -10,8 +10,7 @@ fi
 
 COMMAND="$1"
 if [ "$COMMAND" != install \
-    -a "$COMMAND" != update \
-    -a "$COMMAND" != remove ]; then
+    -a "$COMMAND" != restore ]; then
     echo -e "[$RED ERROR $NC] Unknown command:$GREEN $1${NC}"
     exit 1
 fi
@@ -27,7 +26,7 @@ fi
 shift 2
 
 TARGETS=()
-EXCLUDED=()
+EXCLUDES=()
 
 find_it() {
     local found=1
@@ -82,10 +81,10 @@ while [ $# -gt 0 ]; do
                 echo -e "[$RED ERROR $NC] ${BLUE}$1${NC} not found in group ${GREEN}$GROUP${NC}."
                 exit 1
             fi
-            EXCLUDED+=("$1")
+            EXCLUDES+=("$1")
             shift
         done
-        if [ ${#EXCLUDED[@]} -eq 0 ]; then
+        if [ ${#EXCLUDES[@]} -eq 0 ]; then
             echo -e [$RED ERROR $NC] Missing argument for ${BLUE}--exclude${NC}.
             exit 1
         fi
@@ -95,21 +94,25 @@ while [ $# -gt 0 ]; do
         shift
         ;;
     -n | --ninja)
-        DO_APT=0
-        DO_GIT=0
-        DO_CURL=0
+        NO_APT=1
+        NO_GIT=1
+        NO_CURL=1
         shift
         ;;
     --no-apt)
-        DO_APT=0
+        NO_APT=1
         shift
         ;;
     --no-git)
-        DO_GIT=0
+        NO_GIT=1
         shift
         ;;
     --no-curl)
-        DO_CURL=0
+        NO_CURL=1
+        shift
+        ;;
+    --no-backup)
+        NO_BACKUP=1
         shift
         ;;
     *)
@@ -120,6 +123,14 @@ while [ $# -gt 0 ]; do
 done
 
 #======================== CONFIG
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo -e "[$RED ERROR $NC] Config file not found: $CONFIG_FILE"
+    if [ ! -z $IS_ROOT ]; then
+        echo "If you used sudo, you might want to use -c option to specify your config file."
+    fi
+    exit 1
+fi
+
 in_block=0
 while IFS= read -r line; do
     if [ "${line:0:10}" = '#======== ' ]; then
@@ -135,15 +146,15 @@ while IFS= read -r line; do
             continue
         fi
         case "$line" in
+        'USER='*) USER=$(echo "$line" | cut -d= -f2) ;;
+        'HOME='*) HOME=$(echo "$line" | cut -d= -f2) ;;
         'DO_I3=1') DO_I3=1 ;;
         'DO_PICOM=1') DO_PICOM=1 ;;
         'DO_LIGHTDM=1') DO_LIGHTDM=1 ;;
-        'DO_USER_DIRS=1') DO_USER_DIRS=1 ;;
         'DO_BASH=1') DO_BASH=1 ;;
         'DO_XTERM=1') DO_XTERM=1 ;;
         'DO_TERMINATOR=1') DO_TERMINATOR=1 ;;
         'DO_VIM=1') DO_VIM=1 ;;
-        'DO_GIT=1') DO_GIT=1 ;;
         'DO_MISCS_TOOLS=1') DO_MISCS_TOOLS=1 ;;
         'DO_LIVE_HOST_IDENTIFIERS=1') DO_LIVE_HOST_IDENTIFIERS=1 ;;
         'DO_NETWORK_SCANNERS=1') DO_NETWORK_SCANNERS=1 ;;
@@ -170,10 +181,7 @@ while IFS= read -r line; do
         'DO_STRESS_TESTERS=1') DO_STRESS_TESTERS=1 ;;
         'DO_CISCO_TESTERS=1') DO_CISCO_TESTERS=1 ;;
         'DO_VOIP_TESTERS=1') DO_VOIP_TESTERS=1 ;;
-        'DO_GHIDRA=1') DO_GHIDRA=1 ;;
-        'DO_GDB=1') DO_GDB=1 ;;
-        'DO_RADARE=1') DO_RADARE=1 ;;
-        'DO_STRACE=1') DO_STRACE=1 ;;
+        'DO_MISC_REVERSE_TOOLS=1') DO_MISC_REVERSE_TOOLS=1 ;;
         'DO_MISC_REPORTING_TOOLS=1') DO_MISC_REPORTING_TOOLS=1 ;;
         *)
             echo -e "[$RED ERROR $NC] Unknown config input: $line"
@@ -182,3 +190,15 @@ while IFS= read -r line; do
         esac
     fi
 done <"$CONFIG_FILE"
+
+if [ -z "$USER" -o -z "$HOME" ]; then
+    echo -e "[$RED ERROR $NC] user and/or home not found in config file."
+    exit 1
+fi
+
+if [ ! $(stat -c %U "$HOME") = "$USER" ]; then
+    echo -e "[$RED ERROR $NC] $HOME is not owned by $USER."
+    exit 1
+fi
+
+ROOT=$(dirname "$CONFIG_FILE")
