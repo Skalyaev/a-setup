@@ -65,7 +65,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
     -c | --config)
         if [ $# -lt 2 ]; then
-            echo -e [$RED ERROR $NC] Missing argument for ${BLUE}--config${NC}.
+            echo -e "[$RED ERROR $NC] Missing argument for ${BLUE}--config${NC}."
             exit 1
         fi
         CONFIG_FILE="$2"
@@ -85,7 +85,7 @@ while [ $# -gt 0 ]; do
             shift
         done
         if [ ${#EXCLUDES[@]} -eq 0 ]; then
-            echo -e [$RED ERROR $NC] Missing argument for ${BLUE}--exclude${NC}.
+            echo -e "[$RED ERROR $NC] Missing argument for ${BLUE}--exclude${NC}."
             exit 1
         fi
         ;;

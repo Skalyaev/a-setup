@@ -13,10 +13,10 @@ light : Luminosité
 redshift : "Mode nuit"
 qt5ct: Apparences qt5
 numlockx: Num lock
-intel-gpu-tools : Outils GPU Intel
 
 ncdu : Nettoyage système
 neofetch : Informations système
+intel-gpu-tools : Outils GPU Intel
 
 #============================= TERMINAL
 terminator : Invite de commande
@@ -45,5 +45,3 @@ xclip : Presse-papier
 bc : Calculatrice
 scrot : Capture d'écran
 zip : Achives ZIP
-
-#=============================|

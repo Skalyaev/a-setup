@@ -173,3 +173,30 @@ ft_curl() {
         fi
     fi
 }
+
+ft_swap() {
+    local src="$ROOT/resources/$1"
+    local dst="$HOME/$2"
+    ft_echo "Replacing $dst..." | tr -d '\n'
+    if [ -e "$dst" -a -z $NO_BACKUP ]; then
+        if ! mv "$dst" "$BACKUP_DIR"; then
+            ft_echo "[$RED ERROR $NC] Aborting, could not backup $dst."
+            exit 1
+        fi
+    fi
+    if [ -f "$src" ]; then
+        if ! cp "$src" "$dst"; then
+            ft_echo "[$RED ERROR $NC] Aborting, could not copy $src to $dst."
+            exit 1
+        fi
+        chown "$USER":"$USER" "$dst"
+    else if [ -d "$src" ]; then
+        if ! cp -r "$src" "$dst"; then
+            ft_echo "[$RED ERROR $NC] Aborting, could not copy $src to $dst."
+            exit 1
+        fi
+        chown -R "$USER":"$USER" "$dst"
+    fi
+    DIFF+=("swap:$dst")
+    ft_echo "[$GREEN OK $NC]"
+}
