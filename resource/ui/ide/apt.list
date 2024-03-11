@@ -1,0 +1,11 @@
+xorg : Serveur graphique
+make : Gestionnaire de build
+clang : Compilateur C/C++
+nodejs : Environnement d'exécution JavaScript
+npm : Gestionnaire de paquets Node.js
+gawk : GNU awk
+jq : Traitement JSON
+libtool-bin : Support bibliothèques partagées
+libxt-dev : Développement X11 (bibliothèques)
+libpython3-dev : Développement Python (bibliothèques)
+xclip : Presse-papier

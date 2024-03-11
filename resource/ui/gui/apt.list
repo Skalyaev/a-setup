@@ -1,0 +1,12 @@
+xorg : Serveur graphique
+pulseaudio : Serveur audio
+i3 : Gestionnaire de fenêtres
+i3block : Status bar
+redshift : "Mode nuit"
+light : Luminosité
+picom : Compositeur
+lightdm : Log/Lock screen
+numlockx: Num lock
+qt5ct: Apparences qt5
+jgmenu : Launcher
+intel-gpu-tools : Outils GPU Intel
