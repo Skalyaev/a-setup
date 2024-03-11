@@ -28,59 +28,59 @@ while [ "$#" -gt 0 ]; do
             exit 1
         fi
         ;;
-    "-t" | "--target")
+    '-t' | '--target')
         shift
         TARGETS=()
         while [ "$#" -gt 0 ]; do
             if [ "${1:0:1}" = - ]; then
                 break
             fi
-            TARGETS+=($1)
+            TARGETS+=("$1")
             shift
         done
-        if [ ${#TARGETS[@]} -eq 0 ]; then
+        if [ "${#TARGETS[@]}" -eq 0 ]; then
             echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--target${NC}."
             exit 1
         fi
         ;;
-    -e | --exclude)
+    '-e' | '--exclude')
         shift
         EXCLUDES=()
-        while [ $# -gt 0 ]; do
-            if [ ${1:0:1} = - ]; then
+        while [ "$#" -gt 0 ]; do
+            if [ "${1:0:1}" = - ]; then
                 break
             fi
-            EXCLUDES+=($1)
+            EXCLUDES+=("$1")
             shift
         done
-        if [ ${#EXCLUDES[@]} -eq 0 ]; then
+        if [ "${#EXCLUDES[@]}" -eq 0 ]; then
             echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}."
             exit 1
         fi
         ;;
-    -s | --silent)
+    '-s' | '--silent')
         SILENT=1
         shift
         ;;
-    '-n' | --ninja)
+    '-n' | '--ninja')
         NO_APT=1
         NO_GIT=1
         NO_CURL=1
         shift
         ;;
-    --no-apt)
+    '--no-apt')
         NO_APT=1
         shift
         ;;
-    --no-git)
+    '--no-git')
         NO_GIT=1
         shift
         ;;
-    --no-curl)
+    '--no-curl')
         NO_CURL=1
         shift
         ;;
-    --no-backup)
+    '--no-backup')
         NO_BACKUP=1
         shift
         ;;
