@@ -1,6 +1,6 @@
 #
 #
-#================================== PARSING
+#================================== PARSE
 if [ "$#" -lt 1 ]; then
     echo -e "$USAGE"
     exit 1
@@ -15,6 +15,19 @@ shift
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
+    '-u' | '--user')
+        shift
+        if [ "$#" -eq 0 ]; then
+            echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--user${NC}."
+            exit 1
+        fi
+        USER="$1"
+        if ! getent passwd "$USER"; then
+            echo -e "[$RED ERROR $NC] Can not set home for $USER."
+            exit 1
+        fi
+        HOME=$(getent passwd "$USER" | cut -d: -f6)
+        ;;
     '-p' | '--path')
         shift
         if [ "$#" -eq 0 ]; then
@@ -24,22 +37,7 @@ while [ "$#" -gt 0 ]; do
         if [ -d "$1" ]; then
             ROOT="$1"
         else
-            echo -e "[$RED ERROR $NC] path not found: ${GREEN}$1${NC}"
-            exit 1
-        fi
-        ;;
-    '-t' | '--target')
-        shift
-        TARGETS=()
-        while [ "$#" -gt 0 ]; do
-            if [ "${1:0:1}" = - ]; then
-                break
-            fi
-            TARGETS+=("$1")
-            shift
-        done
-        if [ "${#TARGETS[@]}" -eq 0 ]; then
-            echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--target${NC}."
+            echo -e "[$RED ERROR $NC] Path not found: ${GREEN}$1${NC}"
             exit 1
         fi
         ;;
@@ -47,10 +45,10 @@ while [ "$#" -gt 0 ]; do
         shift
         EXCLUDES=()
         while [ "$#" -gt 0 ]; do
-            if [ "${1:0:1}" = - ]; then
+            if [ "${1:0:1}" = '-' ]; then
                 break
             fi
-            EXCLUDES+=("$1")
+            EXCLUDES+=(! -path "*/$1/*")
             shift
         done
         if [ "${#EXCLUDES[@]}" -eq 0 ]; then
@@ -64,20 +62,15 @@ while [ "$#" -gt 0 ]; do
         ;;
     '-n' | '--ninja')
         NO_APT=1
-        NO_GIT=1
-        NO_CURL=1
+        NO_WEB=1
         shift
         ;;
     '--no-apt')
         NO_APT=1
         shift
         ;;
-    '--no-git')
-        NO_GIT=1
-        shift
-        ;;
-    '--no-curl')
-        NO_CURL=1
+    '--no-web')
+        NO_WEB=1
         shift
         ;;
     '--no-backup')
