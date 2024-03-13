@@ -1,7 +1,8 @@
 xorg : Serveur graphique
 pulseaudio : Serveur audio
+pulseaudio-module-bluetooth: Module pulseaudio
 i3 : Gestionnaire de fenêtres
-i3block : Status bar
+i3blocks : Status bar
 redshift : "Mode nuit"
 light : Luminosité
 picom : Compositeur

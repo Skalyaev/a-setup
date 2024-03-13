@@ -1,12 +1,12 @@
 NAME=setup
-SRC_DIR=srcs
-SRC=$(SRC_DIR)/root/main.sh \
-	$(SRC_DIR)/root/parsing.sh \
-	$(SRC_DIR)/root/do_apt.sh \
-	$(SRC_DIR)/root/do_web.sh \
-	$(SRC_DIR)/root/do_swap.sh \
-	$(SRC_DIR)/root/do_restore.sh \
-	$(SRC_DIR)/root/run.sh
+SRC_DIR=src
+SRC=$(SRC_DIR)/main.sh \
+	$(SRC_DIR)/parse.sh \
+	$(SRC_DIR)/do_apt.sh \
+	$(SRC_DIR)/do_web.sh \
+	$(SRC_DIR)/do_swap.sh \
+	$(SRC_DIR)/do_restore.sh \
+	$(SRC_DIR)/run.sh
 
 GREEN=\033[0;32m
 NC=\033[0m
