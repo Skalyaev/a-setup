@@ -1,7 +1,7 @@
-bash/.profile @ ~/.profile
-bash/.inputrc @ ~/.inputrc
-bash/.bashrc @ ~/.bashrc
-bash/.bash_aliases @ ~/.bash_aliases
-bash/.bash_env @ ~/.bash_env
-terminator/config @ ~/.config/terminator/config
-xterm/.Xresources @ ~/.Xresources
+bash/.profile @ ~/
+bash/.inputrc @ ~/
+bash/.bashrc @ ~/
+bash/.bash_aliases @ ~/
+bash/.bash_env @ ~/
+terminator @ ~/.config
+xterm/.Xresources @ ~/

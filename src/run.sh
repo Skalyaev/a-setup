@@ -27,13 +27,12 @@ case "$COMMAND" in
     ft_web
     ft_swap
     if [ -z "$NO_BACKUP" ]; then
-        if [ ${#DIFF[@]} -gt 0 ]; then
+        if [ "${#DIFF[@]}" -gt 0 ]; then
             for x in "${DIFF[@]}"; do
-                echo "$x" >>"$BACKUP/diff" 
+                echo "$x" >"$BACKUP/diff" 
             done
             chown -R "$USER:$USER" "$BACKUP" >/dev/null 2>&1
         else
-            echo 43
             rm -r "$BACKUP"
         fi
     fi

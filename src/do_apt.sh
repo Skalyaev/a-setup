@@ -27,7 +27,9 @@ ft_apt() {
                     ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
                     ft_echo "$pkg will not be installed.\n"
                 else
-                    DIFF=("${DIFF[@]}" "apt:$pkg")
+                    if [ -z "$NO_BACKUP" ]; then
+                        DIFF=("${DIFF[@]}" "apt:$pkg")
+                    fi
                     ft_echo "[$GREEN OK $NC]\n"
                 fi
             else

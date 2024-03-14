@@ -13,7 +13,6 @@ ft_web() {
         if [ -z "$line" ]; then
             continue
         fi
-
         if [ -z "$to_run" -a -z "$to_skip" -a -z "$to_backup" ]; then
             if [[ "$line" == '@@@@' ]]; then
                 if [ -z "$src" -o -z "$dst" ]; then
@@ -74,11 +73,14 @@ ft_web() {
                     ft_echo "Aborting web install.\n"
                     break
                 else
-                    local to_backup=1
-                    DIFF=("${DIFF[@]}" "web:$dst")
+                    if [ -z "$NO_BACKUP" ]; then
+                        local to_backup=1
+                        DIFF=("${DIFF[@]}" "web:$dst")
+                    else
+                        local to_skip=1
+                    fi
                 fi
             fi
-
         elif [[ "$line" == '$---' ]]; then
             if [ ! -z "$to_backup" ]; then
                 DIFF=("${DIFF[@]}" '$---')
@@ -87,10 +89,8 @@ ft_web() {
                 chown -R "$USER:$USER" "$dst" >/dev/null 2>&1
             fi
             unset to_run to_skip to_backup
-
         elif [ ! -z "$to_backup" ]; then
             DIFF=("${DIFF[@]}" "$line")
-
         elif [ ! -z "$to_run" ]; then
             if ! eval "$line" >/dev/null 2>&1; then
                 unset to_run

@@ -1,2 +1,2 @@
-bin/desktop-app @ ~/.local/bin/desktop-app
-bin/extract @ ~/.local/bin/extract
+bin/desktop-app @ ~/.local/bin
+bin/extract @ ~/.local/bin
