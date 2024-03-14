@@ -8,7 +8,7 @@ ft_swap() {
     ft_echo "${GRAY}================ READING: .swap$NC\n"
     local files="$(find "$ROOT" "${EXCLUDES[@]}" \
         -type f -name '.swap')"
-    for file in "$files"; do
+    for file in $files; do
         local dir="$(dirname "$file")"
 
         while read -r line; do
