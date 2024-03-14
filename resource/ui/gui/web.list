@@ -10,9 +10,10 @@ mv *.ttf $HOME/.local/share/fonts
 fc-cache -f -v
 $---
 $- UPDATE
+if [ -e $dst ]; then rm -rf $dst; fi
 mkdir -p $dst
 cd $dst
-wget $src
+curl -O $src
 unzip Terminus.zip
 mkdir -p $HOME/.local/share/fonts
 mv *.ttf $HOME/.local/share/fonts
