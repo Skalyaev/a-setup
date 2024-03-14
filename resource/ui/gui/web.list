@@ -1,0 +1,26 @@
+font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
+#### /tmp/TerminessNerdFont
+$- INSTALL
+mkdir $dst
+cd $dst
+wget $src
+unzip Terminus.zip
+mkdir -p $HOME/.local/share/fonts
+mv *.ttf $HOME/.local/share/fonts
+fc-cache -f -v
+$---
+$- UPDATE
+mkdir $dst
+cd $dst
+wget $src
+unzip Terminus.zip
+mkdir -p $HOME/.local/share/fonts
+mv *.ttf $HOME/.local/share/fonts
+fc-cache -f -v
+$---
+$- REMOVE
+if [ -e $dst ]; then rm -rf $dst; fi
+rm -rf $HOME/.local/share/fonts/TerminessNerdFont*
+fc-cache -f -v
+$---
+@@@@

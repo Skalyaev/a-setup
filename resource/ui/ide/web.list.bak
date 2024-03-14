@@ -1,5 +1,5 @@
 vim @ https://github.com/vim/vim.git ~ Éditeur de texte
-#### /tmp/vim
+#### /resources/build/vim
 $- INSTALL
 git clone $src $dst
 cd $dst
