@@ -96,7 +96,9 @@ ft_web() {
                 DIFF=("${DIFF[@]}" '$---')
             elif [ ! -z "$to_run" ]; then
                 ft_echo "[$GREEN OK $NC]\n"
-                chown -R "$USER:$USER" "$dst" >/dev/null 2>&1
+                if [ -e "$dst" ]; then
+                    chown -R "$USER:$USER" "$dst" >/dev/null 2>&1
+                fi
             fi
             unset to_run to_skip to_backup
         elif [ ! -z "$to_backup" ]; then
@@ -111,5 +113,5 @@ ft_web() {
                 ft_echo "You may need to clear that install/update manually.\n"
             fi
         fi
-    done <<<"$script"
+    done <<< "$script"
 }

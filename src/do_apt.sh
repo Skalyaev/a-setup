@@ -34,6 +34,6 @@ ft_apt() {
             else
                 ft_echo "$pkg [$GREEN OK $NC]\n"
             fi
-        done <<<"$(echo "$pkgs" | uniq)"
+        done <<< "$(echo "$pkgs" | uniq)"
     fi
 }

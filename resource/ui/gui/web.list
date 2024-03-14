@@ -3,25 +3,96 @@ font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus
 $- INSTALL
 mkdir -p $dst
 cd $dst
-curl -O $src
+curl -L $src -o Terminus.zip
 unzip Terminus.zip
-mkdir -p $HOME/.local/share/fonts
-mv *.ttf $HOME/.local/share/fonts
+x=$HOME/.local/share/fonts
+if [ ! -e $x -a -z "$NO_BACKUP" ]; then echo "add:$x" >> $BACKUP/diff; fi
+if [ ! -e $x ]; then mkdir -p $x; fi
+mv *.ttf $x
+chown -R $USER:$USER $x
 fc-cache -f -v
-$---
-$- UPDATE
-if [ -e $dst ]; then rm -rf $dst; fi
-mkdir -p $dst
-cd $dst
-curl -O $src
-unzip Terminus.zip
-mkdir -p $HOME/.local/share/fonts
-mv *.ttf $HOME/.local/share/fonts
-fc-cache -f -v
+cd
+rm -rf $dst
 $---
 $- REMOVE
-if [ -e $dst ]; then rm -rf $dst; fi
-rm -rf $HOME/.local/share/fonts/TerminessNerdFont*
+x=$HOME/.local/share/fonts
+files=$(find $x -type f -name TerminessNerdFont*)
+if [ -n "$files" ]; then rm -f $files; fi
 fc-cache -f -v
+$---
+@@@@
+
+background @ https://github.com/Skalyaeve/images/blob/main/background/background.jpg?raw=true ~ Background
+#### /tmp/background-general
+$- INSTALL
+mkdir -p $dst
+cd $dst
+curl -L $src -o background.jpg
+x=$HOME/.local/share/backgrounds
+if [ ! -e $x -a -z "$NO_BACKUP" ]; then echo "add:$x" >> $BACKUP/diff; fi
+if [ ! -e $x ]; then mkdir -p $x; fi
+mv background.jpg $x/ft_background.jpg
+chown -R $USER:$USER $x
+y=/usr/share/images/desktop-base
+if [ -e $y/default -a -z "$NO_BACKUP" ]; then mv $y/default $y/default.ft.bak; fi
+if [ -e $y/desktop-background -a -z "$NO_BACKUP" ]; then mv $y/desktop-background $y/desktop-background.ft.bak; fi
+if [ -e $y/desktop-grub.png -a -z "$NO_BACKUP" ]; then mv $y/desktop-grub.png $y/desktop-grub.png.ft.bak; fi
+if [ -e $y/login-background.svg -a -z "$NO_BACKUP" ]; then mv $y/login-background.svg $y/default.ft.bak; fi
+x=$x/ft_background.jpg
+ln -s $x $y/default
+ln -s $x $y/desktop-background
+ln -s $x $y/desktop-grub.png
+ln -s $x $y/login-background.svg
+cd
+rm -rf $dst
+$---
+$- REMOVE
+$---
+@@@@
+
+background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/background/background.xml ~ Background XML
+#### /tmp/background-xml
+$- INSTALL
+mkdir -p $dst
+cd $dst
+curl $src > background.xml
+x=$HOME/.local/share/backgrounds
+if [ ! -e $x -a -z "$NO_BACKUP" ]; then echo "add:$x" >> $BACKUP/diff; fi
+if [ ! -e $x ]; then mkdir -p $x; fi
+mv background.xml $x/ft_background.xml
+chown -R $USER:$USER $x
+y=/usr/share/images/desktop-base
+if [ -e $y/desktop-background.xml -a -z "$NO_BACKUP" ]; then mv $y/desktop-background.xml $y/desktop-background.xml.ft.bak; fi
+if [ -e $y/desktop-lockscreen.xml -a -z "$NO_BACKUP" ]; then mv $y/desktop-lockscreen.xml $y/desktop-lockscreen.xml.ft.bak; fi
+x=$x/ft_background.xml
+ln -s $x $y/desktop-background.xml
+ln -s $x $y/desktop-lockscreen.xml
+cd
+rm -rf $dst
+$---
+$- REMOVE
+x=$HOME/.local/share/backgrounds/ft_background.xml
+y=/usr/share/images/desktop-base
+if [ -e $x ]; then rm -f $x; fi
+if [ -e $y/desktop-background.xml -a -e $y/desktop-background.xml.ft.bak ]; then mv $y/desktop-background.xml.ft.bak $y/desktop-background.xml; fi
+if [ -e $y/desktop-lockscreen.xml -a -e $y/desktop-lockscreen.xml.ft.bak ]; then mv $y/desktop-lockscreen.xml.ft.bak $y/desktop-lockscreen.xml; fi
+$---
+@@@@
+
+background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black.png?raw=true ~ Background GRUB
+#### /tmp/background-grub
+$- INSTALL
+mkdir -p $dst
+cd $dst
+curl -L $src -o black.png
+x=/boot/grub
+if [ -e $x/background.png -a -z "$NO_BACKUP" ]; then mv $x/background.png $x/background.png.ft.bak; fi
+mv black.png $x/background.png
+cd
+rm -rf $dst
+$---
+$- REMOVE
+x=/boot/grub
+if [ -e $x/background.png -a -e $x/background.png.ft.bak ]; then mv $x/background.png.ft.bak $x/background.png; fi
 $---
 @@@@

@@ -6,3 +6,4 @@ gtk-3.0 @ ~/.config
 qt5ct @ ~/.config
 user-dirs/user-dirs.dirs @ ~/.config
 user-dirs/user-dirs.locale @ ~/.config
+grub/grub @ /etc/default/grub
