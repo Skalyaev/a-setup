@@ -35,6 +35,7 @@ ft_swap() {
                     ft_echo "$dst/$target not set.\n"
                     continue
                 else
+                    DIFF=("${DIFF[@]}" "add:$dst")
                     chown "$USER:$USER" "$dst" >/dev/null 2>&1
                 fi
             elif [ -e "$dst/$target" -a -z "$NO_BACKUP" ]; then

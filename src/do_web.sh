@@ -35,8 +35,6 @@ ft_web() {
                 local dst="$(echo "$line" | cut -d' ' -f2 | xargs)"
                 if [ -e "$dst" ]; then
                     local installed=1
-                elif [ ! -e "$(dirname "$dst")" ]; then
-                    mkdir -p "$(dirname "$dst")" >/dev/null 2>&1
                 fi
             elif [[ "$line" == '$- INSTALL' ]]; then
                 if [ -z "$src" -o -z "$dst" ]; then
@@ -46,8 +44,20 @@ ft_web() {
                     break
                 else
                     if [ -z "$installed" ]; then
-                        local to_run=1
                         ft_echo "Installing $target..."
+                        if [ ! -e "$(dirname "$dst")" ]; then
+                            if ! mkdir -p "$dst" >/dev/null 2>&1; then
+                                ft_echo "[$RED KO $NC]\n"
+                                ft_echo "[$YELLOW WARNING $NC] Can not create $dst\n"
+                                ft_echo "$target will not be installed/updated.\n"
+                                local to_skip=1
+                                continue
+                            else
+                                DIFF=("${DIFF[@]}" "add:$dst")
+                                chown "$USER:$USER" "$dst" >/dev/null 2>&1
+                            fi
+                        fi
+                        local to_run=1
                     else
                         local to_skip=1
                     fi
@@ -97,7 +107,7 @@ ft_web() {
                 local to_skip=1
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Non-zero returned from: $line\n"
-                ft_echo "$dst will not be installed/updated.\n"
+                ft_echo "$target will not be installed/updated.\n"
                 ft_echo "You may need to clear that install/update manually.\n"
             fi
         fi
