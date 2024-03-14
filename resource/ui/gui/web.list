@@ -47,6 +47,13 @@ cd
 rm -rf $dst
 $---
 $- REMOVE
+x=$HOME/.local/share/backgrounds/ft_background.jpg
+y=/usr/share/images/desktop-base
+if [ -e $x ]; then rm -f $x; fi
+if [ -e $y/default -a -e $y/default.ft.bak ]; then mv $y/default.ft.bak $y/default; fi
+if [ -e $y/desktop-background -a -e $y/desktop-background.ft.bak ]; then mv $y/desktop-background.ft.bak $y/desktop-background; fi
+if [ -e $y/desktop-grub.png -a -e $y/desktop-grub.png.ft.bak ]; then mv $y/desktop-grub.png.ft.bak $y/desktop-grub.png; fi
+if [ -e $y/login-background.svg -a -e $y/default.ft.bak ]; then mv $y/default.ft.bak $y/login-background.svg; fi
 $---
 @@@@
 
