@@ -23,11 +23,8 @@ case "$COMMAND" in
         chown -R "$USER:$USER" "$(dirname "$ROOT")/backup" \
             >/dev/null 2>&1
     fi
-    cd "$ROOT"
     ft_apt
-    cd "$ROOT"
     ft_web
-    cd "$ROOT"
     ft_swap
     if [ -z "$NO_BACKUP" ]; then
         if [ "${#DIFF[@]}" -gt 0 ]; then
