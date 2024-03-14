@@ -26,7 +26,11 @@ while [ "$#" -gt 0 ]; do
             echo -e "[$RED ERROR $NC] Can not set home for $USER."
             exit 1
         fi
-        HOME=$(getent passwd "$USER" | cut -d: -f6)
+        HOME="$(getent passwd "$USER" | cut -d: -f6)"
+        if [ ! -e "$HOME" ]; then
+            echo -e "[$RED ERROR $NC] Can not set home for $USER."
+            exit 1
+        fi
         shift
         ;;
     '-p' | '--path')
@@ -35,9 +39,9 @@ while [ "$#" -gt 0 ]; do
             echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--path${NC}."
             exit 1
         fi
-        if [ -d "$1" ]; then
-            ROOT="$1"
-            ROOT=$(realpath "$ROOT")
+        ROOT="$1"
+        if [ -e "$ROOT" ]; then
+            ROOT="$(realpath "$ROOT")"
         else
             echo -e "[$RED ERROR $NC] Path not found: ${GREEN}$1${NC}"
             exit 1

@@ -6,18 +6,18 @@ ft_swap() {
         return
     fi
     ft_echo "${GRAY}================ READING: .swap$NC\n"
-    local files=$(find "$ROOT" "${EXCLUDES[@]}" \
-        -type f -name '.swap')
+    local files="$(find "$ROOT" "${EXCLUDES[@]}" \
+        -type f -name '.swap')"
     for file in $files; do
-        local dir=$(dirname "$file")
+        local dir="$(dirname "$file")"
 
         while read -r line; do
             if [ -z "$line" ]; then
                 continue
             fi
-            target=$(echo "$line" | cut -d'@' -f1 | xargs)
+            target="$(echo "$line" | cut -d'@' -f1 | xargs)"
             src="$dir/$target"
-            dst=$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")
+            dst="$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")"
 
             ft_echo "Setting $dst/$target..."
             if [ -z "$NO_BACKUP" ]; then

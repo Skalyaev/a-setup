@@ -6,9 +6,9 @@ ft_web() {
         return
     fi
     ft_echo "${GRAY}================ READING: web.list$NC\n"
-    local script=$(find "$ROOT" "${EXCLUDES[@]}" \
+    local script="$(find "$ROOT" "${EXCLUDES[@]}" \
         -type f -name 'web.list' |
-        xargs cat)
+        xargs cat)"
     while read -r line; do
         if [ -z "$line" ]; then
             continue
@@ -23,8 +23,8 @@ ft_web() {
                 fi
                 unset target src dst installed
             elif [[ "$line" == *'@'* ]]; then
-                local target=$(echo "$line" | cut -d'@' -f1 | xargs)
-                local src=$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)
+                local target="$(echo "$line" | cut -d'@' -f1 | xargs)"
+                local src="$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)"
             elif [[ "$line" == '#### '* ]]; then
                 if [ -z "$src" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
@@ -32,7 +32,7 @@ ft_web() {
                     ft_echo "Aborting web install.\n"
                     break
                 fi
-                local dst=$(echo "$line" | cut -d' ' -f2 | xargs)
+                local dst="$(echo "$line" | cut -d' ' -f2 | xargs)"
                 if [ -e "$dst" ]; then
                     local installed=1
                 elif [ ! -e "$(dirname "$dst")" ]; then

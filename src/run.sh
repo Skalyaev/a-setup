@@ -2,9 +2,9 @@
 #
 #================================== RUN
 if [ "$EUID" -eq 0 -a "$USER" != 'root' ]; then
-    is_root='(sudo) '
+    is_sudo='(sudo) '
 fi
-ft_echo "${GRAY}================ Running as $is_root$USER$NC\n"
+ft_echo "${GRAY}================ Running as $is_sudo$USER$NC\n"
 case "$COMMAND" in
 'install')
     if [ -z "$ROOT" ]; then
@@ -18,9 +18,9 @@ case "$COMMAND" in
     fi
     if [ -z "$NO_BACKUP" ]; then
         DIFF=()
-        BACKUP="$(dirname $ROOT)/backup/$(date +%Y%m%d%H%M%S)"
+        BACKUP="$(dirname "$ROOT")/backup/$(date +%Y%m%d%H%M%S)"
         mkdir -p "$BACKUP"
-        chown -R "$USER:$USER" "$(dirname $ROOT)/backup" \
+        chown -R "$USER:$USER" "$(dirname "$ROOT")/backup" \
             >/dev/null 2>&1
     fi
     ft_apt
@@ -29,7 +29,7 @@ case "$COMMAND" in
     if [ -z "$NO_BACKUP" ]; then
         if [ "${#DIFF[@]}" -gt 0 ]; then
             for x in "${DIFF[@]}"; do
-                echo "$x" >"$BACKUP/diff" 
+                echo "$x" >>"$BACKUP/diff" 
             done
             chown -R "$USER:$USER" "$BACKUP" >/dev/null 2>&1
         else
@@ -39,8 +39,8 @@ case "$COMMAND" in
     ;;
 'restore')
     if [ -z "$ROOT" ]; then
-        ROOT=$(ls -t "$HOME/.local/share/setup/backup" |
-            head -n 1)
+        ROOT="$(ls -t "$HOME/.local/share/setup/backup" |
+            head -n 1)"
     fi
     ft_restore
     ;;

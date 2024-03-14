@@ -33,8 +33,8 @@ ft_restore() {
             fi
         fi
 
-        local cmd=$(echo "$line" | cut -d: -f1)
-        local target=$(echo "$line" | cut -d: -f2)
+        local cmd="$(echo "$line" | cut -d: -f1)"
+        local target="$(echo "$line" | cut -d: -f2)"
         case "$cmd" in
         'apt')
             ft_echo "Removing $target..."
@@ -64,8 +64,8 @@ ft_restore() {
             ;;
         'swap')
             ft_echo "Restoring $target..."
-            local dir=$(dirname "$target")
-            local target=$(basename "$target")
+            local dir="$(dirname "$target")"
+            local target="$(basename "$target")"
             if ! cp -r "$ROOT/$target" "$dir/$target" >/dev/null 2>&1; then
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Can not copy \
