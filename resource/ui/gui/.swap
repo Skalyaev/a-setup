@@ -1,4 +1,4 @@
-xorg/.xinitrc @ ~/
+xorg/.xinitrc @ ~
 i3 @ ~/.config
 jgmenu @ ~/.config
 gtk-2.0 @ ~/.config
@@ -6,5 +6,3 @@ gtk-3.0 @ ~/.config
 qt5ct @ ~/.config
 user-dirs/user-dirs.dirs @ ~/.config
 user-dirs/user-dirs.locale @ ~/.config
-lightdm/lightdm.conf @ /etc/lightdm
-lightdm/lightdm-gtk-greeter.conf @ /etc/lightdm

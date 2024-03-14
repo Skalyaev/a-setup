@@ -16,8 +16,8 @@ ft_swap() {
                 continue
             fi
             target="$(echo "$line" | cut -d'@' -f1 | xargs)"
-            target="$(basename "$target")"
             src="$dir/$target"
+            target="$(basename "$target")"
             dst="$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")"
 
             ft_echo "Setting $dst/$target..."

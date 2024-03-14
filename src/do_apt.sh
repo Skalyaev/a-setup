@@ -17,8 +17,7 @@ ft_apt() {
         local pkgs="$(find "$ROOT" "${EXCLUDES[@]}" \
             -type f -name 'apt.list' |
             xargs cat |
-            cut -d':' -f1 |
-            uniq)"
+            cut -d':' -f1)"
         while read -r pkg; do
             if ! dpkg -s "$pkg" >/dev/null 2>&1; then
                 ft_echo "Installing $pkg..."
@@ -35,6 +34,6 @@ ft_apt() {
             else
                 ft_echo "$pkg [$GREEN OK $NC]\n"
             fi
-        done <<<"$pkgs"
+        done <<<"$(echo "$pkgs" | uniq)"
     fi
 }

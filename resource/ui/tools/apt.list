@@ -1,4 +1,5 @@
 firefox-esr : Navigateur web
+curl : Client HTTP
 ftp : Client FTP
 zip : Gestionnaire ZIP
 bc : Calculatrice
