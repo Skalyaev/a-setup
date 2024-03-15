@@ -7,21 +7,23 @@ sed -i 's/#CONF_OPT_PYTHON3 = --enable-python3interp$/CONF_OPT_PYTHON3 = --enabl
 ./configure --prefix=$HOME/.local
 make
 make install
+make clean
 curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 $---
 
 $- UPDATE
+make distclean
 git pull
 sed -i 's/#CONF_OPT_PYTHON = --enable-pythoninterp$/CONF_OPT_PYTHON = --enable-pythoninterp/g' src/Makefile
 sed -i 's/#CONF_OPT_PYTHON3 = --enable-python3interp$/CONF_OPT_PYTHON3 = --enable-python3interp/g' src/Makefile
 ./configure --prefix=$HOME/.local
 make
 make install
+make clean
 $---
 
 $- REMOVE
 ./configure --prefix=$HOME/.local
-make uninstall_runtime
 make uninstall
 $---
 
