@@ -9,6 +9,15 @@ ft_web() {
     local script="$(find "$ROOT" "${EXCLUDES[@]}" \
         -type f -name 'web.list' |
         xargs cat)"
+    local dir="$(dirname "$ROOT")/.web"
+    if [ ! -e "$dir" ]; then
+        if ! mkdir "$dir"; then
+            ft_echo "[$YELLOW WARNING $NC] Can not create $dir\n"
+            ft_echo "Aborting web install.\n"
+            return
+        fi
+        chown "$USER:$USER" "$dir"
+    fi
     while read -r line; do
         if [ -z "$line" ]; then
             continue
@@ -21,24 +30,17 @@ ft_web() {
                     ft_echo "Aborting web install.\n"
                     break
                 fi
-                unset target src dst installed
-
+                unset target src dst installed runned
             elif [[ "$line" == *'@'* ]]; then
                 local target="$(echo "$line" | cut -d'@' -f1 | xargs)"
                 local src="$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)"
-
-            elif [[ "$line" == '#### '* ]]; then
-                if [ -z "$src" ]; then
-                    ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
-                    ft_echo "Unmatched $line.\n"
-                    ft_echo "Aborting web install.\n"
-                    break
-                fi
-                local dst="$(echo "$line" | cut -d' ' -f2 | xargs)"
+                local dst="$dir/$target"
                 if [ -e "$dst" ]; then
                     local installed=1
+                else
+                    mkdir "$dst"
+                    chown "$USER:$USER" "$dst"
                 fi
-
             elif [ "$line" = '$- INSTALL' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
@@ -47,25 +49,14 @@ ft_web() {
                     break
                 else
                     if [ -z "$installed" ]; then
-                        ft_echo "Installing $target..."
-                        if [ ! -e "$(dirname "$dst")" ]; then
-                            if ! mkdir -p "$dst" >/dev/null 2>&1; then
-                                ft_echo "[$RED KO $NC]\n"
-                                ft_echo "[$YELLOW WARNING $NC] Can not create $dst\n"
-                                ft_echo "$target will not be installed/updated.\n"
-                                local to_skip=1
-                                continue
-                            else
-                                DIFF=("${DIFF[@]}" "add:$dst")
-                                chown "$USER:$USER" "$dst" >/dev/null 2>&1
-                            fi
-                        fi
+                        cd "$dst"
                         local to_run=1
+                        local runned=1
+                        ft_echo "Installing $target..."
                     else
                         local to_skip=1
                     fi
                 fi
-
             elif [ "$line" = '$- UPDATE' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
@@ -75,12 +66,16 @@ ft_web() {
                 else
                     if [ -z "$installed" ]; then
                         local to_skip=1
-                    else
+                    elif find "$dst" -type f -name '.update' -maxdepth 1; then
+                        cd "$dst"
+                        rm -f '.update'
                         local to_run=1
+                        local runned=1
                         ft_echo "Updating $target..."
+                    else
+                        local to_skip=1
                     fi
                 fi
-
             elif [ "$line" = '$- REMOVE' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
@@ -88,7 +83,7 @@ ft_web() {
                     ft_echo "Aborting web install.\n"
                     break
                 else
-                    if [ -z "$NO_BACKUP" ]; then
+                    if [ -z "$NO_BACKUP" -a ! -z "$runned" ]; then
                         local to_backup=1
                         DIFF=("${DIFF[@]}" "web:$dst")
                     else
@@ -101,10 +96,8 @@ ft_web() {
             if [ ! -z "$to_backup" ]; then
                 DIFF=("${DIFF[@]}" '$---')
             elif [ ! -z "$to_run" ]; then
+                cd "$ROOT"
                 ft_echo "[$GREEN OK $NC]\n"
-                if [ -e "$dst" ]; then
-                    chown -R "$USER:$USER" "$dst" >/dev/null 2>&1
-                fi
             fi
             unset to_run to_skip to_backup
 
@@ -112,14 +105,14 @@ ft_web() {
             DIFF=("${DIFF[@]}" "$line")
 
         elif [ ! -z "$to_run" ]; then
-            if ! eval "$line" >/dev/null 2>&1; then
+            if ! eval "$line" &>/dev/null; then
                 unset to_run
                 local to_skip=1
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Non-zero returned from: $line\n"
                 ft_echo "$target will not be installed/updated.\n"
-                ft_echo "You may need to clear that install/update manually.\n"
             fi
         fi
     done <<< "$script"
+    cd "$ROOT"
 }

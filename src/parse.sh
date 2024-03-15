@@ -22,7 +22,8 @@ while [ "$#" -gt 0 ]; do
             exit 1
         fi
         USER="$1"
-        if ! getent passwd "$USER" >/dev/null 2>&1; then
+        shift
+        if ! getent passwd "$USER" &>/dev/null; then
             echo -e "[$RED ERROR $NC] Can not set home for $USER."
             exit 1
         fi
@@ -31,7 +32,6 @@ while [ "$#" -gt 0 ]; do
             echo -e "[$RED ERROR $NC] Can not set home for $USER."
             exit 1
         fi
-        shift
         ;;
     '-p' | '--path')
         shift
@@ -40,13 +40,13 @@ while [ "$#" -gt 0 ]; do
             exit 1
         fi
         ROOT="$1"
+        shift
         if [ -e "$ROOT" ]; then
             ROOT="$(realpath "$ROOT")"
         else
-            echo -e "[$RED ERROR $NC] Path not found: ${GREEN}$1${NC}"
+            echo -e "[$RED ERROR $NC] Path not found: $ROOT"
             exit 1
         fi
-        shift
         ;;
     '-e' | '--exclude')
         shift

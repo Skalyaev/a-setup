@@ -20,22 +20,22 @@ case "$COMMAND" in
         DIFF=()
         BACKUP="$(dirname "$ROOT")/backup/$(date +%Y%m%d%H%M%S)"
         if [ ! -e "$(dirname "$ROOT")/backup" ]; then
-            if ! mkdir "$(dirname "$ROOT")/backup" >/dev/null 2>&1; then
+            if ! mkdir "$(dirname "$ROOT")/backup"; then
                 ft_echo "[$RED ERROR $NC] Cannot create backup directory: $BACKUP\n"
                 ft_echo "Aborting.\n"
                 exit 1
             else
-                chown "$USER:$USER" "$(dirname "$ROOT")/backup" \
-                    >/dev/null 2>&1
+                chown "$USER:$USER" "$(dirname "$ROOT")/backup"
             fi
         fi
-        if ! mkdir "$BACKUP" >/dev/null 2>&1; then
+        if ! mkdir "$BACKUP"; then
             ft_echo "[$RED ERROR $NC] Cannot create backup directory: $BACKUP\n"
             ft_echo "Aborting.\n"
             exit 1
         fi
-        chown "$USER:$USER" "$BACKUP" >/dev/null 2>&1
+        chown "$USER:$USER" "$BACKUP"
     fi
+    cd "$ROOT"
     ft_apt
     ft_web
     ft_swap
@@ -44,7 +44,7 @@ case "$COMMAND" in
             for x in "${DIFF[@]}"; do
                 echo "$x" >>"$BACKUP/diff"
             done
-            chown "$USER:$USER" "$BACKUP/diff" >/dev/null 2>&1
+            chown "$USER:$USER" "$BACKUP/diff"
         else
             rm -r "$BACKUP"
         fi
@@ -55,10 +55,11 @@ case "$COMMAND" in
         ROOT="$(ls -t "$HOME/.local/share/setup/backup" | head -n 1)"
     fi
     if [ ! -e "$ROOT/diff" ]; then
-        ft_echo "[$RED ERROR $NC] No diff file found.\n"
+        ft_echo "[$RED ERROR $NC] $ROOT/diff not found\n"
         ft_echo "Aborting restore.\n"
         exit 1
     fi
+    cd "$ROOT"
     ft_restore
     ;;
 esac
