@@ -17,7 +17,7 @@ $---
 $- REMOVE
 x=$HOME/.local/share/fonts
 files=$(find $x -type f -name TerminessNerdFont*)
-if [ -n "$files" ]; then rm -f $files; fi
+if [ -n "$files" ]; then rm $files; fi
 fc-cache -f -v
 $---
 @@@@
@@ -37,7 +37,7 @@ y=/usr/share/images/desktop-base
 if [ -e $y/default -a -z "$NO_BACKUP" ]; then mv $y/default $y/default.ft.bak; fi
 if [ -e $y/desktop-background -a -z "$NO_BACKUP" ]; then mv $y/desktop-background $y/desktop-background.ft.bak; fi
 if [ -e $y/desktop-grub.png -a -z "$NO_BACKUP" ]; then mv $y/desktop-grub.png $y/desktop-grub.png.ft.bak; fi
-if [ -e $y/login-background.svg -a -z "$NO_BACKUP" ]; then mv $y/login-background.svg $y/default.ft.bak; fi
+if [ -e $y/login-background.svg -a -z "$NO_BACKUP" ]; then mv $y/login-background.svg $y/login-background.ft.bak; fi
 x=$x/ft_background.jpg
 ln -s $x $y/default
 ln -s $x $y/desktop-background
@@ -49,11 +49,15 @@ $---
 $- REMOVE
 x=$HOME/.local/share/backgrounds/ft_background.jpg
 y=/usr/share/images/desktop-base
-if [ -e $x ]; then rm -f $x; fi
-if [ -e $y/default -a -e $y/default.ft.bak ]; then mv $y/default.ft.bak $y/default; fi
-if [ -e $y/desktop-background -a -e $y/desktop-background.ft.bak ]; then mv $y/desktop-background.ft.bak $y/desktop-background; fi
-if [ -e $y/desktop-grub.png -a -e $y/desktop-grub.png.ft.bak ]; then mv $y/desktop-grub.png.ft.bak $y/desktop-grub.png; fi
-if [ -e $y/login-background.svg -a -e $y/default.ft.bak ]; then mv $y/default.ft.bak $y/login-background.svg; fi
+if [ -e $x ]; then rm $x; fi
+if [ ! -e $y/default.ft.bak ]; then rm $y/default; fi
+if [ ! -e $y/desktop-background.ft.bak ]; then rm $y/desktop-background; fi
+if [ ! -e $y/desktop-grub.png.ft.bak ]; then rm $y/desktop-grub.png; fi
+if [ ! -e $y/login-background.ft.bak ]; then rm $y/login-background.svg; fi
+if [ -e $y/default.ft.bak ]; then mv $y/default.ft.bak $y/default; fi
+if [ -e $y/desktop-background.ft.bak ]; then mv $y/desktop-background.ft.bak $y/desktop-background; fi
+if [ -e $y/desktop-grub.png.ft.bak ]; then mv $y/desktop-grub.png.ft.bak $y/desktop-grub.png; fi
+if [ -e $y/login-background.ft.bak ]; then mv $y/login-background.svg.ft.bak $y/login-background.svg; fi
 $---
 @@@@
 
@@ -80,9 +84,11 @@ $---
 $- REMOVE
 x=$HOME/.local/share/backgrounds/ft_background.xml
 y=/usr/share/images/desktop-base
-if [ -e $x ]; then rm -f $x; fi
-if [ -e $y/desktop-background.xml -a -e $y/desktop-background.xml.ft.bak ]; then mv $y/desktop-background.xml.ft.bak $y/desktop-background.xml; fi
-if [ -e $y/desktop-lockscreen.xml -a -e $y/desktop-lockscreen.xml.ft.bak ]; then mv $y/desktop-lockscreen.xml.ft.bak $y/desktop-lockscreen.xml; fi
+if [ -e $x ]; then rm $x; fi
+if [ ! -e $y/desktop-background.xml.ft.bak ]; then rm $y/desktop-background.xml; fi
+if [ ! -e $y/desktop-lockscreen.xml.ft.bak ]; then rm $y/desktop-lockscreen.xml; fi
+if [ -e $y/desktop-background.xml.ft.bak ]; then mv $y/desktop-background.xml.ft.bak $y/desktop-background.xml; fi
+if [ -e $y/desktop-lockscreen.xml.ft.bak ]; then mv $y/desktop-lockscreen.xml.ft.bak $y/desktop-lockscreen.xml; fi
 $---
 @@@@
 
@@ -97,9 +103,17 @@ if [ -e $x/background.png -a -z "$NO_BACKUP" ]; then mv $x/background.png $x/bac
 mv black.png $x/background.png
 cd
 rm -rf $dst
+x=/etc/default/grub
+if [ -e $x -a -z "$NO_BACKUP" ]; then mv $x $x.ft.bak; fi
+cp $ROOT/ui/gui/grub/grub $x
+update-grub
 $---
 $- REMOVE
 x=/boot/grub
-if [ -e $x/background.png -a -e $x/background.png.ft.bak ]; then mv $x/background.png.ft.bak $x/background.png; fi
+if [ ! -e $x/background.png.ft.bak ]; then rm $x/background.png; fi
+if [ -e $x/background.png.ft.bak ]; then mv $x/background.png.ft.bak $x/background.png; fi
+x=/etc/default/grub
+if [ -e $x.ft.bak ]; then mv $x.ft.bak $x; fi
+update-grub
 $---
 @@@@
