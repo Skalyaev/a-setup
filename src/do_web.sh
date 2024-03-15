@@ -108,6 +108,7 @@ ft_web() {
             if ! eval "$line" &>/dev/null; then
                 unset to_run
                 local to_skip=1
+                rm -rf "$dst"
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Non-zero returned from: $line\n"
                 ft_echo "$target will not be installed/updated.\n"

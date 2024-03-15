@@ -19,7 +19,7 @@ ft_swap() {
             dst="$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")"
 
             if [ -e "$dst/$target" ]; then
-                if ! diff -q "$src" "$dst/$target" &>/dev/null; then
+                if diff "$src" "$dst/$target" &>/dev/null; then
                     ft_echo "$dst/$target [$GREEN OK $NC]\n"
                     continue
                 fi
