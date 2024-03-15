@@ -9,14 +9,14 @@ ft_web() {
     local script="$(find "$ROOT" "${EXCLUDES[@]}" \
         -type f -name 'web.list' |
         xargs cat)"
-    local dir="$(dirname "$ROOT")/.web"
-    if [ ! -e "$dir" ]; then
-        if ! mkdir "$dir"; then
-            ft_echo "[$YELLOW WARNING $NC] Can not create $dir\n"
+    local webdir="$(dirname "$ROOT")/.web"
+    if [ ! -e "$webdir" ]; then
+        if ! mkdir "$webdir"; then
+            ft_echo "[$YELLOW WARNING $NC] Can not create $webdir\n"
             ft_echo "Aborting web install.\n"
             return
         fi
-        chown "$USER:$USER" "$dir"
+        chown "$USER:$USER" "$webdir"
     fi
     while read -r line; do
         if [ -z "$line" ]; then
@@ -34,7 +34,7 @@ ft_web() {
             elif [[ "$line" == *'@'* ]]; then
                 local target="$(echo "$line" | cut -d'@' -f1 | xargs)"
                 local src="$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)"
-                local dst="$dir/$target"
+                local dst="$webdir/$target"
                 if [ -e "$dst" ]; then
                     local installed=1
                 else
@@ -66,7 +66,7 @@ ft_web() {
                 else
                     if [ -z "$installed" ]; then
                         local to_skip=1
-                    elif find "$dst" -type f -name '.update' -maxdepth 1; then
+                    elif [ ! -n $(find "$dst" -maxdepth 1 -type f -name '.update') ]; then
                         cd "$dst"
                         rm -f '.update'
                         local to_run=1
