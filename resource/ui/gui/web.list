@@ -28,7 +28,7 @@ $- INSTALL
 mkdir -p $dst
 cd $dst
 curl -L $src -o background.jpg
-x=$HOME/.local/share/backgrounds
+x=/usr/local/share/backgrounds
 if [ ! -e $x -a -z "$NO_BACKUP" ]; then echo "add:$x" >> $BACKUP/diff; fi
 if [ ! -e $x ]; then mkdir -p $x; fi
 mv background.jpg $x/ft_background.jpg
@@ -47,7 +47,7 @@ cd
 rm -rf $dst
 $---
 $- REMOVE
-x=$HOME/.local/share/backgrounds/ft_background.jpg
+x=/usr/local/share/backgrounds/ft_background.jpg
 y=/usr/share/images/desktop-base
 if [ -e $x ]; then rm $x; fi
 if [ ! -e $y/default.ft.bak ]; then rm $y/default; fi
@@ -67,7 +67,7 @@ $- INSTALL
 mkdir -p $dst
 cd $dst
 curl $src > background.xml
-x=$HOME/.local/share/backgrounds
+x=/usr/local/share/backgrounds
 if [ ! -e $x -a -z "$NO_BACKUP" ]; then echo "add:$x" >> $BACKUP/diff; fi
 if [ ! -e $x ]; then mkdir -p $x; fi
 mv background.xml $x/ft_background.xml
@@ -82,7 +82,7 @@ cd
 rm -rf $dst
 $---
 $- REMOVE
-x=$HOME/.local/share/backgrounds/ft_background.xml
+x=/usr/local/share/backgrounds/ft_background.xml
 y=/usr/share/images/desktop-base
 if [ -e $x ]; then rm $x; fi
 if [ ! -e $y/desktop-background.xml.ft.bak ]; then rm $y/desktop-background.xml; fi
