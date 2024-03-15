@@ -39,7 +39,7 @@ ft_swap() {
                     chown "$USER:$USER" "$dst" >/dev/null 2>&1
                 fi
             elif [ -e "$dst/$target" -a -z "$NO_BACKUP" ]; then
-                if ! cp -r "$dst/$target" "$BACKUP" >/dev/null 2>&1; then
+                if ! mv "$dst/$target" "$BACKUP/$target" >/dev/null 2>&1; then
                     ft_echo "[$RED KO $NC]\n"
                     ft_echo "[$YELLOW WARNING $NC] Can not backup $dst/$target\n"
                     ft_echo "$dst/$target not set\n"
