@@ -29,7 +29,7 @@ ft_swap() {
             elif [ -z "$NO_BACKUP" ]; then
                 local action='add'
             fi
-            ft_echo "Setting $dst/$target..."
+            ft_echo "${BLUE}Setting${NC} $dst/$target..."
             if [ ! -e "$dst" ]; then
                 if ! mkdir "$dst"; then
                     ft_echo "[$RED KO $NC]\n"

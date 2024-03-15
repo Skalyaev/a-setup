@@ -32,7 +32,7 @@ ft_restore() {
             if [ -z "$apt_clean" ]; then
                 local apt_clean=1
             fi
-            ft_echo "Removing $target..."
+            ft_echo "${BLUE}Removing${NC} $target..."
             if ! apt purge -y "$target" &>/dev/null; then
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
@@ -43,11 +43,11 @@ ft_restore() {
             fi
             ;;
         'web')
-            ft_echo "Removing $target..."
+            ft_echo "${BLUE}Removing${NC} $target..."
             local run_it=1
             ;;
         'add')
-            ft_echo "Removing $target..."
+            ft_echo "${BLUE}Removing${NC} $target..."
             if [ ! -e "$target" ]; then
                 ft_echo "[$GREEN OK $NC]\n"
                 continue
@@ -61,7 +61,7 @@ ft_restore() {
             fi
             ;;
         'swap')
-            ft_echo "Restoring $target..."
+            ft_echo "${BLUE}Restoring${NC} $target..."
             local name="$(basename "$target")"
             if ! mv "$ROOT/$name" "$target"; then
                 ft_echo "[$RED KO $NC]\n"

@@ -52,7 +52,7 @@ ft_web() {
                         cd "$dst"
                         local to_run=1
                         local runned=1
-                        ft_echo "Installing $target..."
+                        ft_echo "${BLUE}Installing${NC} $target..."
                     else
                         local to_skip=1
                     fi
@@ -71,9 +71,10 @@ ft_web() {
                         rm -f '.update'
                         local to_run=1
                         local runned=1
-                        ft_echo "Updating $target..."
+                        ft_echo "${BLUE}Updating${NC} $target..."
                     else
                         local to_skip=1
+                        ft_echo "$target [$GREEN OK $NC]\n"
                     fi
                 fi
             elif [ "$line" = '$- REMOVE' ]; then

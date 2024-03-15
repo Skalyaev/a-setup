@@ -5,7 +5,7 @@ ft_apt() {
     if [ ! -z "$NO_APT" ]; then
         return
     fi
-    ft_echo "Updating apt..."
+    ft_echo "${BLUE}Updating${NC} apt..."
     if ! apt update -y &>/dev/null; then
         ft_echo "[$RED KO $NC]\n"
         ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
@@ -21,7 +21,7 @@ ft_apt() {
         while read -r pkg; do
             if ! dpkg-query -W -f='${Status}' $pkg |
                 grep "install ok installed" &>/dev/null; then
-                ft_echo "Installing $pkg..."
+                ft_echo "${BLUE}Installing${NC} $pkg..."
                 if ! apt install -y "$pkg" &>/dev/null; then
                     ft_echo "[$RED K0 $NC]\n"
                     ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
