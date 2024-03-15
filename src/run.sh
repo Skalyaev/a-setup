@@ -52,8 +52,7 @@ case "$COMMAND" in
     ;;
 'restore')
     if [ -z "$ROOT" ]; then
-        ROOT="$(ls -t "$HOME/.local/share/setup/backup" |
-            head -n 1)"
+        ROOT="$(ls -t "$HOME/.local/share/setup/backup" | head -n 1)"
     fi
     if [ ! -e "$ROOT/diff" ]; then
         ft_echo "[$RED ERROR $NC] No diff file found.\n"

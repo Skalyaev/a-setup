@@ -59,16 +59,16 @@ ft_restore() {
         'swap')
             ft_echo "Restoring $target..."
             local name="$(basename "$target")"
-            if ! cp -r "$ROOT/$name" "$target" >/dev/null 2>&1; then
+            if ! mv "$ROOT/$name" "$target" >/dev/null 2>&1; then
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Can not copy \
                     $ROOT/$name to $target.\n"
                 ft_echo "$target not restored.\n"
             else
                 ft_echo "[$GREEN OK $NC]\n"
-                chown -R "$USER:$USER" "$target" >/dev/null 2>&1
             fi
             ;;
         esac
     done <"$ROOT/diff"
+    rm -r "$ROOT"
 }

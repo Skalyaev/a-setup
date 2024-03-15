@@ -13,7 +13,6 @@ ft_web() {
         if [ -z "$line" ]; then
             continue
         fi
-
         if [ -z "$to_run" -a -z "$to_skip" -a -z "$to_backup" ]; then
             if [ "$line" = '@@@@' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
