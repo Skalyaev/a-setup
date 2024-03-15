@@ -19,9 +19,22 @@ case "$COMMAND" in
     if [ -z "$NO_BACKUP" ]; then
         DIFF=()
         BACKUP="$(dirname "$ROOT")/backup/$(date +%Y%m%d%H%M%S)"
-        mkdir -p "$BACKUP"
-        chown -R "$USER:$USER" "$(dirname "$ROOT")/backup" \
-            >/dev/null 2>&1
+        if [ ! -e "$(dirname "$ROOT")/backup" ]; then
+            if ! mkdir "$(dirname "$ROOT")/backup" >/dev/null 2>&1; then
+                ft_echo "[$RED ERROR $NC] Cannot create backup directory: $BACKUP\n"
+                ft_echo "Aborting.\n"
+                exit 1
+            else
+                chown "$USER:$USER" "$(dirname "$ROOT")/backup" \
+                    >/dev/null 2>&1
+            fi
+        fi
+        if ! mkdir "$BACKUP" >/dev/null 2>&1; then
+            ft_echo "[$RED ERROR $NC] Cannot create backup directory: $BACKUP\n"
+            ft_echo "Aborting.\n"
+            exit 1
+        fi
+        chown "$USER:$USER" "$BACKUP" >/dev/null 2>&1
     fi
     ft_apt
     ft_web
@@ -29,9 +42,9 @@ case "$COMMAND" in
     if [ -z "$NO_BACKUP" ]; then
         if [ "${#DIFF[@]}" -gt 0 ]; then
             for x in "${DIFF[@]}"; do
-                echo "$x" >>"$BACKUP/diff" 
+                echo "$x" >>"$BACKUP/diff"
             done
-            chown -R "$USER:$USER" "$BACKUP" >/dev/null 2>&1
+            chown "$USER:$USER" "$BACKUP/diff" >/dev/null 2>&1
         else
             rm -r "$BACKUP"
         fi
@@ -41,6 +54,11 @@ case "$COMMAND" in
     if [ -z "$ROOT" ]; then
         ROOT="$(ls -t "$HOME/.local/share/setup/backup" |
             head -n 1)"
+    fi
+    if [ ! -e "$ROOT/diff" ]; then
+        ft_echo "[$RED ERROR $NC] No diff file found.\n"
+        ft_echo "Aborting restore.\n"
+        exit 1
     fi
     ft_restore
     ;;

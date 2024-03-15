@@ -2,11 +2,6 @@
 #
 #================================== DO_RESTORE
 ft_restore() {
-    if [ ! -e "$ROOT/diff" ]; then
-        ft_echo "[$RED ERROR $NC] No diff file found.\n"
-        ft_echo "Aborting restore.\n"
-        exit 1
-    fi
     ft_echo "${GRAY}================ READING: diff$NC\n"
     while read line; do
         if [ -z "$line" -o ! -z "$skip_it" ]; then
@@ -32,7 +27,6 @@ ft_restore() {
                 ft_echo "$dst not removed.\n"
             fi
         fi
-
         local cmd="$(echo "$line" | cut -d: -f1)"
         local target="$(echo "$line" | cut -d: -f2)"
         case "$cmd" in
@@ -64,16 +58,15 @@ ft_restore() {
             ;;
         'swap')
             ft_echo "Restoring $target..."
-            local dir="$(dirname "$target")"
-            local target="$(basename "$target")"
-            if ! cp -r "$ROOT/$target" "$dir/$target" >/dev/null 2>&1; then
+            local name="$(basename "$target")"
+            if ! cp -r "$ROOT/$name" "$target" >/dev/null 2>&1; then
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Can not copy \
-                    $ROOT/$target to $dir/$target.\n"
-                ft_echo "$dir/$target not restored.\n"
+                    $ROOT/$name to $target.\n"
+                ft_echo "$target not restored.\n"
             else
                 ft_echo "[$GREEN OK $NC]\n"
-                chown -R "$USER:$USER" "$dir/$target" >/dev/null 2>&1
+                chown -R "$USER:$USER" "$target" >/dev/null 2>&1
             fi
             ;;
         esac

@@ -48,7 +48,7 @@ ft_swap() {
             fi
             if ! cp -r "$src" "$dst" >/dev/null 2>&1; then
                 ft_echo "[$RED KO $NC]\n"
-                ft_echo "[$YELLOW WARNING $NC] Can not set $dst/$target\n"
+                ft_echo "[$YELLOW WARNING $NC] Can not set $dst/$target from $src\n"
                 continue
             else
                 chown -R "$USER:$USER" "$dst/$target" >/dev/null 2>&1

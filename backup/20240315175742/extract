@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ -f $1 ] ; then
+    case $1 in
+        *.tar.bz2)    tar xvjf $1 ;;
+        *.tar.gz)     tar xvzf $1 ;;
+        *.zip)        unzip $1 ;;
+        *)            echo "don't know how to extract '$1'" ;;
+    esac
+else
+    echo "'$1' is not a valid file"
+fi
