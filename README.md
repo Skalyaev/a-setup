@@ -26,12 +26,12 @@ setup <command> [options]
     * Swap targets specified in `.swap` files.
 
 - `restore`:
-    * From a backup directory.
+    * From a `backup` directory.
     * Perform backup using `diff` file.
 
 #### Options:
 - `-u, --user USER`:
-    * Setup for the specified user's home directory.
+    * Setup for the specified user's `home` directory.
 - `-p, --path PATH`:
     * Specify a path to a `resource` or `backup` directory.
     * Default is `~/.local/share/setup/(resource|backup)`
