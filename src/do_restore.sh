@@ -75,6 +75,7 @@ ft_restore() {
             ;;
         esac
     done <"$ROOT/diff"
+    cd ..
     rm -r "$ROOT"
     if [ ! -z "$apt_clean" ]; then
         apt autoremove -y
