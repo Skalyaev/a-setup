@@ -16,7 +16,7 @@
 - Manage your installations, updates, and configurations easier.
 - Bring your shortcuts, environment and applications everywhere you go.
 
-```bash
+```
 setup <command> [options]
 ```
 
@@ -81,7 +81,7 @@ $---
 - 1 line per swap.
 - `<path from .swap file> @ <target DIRECTORY>`.
 
-#### Install
+## Install
 ```
 sudo apt install git make curl -y
 dst=$HOME/.local/src
