@@ -63,7 +63,7 @@ setup <command> [options]
 - No multiline commands.
 - Blocks to: install | update | remove.
 ```sh
-<name> @ <url> : [description]
+<name> @ <url> ~ [description]
 $- INSTALL
     [commands]
 $---
@@ -98,6 +98,7 @@ Edit your `$HOME/.local/share/setup/resource` directory, then:
 ```sh
 setup install
 # or
+# sudo cp $HOME/.local/bin/setup /bin
 # sudo setup install -u $USER
 ```
 

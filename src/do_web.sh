@@ -33,7 +33,7 @@ ft_web() {
                 unset target src dst installed runned
             elif [[ "$line" == *'@'* ]]; then
                 local target="$(echo "$line" | cut -d'@' -f1 | xargs)"
-                local src="$(echo "$line" | cut -d'@' -f2 | cut -d':' -f1 | xargs)"
+                local src="$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)"
                 local dst="$webdir/$target"
                 if [ -e "$dst" ]; then
                     local installed=1
