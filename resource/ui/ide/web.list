@@ -5,11 +5,35 @@ git clone $src .
 chown $USER:$USER *
 sed -i 's/#CONF_OPT_PYTHON = --enable-pythoninterp$/CONF_OPT_PYTHON = --enable-pythoninterp/g' src/Makefile
 sed -i 's/#CONF_OPT_PYTHON3 = --enable-python3interp$/CONF_OPT_PYTHON3 = --enable-python3interp/g' src/Makefile
+dir=$HOME/.local
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
+dir=$HOME/.local/bin
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
+dir=$HOME/.local/share
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
+dir=$HOME/.local/share/man
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 ./configure --prefix=$HOME/.local
 make
 make install
 make clean
-curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -kfLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+chown -R $USER:$USER $HOME/.vim
+chown -R $USER:$USER $HOME/.local/share/vim
+chown -R $USER:$USER $HOME/.local/share/man
+dir=$HOME/.local/bin
+chown $USER:$USER $dir/vim
+chown $USER:$USER $dir/vimtutor
+chown $USER:$USER $dir/vimdiff
+chown $USER:$USER $dir/rvim
+chown $USER:$USER $dir/rview
+chown $USER:$USER $dir/view
+chown $USER:$USER $dir/ex
+chown $USER:$USER $dir/xxd
 $---
 
 $- UPDATE

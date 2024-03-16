@@ -84,7 +84,7 @@ ft_web() {
                     ft_echo "Aborting web install.\n"
                     break
                 else
-                    if [ -z "$NO_BACKUP" -a ! -z "$runned" ]; then
+                    if [ ! -z "$runned" ]; then
                         local to_backup=1
                         DIFF=("${DIFF[@]}" "web:$dst")
                     else

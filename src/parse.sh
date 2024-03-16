@@ -84,10 +84,6 @@ while [ "$#" -gt 0 ]; do
         NO_SWAP=1
         shift
         ;;
-    '--no-backup')
-        NO_BACKUP=1
-        shift
-        ;;
     *)
         echo -e "[$RED ERROR $NC] Unknown option: ${GREEN}$1${NC}"
         exit 1

@@ -38,8 +38,6 @@ COMMAND:
     When ${BLUE}install${NC}, do not read web.list files.
     ${GREEN}--no-local${NC}
     When ${BLUE}install${NC}, do not read .swap files.
-    ${GREEN}--no-backup${NC}
-    When ${BLUE}install${NC}, do not create backup directory.
 "
 
 ft_echo() {

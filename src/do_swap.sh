@@ -23,10 +23,8 @@ ft_swap() {
                     ft_echo "$dst/$target [$GREEN OK $NC]\n"
                     continue
                 fi
-                if [ -z "$NO_BACKUP" ]; then
-                    local action='swap'
-                fi
-            elif [ -z "$NO_BACKUP" ]; then
+                local action='swap'
+            else
                 local action='add'
             fi
             ft_echo "${BLUE}Setting${NC} $dst/$target..."
@@ -39,7 +37,7 @@ ft_swap() {
                 fi
                 DIFF=("${DIFF[@]}" "add:$dst")
                 chown "$USER:$USER" "$dst"
-            elif [ -e "$dst/$target" -a -z "$NO_BACKUP" ]; then
+            elif [ -e "$dst/$target" ]; then
                 if ! mv "$dst/$target" "$BACKUP/$target"; then
                     ft_echo "[$RED KO $NC]\n"
                     ft_echo "[$YELLOW WARNING $NC] Can not backup $dst/$target\n"
@@ -50,7 +48,7 @@ ft_swap() {
             if ! cp -r "$src" "$dst"; then
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Can not set $dst/$target from $src\n"
-                if [ -z "$NO_BACKUP" -a "$action" = 'swap' ]; then
+                if [ "$action" = 'swap' ]; then
                     ft_echo "$dst can/must be restored from $BACKUP"
                     DIFF=("${DIFF[@]}" "$action:$dst/$target")
                 fi

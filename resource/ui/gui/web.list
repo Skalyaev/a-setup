@@ -1,25 +1,25 @@
 font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
 
 $- INSTALL
-curl -L $src -o Terminus.zip
+curl -kL $src -o Terminus.zip
 unzip Terminus.zip
 rm -f Terminus.zip
 chown $USER:$USER *
 dir=$HOME/.local
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 dir=$HOME/.local/share
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 dir=$HOME/.local/share/fonts
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 mv *.ttf $dir
 fc-cache -f -v
 $---
 
 $- UPDATE
-curl -L $src -o Terminus.zip
+curl -kL $src -o Terminus.zip
 unzip Terminus.zip
 rm -f Terminus.zip
 chown $USER:$USER *
@@ -42,55 +42,55 @@ background @ https://github.com/Skalyaeve/images/blob/main/background/background
 
 $- INSTALL
 name=background.jpg
-curl $src > $name
+curl -k $src > $name
 dir=/usr
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 dir=/usr/local
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 dir=/usr/local/share
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 dir=/usr/local/share/backgrounds
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 src=$dir/$name
-if [ -e $src -a -z $NO_BACKUP ]; then mv $src $src.ft.bak; fi
+if [ -e $src ]; then mv $src $src.ft.bak; fi
 mv $name $src
 dir=/usr/share/images/desktop-base
 file=$dir/default
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/desktop-background
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/desktop-grub.png
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/login-background.svg
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 $---
 
 $- UPDATE
 name=background.jpg
-curl $src > $name
+curl -k $src > $name
 src=/usr/local/share/backgrounds/$name
-if [ -e $src -a -z $NO_BACKUP ]; then mv $src $src.ft.bak; fi
+if [ -e $src ]; then mv $src $src.ft.bak; fi
 mv $name $src
 dir=/usr/share/images/desktop-base
 file=$dir/default
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/desktop-background
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/desktop-grub.png
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/login-background.svg
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 $---
 
@@ -121,43 +121,43 @@ background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/backgro
 
 $- INSTALL
 name=background.xml
-curl $src > $name
+curl -k $src > $name
 dir=/usr
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 dir=/usr/local
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 dir=/usr/local/share
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 dir=/usr/local/share/backgrounds
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
+if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 src=$dir/$name
-if [ -e $src -a -z $NO_BACKUP ]; then mv $src $src.ft.bak; fi
+if [ -e $src ]; then mv $src $src.ft.bak; fi
 mv $name $src
 dir=/usr/share/images/desktop-base
 file=$dir/desktop-background.xml
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/desktop-lockscreen.xml
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 $---
 
 $- UPDATE
 name=background.xml
-curl $src > $name
+curl -k $src > $name
 src=/usr/local/share/backgrounds/$name
-if [ -e $src -a -z $NO_BACKUP ]; then mv $src $src.ft.bak; fi
+if [ -e $src ]; then mv $src $src.ft.bak; fi
 mv $name $src
 dir=/usr/share/images/desktop-base
 file=$dir/desktop-background.xml
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 file=$dir/desktop-lockscreen.xml
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
 $---
 
@@ -182,24 +182,24 @@ background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black
 
 $- INSTALL
 name=background.png
-curl -L $src -o $name
+curl -kL $src -o $name
 file=/boot/grub/$name
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 mv $name $file
 file=/etc/default/grub
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 cp $ROOT/ui/gui/grub/grub $file
 update-grub
 $---
 
 $- UPDATE
 name=background.png
-curl -L $src -o $name
+curl -kL $src -o $name
 file=/boot/grub/$name
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 mv $name $file
 file=/etc/default/grub
-if [ -e $file -a -z $NO_BACKUP ]; then mv $file $file.ft.bak; fi
+if [ -e $file ]; then mv $file $file.ft.bak; fi
 cp $ROOT/ui/gui/grub/grub $file
 update-grub
 $---

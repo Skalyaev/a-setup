@@ -17,7 +17,8 @@ ft_apt() {
         local pkgs="$(find "$ROOT" "${EXCLUDES[@]}" \
             -type f -name 'apt.list' |
             xargs cat |
-            cut -d':' -f1)"
+            cut -d: -f1 |
+            sort | uniq)"
         while read -r pkg; do
             if ! dpkg-query -W -f='${Status}' $pkg 2>/dev/null |
                 grep "install ok installed" &>/dev/null; then
@@ -27,14 +28,12 @@ ft_apt() {
                     ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
                     ft_echo "$pkg will not be installed.\n"
                 else
-                    if [ -z "$NO_BACKUP" ]; then
-                        DIFF=("${DIFF[@]}" "apt:$pkg")
-                    fi
+                    DIFF=("${DIFF[@]}" "apt:$pkg")
                     ft_echo "[$GREEN OK $NC]\n"
                 fi
             else
                 ft_echo "$pkg [$GREEN OK $NC]\n"
             fi
-        done <<< "$(echo "$pkgs" | uniq)"
+        done <<< "$(echo "$pkgs")"
     fi
 }
