@@ -3,7 +3,7 @@
 
 ## A Setup
 | Component | Description |
-| - | - |
+|-|-|
 | OS | Debian 12 |
 | DE | ---- |
 | WM | i3 |
