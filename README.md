@@ -1,6 +1,4 @@
 # A linux setup
-> work in progress
-
 | Component | Description | Configuration | Theme |
 |-|-|-|-|
 | OS | Debian 12 | ---- | ---- |
