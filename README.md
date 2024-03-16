@@ -84,10 +84,12 @@ $---
 ```
 sudo apt update -y
 sudo apt install git make curl -y
+
 dst=$HOME/.local/src
 mkdir -p $dst
 git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
 cd $dst/setup
+
 make
 make install # Or make link_install
 setup # To print help
@@ -100,16 +102,22 @@ setup install
 ```
 
 ## Uninstall
-Until backup directory is empty:
 ```
-setup restore
-# or
-# sudo setup restore -u $USER
+dir=$HOME/.local/share/setup
+count=$(ls -1 $dir/backup | wc -l)
+count=$(($count - 1))
+
+for i in $(seq 0 $count); do
+    setup restore
+    # or
+    # sudo setup restore -u $USER
+done
 ```
 Then:
 ```
 dst=$HOME/.local/src
 cd $dst/setup
+
 make uninstall
 rm -rf $dst/setup
 cd
