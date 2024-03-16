@@ -1,2 +1,2 @@
 # A linux setup
-> work in progress
+> From a Debian 12 iso
