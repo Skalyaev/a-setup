@@ -19,8 +19,8 @@ ft_apt() {
             xargs cat |
             cut -d':' -f1)"
         while read -r pkg; do
-            if ! dpkg-query -W -f='${Status}' $pkg  2>/dev/null |
-                grep "install ok installed"; then
+            if ! dpkg-query -W -f='${Status}' $pkg 2>/dev/null |
+                grep "install ok installed" &>/dev/null; then
                 ft_echo "${BLUE}Installing${NC} $pkg..."
                 if ! apt install -y "$pkg" &>/dev/null; then
                     ft_echo "[$RED K0 $NC]\n"
