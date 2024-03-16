@@ -52,10 +52,11 @@ case "$COMMAND" in
     ;;
 'restore')
     if [ -z "$ROOT" ]; then
-        ROOT="$(ls -t "$HOME/.local/share/setup/backup" | head -n 1)"
+        ROOT="$HOME/.local/share/setup/backup"
+        ROOT="$ROOT/$(ls -t "$ROOT" | head -n 1)"
     fi
     if [ ! -e "$ROOT/diff" ]; then
-        ROOT="$(ls -t "$ROOT" | head -n 1)"
+        ROOT="$ROOT/$(ls -t "$ROOT" | head -n 1)"
         if [ ! -e "$ROOT/diff" ]; then
             ft_echo "[$RED ERROR $NC] $ROOT/diff not found\n"
             ft_echo "Aborting restore.\n"

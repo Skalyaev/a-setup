@@ -9,10 +9,10 @@ dir=$HOME/.local
 if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 dir=$HOME/.local/share
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $backup/diff; fi
+if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 dir=$HOME/.local/share/fonts
-if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $backup/diff; fi
+if [ ! -e $dir -a -z $NO_BACKUP ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
 mv *.ttf $dir
 fc-cache -f -v
