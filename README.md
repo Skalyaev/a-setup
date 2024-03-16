@@ -16,6 +16,7 @@
 - Manage your installations, updates, and configurations easier.
 - Bring your shortcuts, environment and applications everywhere you go.
 
+### Usage
 ```
 setup <command> [options]
 ```
