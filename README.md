@@ -55,8 +55,12 @@ setup <command> [options]
 - Backups stored at `$(dirname $resource)/backup`.
 
 #### apt.list files
-- 1 package per line.
-- `<package_name> : [description]`.
+- 1 package per line:
+- `<package_name> : [description]`
+- `apt purge` and `apt clean` do not remove all files.
+- Use `.aptclean` files to remove them:
+- `<package_name> : <absolute path>` **strict format**.
+- 1 path per line.
 
 #### web.list files
 - Bash commands.

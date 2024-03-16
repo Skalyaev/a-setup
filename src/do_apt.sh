@@ -19,6 +19,8 @@ ft_apt() {
             xargs cat |
             cut -d: -f1 |
             sort | uniq)"
+        local to_clean="$(find . "${EXCLUDES[@]}" \
+            -type f -name '.aptclean')"
         while read -r pkg; do
             if ! dpkg-query -W -f='${Status}' $pkg 2>/dev/null |
                 grep "install ok installed" &>/dev/null; then
@@ -29,6 +31,12 @@ ft_apt() {
                     ft_echo "$pkg will not be installed.\n"
                 else
                     DIFF=("${DIFF[@]}" "apt:$pkg")
+                    while read -r line; do
+                        if echo "$line" | grep -q "^$pkg : "; then
+                            local target="$(echo "$line" | cut -d: -f2 | xargs)"
+                            DIFF=("${DIFF[@]}" "add:$target")
+                        fi
+                    done < "$to_clean"
                     ft_echo "[$GREEN OK $NC]\n"
                 fi
             else
