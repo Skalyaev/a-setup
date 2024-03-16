@@ -9,9 +9,9 @@ GRAY='\033[0;37m'
 NC='\033[0m'
 
 USAGE="${GRAY}===================${NC}usage
-${YELLOW}setup ${BLUE}COMMAND ${GREEN}[options]${NC}
+${YELLOW}setup ${BLUE}<command> ${GREEN}[options]${NC}
 
-COMMAND:
+<command>:
     ${BLUE}install${NC}:
     - From a resource directory.
     - Install or update targets specified in *.list files.
