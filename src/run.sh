@@ -35,7 +35,9 @@ case "$COMMAND" in
     chown "$USER:$USER" "$BACKUP"
     cd "$ROOT"
     ft_apt
+    cd "$ROOT"
     ft_web
+    cd "$ROOT"
     ft_swap
     if [ "${#DIFF[@]}" -gt 0 ]; then
         for x in "${DIFF[@]}"; do

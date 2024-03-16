@@ -6,7 +6,7 @@ ft_web() {
         return
     fi
     ft_echo "${GRAY}================ READING: web.list$NC\n"
-    local script="$(find "$ROOT" "${EXCLUDES[@]}" \
+    local script="$(find . "${EXCLUDES[@]}" \
         -type f -name 'web.list' |
         xargs cat)"
     local webdir="$(dirname "$ROOT")/.web"

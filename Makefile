@@ -29,14 +29,17 @@ install: $(NAME)
 	@echo -n "Installing $(NAME)..."
 	@mkdir -p $(BIN_DIR)
 	@cp $(NAME) $(BIN_DIR)
+	@mkdir -p $(RESOURCES_DIR)
 	@cp -r $(RESOURCES) $(RESOURCES_DIR)
 	@echo -n "\r"
 	@echo "$(NAME) [ $(GREEN)installed$(NC) ]"
 
 link_install: $(NAME)
 	@echo -n "Installing $(NAME)..."
+	@mkdir -p $(BIN_DIR)
 	@ln -s $(PWD)/$(NAME) $(BIN_DIR)/$(NAME)
-	@ln -s $(PWD)/$(RESOURCES) $(RESOURCES_DIR)
+	@mkdir -p $(RESOURCES_DIR)
+	@ln -s $(PWD)/$(RESOURCES) $(RESOURCES_DIR)/$(RESOURCES)
 	@echo -n "\r"
 	@echo "$(NAME) [ $(GREEN)installed$(NC) ]"
 

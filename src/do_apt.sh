@@ -14,7 +14,7 @@ ft_apt() {
     else
         ft_echo "[$GREEN OK $NC]\n"
         ft_echo "${GRAY}================ READING: apt.list$NC\n"
-        local pkgs="$(find "$ROOT" "${EXCLUDES[@]}" \
+        local pkgs="$(find . "${EXCLUDES[@]}" \
             -type f -name 'apt.list' |
             xargs cat |
             cut -d: -f1 |
