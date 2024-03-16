@@ -3,10 +3,11 @@ font pango:Terminess Nerd Font 12
 title_align center
 default_border pixel 2
 
-exec --no-startup-id picom
-exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id xss-lock --transfer-sleep-lock -- dm-tool switch-to-greeter
-exec --no-startup-id i3-sensible-terminal
+exec --no-startup-id /usr/bin/picom
+exec --no-startup-id /usr/bin/dex --autostart --environment i3
+exec --no-startup-id /usr/bin/xss-lock --transfer-sleep-lock -- dm-tool switch-to-greeter
+exec --no-startup-id /usr/bin/i3-sensible-terminal
+exec --no-startup-id /usr/bin/redshift -PO 5500
 
 set $ws1 "1: "
 set $ws2 "2: "

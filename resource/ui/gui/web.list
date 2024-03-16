@@ -1,21 +1,18 @@
 font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
 
 $- INSTALL
-echo $(pwd) >> /tmp/42logs
-echo "$src" >> /tmp/42logs
-curl -kL $src -o Terminus.zip >> /tmp/42logs
+curl -kL $src -o Terminus.zip
 unzip Terminus.zip
 rm -f Terminus.zip
-chown $USER:$USER *
-dir=$HOME/.local
+dir=/usr
 if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
-if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
-dir=$HOME/.local/share
+if [ ! -e $dir ]; then mkdir $dir; fi
+dir=/usr/share
 if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
-if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
-dir=$HOME/.local/share/fonts
+if [ ! -e $dir ]; then mkdir $dir; fi
+dir=/usr/share/fonts
 if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
-if [ ! -e $dir ]; then mkdir $dir && chown $USER:$USER $dir; fi
+if [ ! -e $dir ]; then mkdir $dir; fi
 mv *.ttf $dir
 fc-cache -f -v
 $---
@@ -24,13 +21,12 @@ $- UPDATE
 curl -kL $src -o Terminus.zip
 unzip Terminus.zip
 rm -f Terminus.zip
-chown $USER:$USER *
-mv *.ttf $HOME/.local/share/fonts
+mv *.ttf /usr/share/fonts
 fc-cache -f -v
 $---
 
 $- REMOVE
-dir=$HOME/.local/share/fonts
+dir=/usr/share/fonts
 if [ -e $dir ]; then files=$(find $dir -type f -name TerminessNerdFont*); fi
 if [ ! -z $files ]; then rm $files; fi
 fc-cache -f -v

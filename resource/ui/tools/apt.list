@@ -6,3 +6,4 @@ bc : Calculatrice
 ncdu : Nettoyage système
 scrot : Captures d'écran
 neofetch : Informations système
+tree : Visualisation fs

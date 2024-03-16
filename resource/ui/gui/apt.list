@@ -10,4 +10,3 @@ lightdm : Log/Lock screen
 numlockx: Num lock
 qt5ct : Apparences qt5
 jgmenu : Launcher
-intel-gpu-tools : Outils GPU Intel

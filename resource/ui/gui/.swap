@@ -1,4 +1,3 @@
-xorg/.xinitrc @ ~
 i3 @ ~/.config
 jgmenu @ ~/.config
 gtk-2.0 @ ~/.config
@@ -8,3 +7,4 @@ user-dirs/user-dirs.dirs @ ~/.config
 user-dirs/user-dirs.locale @ ~/.config
 lightdm/lightdm-gtk-greeter.conf @ /etc/lightdm
 lightdm/lightdm.conf @ /etc/lightdm
+lightdm/xstart.sh @ /usr/local/bin
