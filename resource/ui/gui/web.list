@@ -1,4 +1,4 @@
-font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
+font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip : Font
 
 $- INSTALL
 curl -kL $src -o Terminus.zip
@@ -37,7 +37,7 @@ $---
 @@@@
 
 
-background @ https://github.com/Skalyaeve/images/blob/main/background/background.jpg?raw=true ~ Background
+background @ https://github.com/Skalyaeve/images/blob/main/background/background.jpg?raw=true : Background
 
 $- INSTALL
 name=background.jpg
@@ -115,7 +115,7 @@ $---
 @@@@
 
 
-background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/background/background.xml ~ Background XML
+background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/background/background.xml : Background XML
 
 $- INSTALL
 name=background.xml
@@ -175,7 +175,7 @@ $---
 @@@@
 
 
-background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black.png?raw=true ~ Background GRUB
+background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black.png?raw=true : Background GRUB
 
 $- INSTALL
 name=background.png

@@ -1,4 +1,4 @@
-vim @ https://github.com/vim/vim.git ~ Éditeur de texte
+vim @ https://github.com/vim/vim.git : Éditeur de texte
 
 $- INSTALL
 git clone $src .
