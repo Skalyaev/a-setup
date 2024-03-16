@@ -1,5 +1,5 @@
 # A setup
-| Component | Description | Configuration | Theme |
+| Component | Name | Configuration | Theme |
 |-|-|-|-|
 | OS | Debian 12 | ---- | ---- |
 | DE | ---- | ---- | ---- |
