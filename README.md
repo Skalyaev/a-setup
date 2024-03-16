@@ -62,7 +62,7 @@ setup <command> [options]
 #### web.list files
 - Bash commands.
 - No multiline commands.
-- Blocks to: install | update | remove..
+- Blocks to: install | update | remove.
 ```
 <name> @ <url> ~ [description]
 $- INSTALL
