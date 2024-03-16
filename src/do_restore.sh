@@ -11,6 +11,7 @@ ft_restore() {
             if [ "$line" = '$---' ]; then
                 unset run_it skip_it
                 ft_echo "[$GREEN OK $NC]\n"
+                cd "$ROOT"
                 continue
             fi
             if [ ! -z "$skip_it" ]; then
@@ -44,6 +45,7 @@ ft_restore() {
             ;;
         'web')
             ft_echo "${BLUE}Removing${NC} $target..."
+            cd "$target"
             local run_it=1
             ;;
         'add')

@@ -28,12 +28,12 @@ chown -R $USER:$USER $HOME/.local/share/man
 dir=$HOME/.local/bin
 chown $USER:$USER $dir/vim
 chown $USER:$USER $dir/vimtutor
-chown $USER:$USER $dir/vimdiff
-chown $USER:$USER $dir/rvim
-chown $USER:$USER $dir/rview
-chown $USER:$USER $dir/view
-chown $USER:$USER $dir/ex
 chown $USER:$USER $dir/xxd
+chown -h $USER:$USER $dir/vimdiff
+chown -h $USER:$USER $dir/rvim
+chown -h $USER:$USER $dir/rview
+chown -h $USER:$USER $dir/view
+chown -h $USER:$USER $dir/ex
 $---
 
 $- UPDATE

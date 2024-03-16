@@ -42,7 +42,7 @@ background @ https://github.com/Skalyaeve/images/blob/main/background/background
 
 $- INSTALL
 name=background.jpg
-curl -k $src > $name
+curl -kL $src -o $name
 dir=/usr
 if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
