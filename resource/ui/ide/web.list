@@ -2,6 +2,7 @@ vim @ https://github.com/vim/vim.git ~ Éditeur de texte
 
 $- INSTALL
 git clone $src .
+chown $USER:$USER *
 sed -i 's/#CONF_OPT_PYTHON = --enable-pythoninterp$/CONF_OPT_PYTHON = --enable-pythoninterp/g' src/Makefile
 sed -i 's/#CONF_OPT_PYTHON3 = --enable-python3interp$/CONF_OPT_PYTHON3 = --enable-python3interp/g' src/Makefile
 ./configure --prefix=$HOME/.local
@@ -14,6 +15,7 @@ $---
 $- UPDATE
 make distclean
 git pull
+chown $USER:$USER *
 sed -i 's/#CONF_OPT_PYTHON = --enable-pythoninterp$/CONF_OPT_PYTHON = --enable-pythoninterp/g' src/Makefile
 sed -i 's/#CONF_OPT_PYTHON3 = --enable-python3interp$/CONF_OPT_PYTHON3 = --enable-python3interp/g' src/Makefile
 ./configure --prefix=$HOME/.local
