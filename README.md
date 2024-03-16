@@ -5,7 +5,7 @@
 | DE | ---- | ---- | ---- |
 | WM | i3 |  [i3/config](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/gui/i3/config)  | ---- |
 | Shell | Bash |  [.bashrc](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/terminal/bash/.bashrc)  | ---- |
-| Term | Terminator |  [terminator/config](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/terminal/terminator/config)  | ---- |
+| Terminal | Terminator |  [terminator/config](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/terminal/terminator/config)  | ---- |
 | IDE | Vim | [.vimrc](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/ide/vim/.vimrc) | [a-vim-theme](https://github.com/Skalyaeve/a-vim-theme.git) |
 | Browser | Firefox | ---- | [a-firefox-theme](https://github.com/Skalyaeve/a-firefox-theme.git) |
 
