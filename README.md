@@ -63,7 +63,7 @@ setup <command> [options]
 - No multiline commands.
 - Blocks to: install | update | remove.
 ```
-<name> @ <url> ~ [description]
+<name> @ <url> : [description]
 $- INSTALL
     [commands]
 $---
