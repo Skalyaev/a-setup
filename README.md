@@ -1,14 +1,15 @@
 # A linux setup
 > work in progress
 
-| Component | Description |
-|-|-|
-| OS | Debian 12 |
-| DE | ---- |
-| WM | i3 |
-| Shell | Bash |
-| Term | Terminator |
-|IDE | Vim |
+| Component | Description | Configuration | Theme |
+|-|-|-|-|
+| OS | Debian 12 | ---- | ---- |
+| DE | ---- | ---- | ---- |
+| WM | i3 |  [here](https://github.com/Skalyaeve/setup/blob/main/resource/ui/gui/i3)  | ---- |
+| Shell | Bash |  [here](https://github.com/Skalyaeve/setup/blob/main/resource/ui/terminal/bash)  | ---- |
+| Term | Terminator |  [here](https://github.com/Skalyaeve/setup/blob/main/resource/ui/terminal/terminator/config)  | ---- |
+| IDE | Vim | [here](https://github.com/Skalyaeve/setup/blob/main/resource/ui/ide/vim/.vimrc) | [a-vim-theme](https://github.com/Skalyaeve/a-vim-theme.git) |
+| Browser | Firefox | ---- | [a-firefox-theme](https://github.com/Skalyaeve/a-firefox-theme.git) |
 
 ## A Script
 - Regroup the different components of your linux setup in a single place.
@@ -21,19 +22,19 @@ setup <command> [options]
 
 #### Commands
 - `install`:
-    * From a resource directory.
-    * Install or update targets specified in *.list files.
-    * Swap targets specified in .swap files.
+    * From a `resource` directory.
+    * Install or update targets specified in `*.list` files.
+    * Swap targets specified in `.swap` files.
 
 - `restore`:
     * From a backup directory.
-    * Perform backup using diff file.
+    * Perform backup using `diff` file.
 
 #### Options:
 - `-u, --user USER`:
     * Setup for the specified user's home directory.
 - `-p, --path PATH`:
-    * Specify a path to a resource or backup directory.
+    * Specify a path to a `resource` or `backup` directory.
     * Default is `~/.local/share/setup/(resource|backup)`
 - `-e, --exclude DIR[S]`:
     * When `install`, exclude the specified directories.
@@ -56,7 +57,7 @@ setup <command> [options]
 
 #### apt.list files
 - 1 package per line.
-`<package_name> : [description]`
+- `<package_name> : [description]`.
 
 #### web.list files
 - Bash commands.
@@ -78,4 +79,4 @@ $---
 
 #### .swap files
 - 1 line per swap.
-`<path from .swap file> @ <target DIRECTORY>`
+- `<path from .swap file> @ <target DIRECTORY>`.
