@@ -9,7 +9,7 @@
 | WM | i3 |
 | Shell | Bash |
 | Term | Terminator |
-| IDE | Vim |
+|IDE | Vim |
 
 ## A Script
 - Regroup the different components of your linux setup in a single place.
