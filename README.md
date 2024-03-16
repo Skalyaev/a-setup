@@ -82,6 +82,7 @@ $---
 
 ## Install
 ```
+sudo apt update -y
 sudo apt install git make curl -y
 dst=$HOME/.local/src
 mkdir -p $dst
