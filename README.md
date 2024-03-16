@@ -1,7 +1,6 @@
 # A linux setup
 > work in progress
-
-## A Setup
+> 
 | Component | Description |
 |-|-|
 | OS | Debian 12 |
