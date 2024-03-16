@@ -1,4 +1,4 @@
-# A linux setup
+# A setup
 | Component | Description | Configuration | Theme |
 |-|-|-|-|
 | OS | Debian 12 | ---- | ---- |
