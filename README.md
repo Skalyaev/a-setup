@@ -90,8 +90,8 @@ mkdir -p $dst
 git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
 cd $dst/setup
 
-make
 make install # Or make link_install
+export PATH=$HOME/.local/bin:$PATH
 setup # To print help
 ```
 Edit your `$HOME/.local/share/setup/resource` directory, then:
