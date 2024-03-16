@@ -107,7 +107,7 @@ dir=$HOME/.local/share/setup
 count=$(ls -1 $dir/backup | wc -l)
 count=$(($count - 1))
 
-for i in $(seq 0 $count); do
+for _ in $(seq 0 $count); do
     setup restore
     # or
     # sudo setup restore -u $USER
