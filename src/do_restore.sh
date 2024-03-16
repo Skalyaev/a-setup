@@ -77,6 +77,9 @@ ft_restore() {
     done <"$ROOT/diff"
     rm -r "$ROOT"
     if [ ! -z "$apt_clean" ]; then
-        apt autoremove -y
+        ft_echo "${BLUE}Cleaning${NC} apt..."
+        apt autoremove -y &>/dev/null
+        apt clean -y &>/dev/null
+        ft_echo "[$GREEN OK $NC]\n"
     fi
 }

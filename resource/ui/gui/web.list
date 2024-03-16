@@ -29,7 +29,7 @@ $---
 
 $- REMOVE
 dir=$HOME/.local/share/fonts
-if [ ! -e $dir ]; then exit 0; fi
+if [ ! -e $dir ]; then return; fi
 files=$(find $dir -type f -name TerminessNerdFont*)
 if [ -n $files ]; then rm $files; fi
 fc-cache -f -v
@@ -109,7 +109,7 @@ file=$dir/login-background.svg
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
 dir=/usr/local/share/backgrounds
-if [ ! -e $dir ]; then exit 0; fi
+if [ ! -e $dir ]; then return; fi
 file=$dir/background.jpg
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
@@ -170,7 +170,7 @@ file=$dir/desktop-lockscreen.xml
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
 dir=/usr/local/share/backgrounds
-if [ ! -e $dir ]; then exit 0; fi
+if [ ! -e $dir ]; then return; fi
 file=$dir/background.xml
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
