@@ -85,30 +85,30 @@ $---
 sudo apt update -y
 sudo apt install git make curl -y
 
+mkdir -p $HOME/.local/bin
+mkdir -p $HOME/.local/share
+mkdir -p $HOME/.local/src
+
 dst=$HOME/.local/src
-mkdir -p $dst
 git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
 cd $dst/setup
-
-make install # Or make link_install
-export PATH=$HOME/.local/bin:$PATH
-setup # To print help
+make install
+# or
+# make link_install
 ```
 Edit your `$HOME/.local/share/setup/resource` directory, then:
 ```sh
+export PATH=$HOME/.local/bin:$PATH
 setup install
 # or
-# sudo cp $HOME/.local/bin/setup /bin
+# sudo ln -s $HOME/.local/bin/setup /bin/setup
 # sudo setup install -u $USER
 ```
 
 ## Uninstall
 ```sh
-dir=$HOME/.local/share/setup
-count=$(ls -1 $dir/backup | wc -l)
-count=$(($count - 1))
-
-for _ in $(seq 0 $count); do
+count=$(ls $HOME/.local/share/setup/backup)
+for _ in $count; do
     setup restore
     # or
     # sudo setup restore -u $USER
@@ -116,10 +116,8 @@ done
 ```
 Then:
 ```sh
-dst=$HOME/.local/src
-cd $dst/setup
-
+dir=$HOME/.local/src/setup
+cd $dir
 make uninstall
-rm -rf $dst/setup
-cd
+rm -rf $dir
 ```
