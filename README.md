@@ -89,12 +89,28 @@ mkdir -p $dst
 git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
 cd $dst/setup
 make
-make install
+make install # Or make link_install
 setup # To print help
 ```
 Edit your `$HOME/.local/share/setup/resource` directory, then:
 ```
 setup install
-# if apt needs sudo
+# or
 # sudo setup install -u $USER
+```
+
+## Uninstall
+Until backup directory is empty:
+```
+setup restore
+# or
+# sudo setup restore -u $USER
+```
+Then:
+```
+dst=$HOME/.local/src
+cd $dst/setup
+make uninstall
+rm -rf $dst/setup
+cd
 ```
