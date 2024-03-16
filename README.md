@@ -15,7 +15,7 @@
 - Bring your shortcuts, environment and applications everywhere you go.
 
 ### Usage
-```
+```sh
 setup <command> [options]
 ```
 
@@ -62,7 +62,7 @@ setup <command> [options]
 - Bash commands.
 - No multiline commands.
 - Blocks to: install | update | remove.
-```
+```sh
 <name> @ <url> : [description]
 $- INSTALL
     [commands]
@@ -81,7 +81,7 @@ $---
 - `<path from .swap file> @ <target DIRECTORY>`.
 
 ## Install
-```
+```sh
 sudo apt update -y
 sudo apt install git make curl -y
 
@@ -95,14 +95,14 @@ make install # Or make link_install
 setup # To print help
 ```
 Edit your `$HOME/.local/share/setup/resource` directory, then:
-```
+```sh
 setup install
 # or
 # sudo setup install -u $USER
 ```
 
 ## Uninstall
-```
+```sh
 dir=$HOME/.local/share/setup
 count=$(ls -1 $dir/backup | wc -l)
 count=$(($count - 1))
@@ -114,7 +114,7 @@ for i in $(seq 0 $count); do
 done
 ```
 Then:
-```
+```sh
 dst=$HOME/.local/src
 cd $dst/setup
 
