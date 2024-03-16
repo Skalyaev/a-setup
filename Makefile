@@ -1,4 +1,5 @@
 NAME=setup
+
 SRC_DIR=src
 SRC=$(SRC_DIR)/main.sh \
 	$(SRC_DIR)/parse.sh \
@@ -7,6 +8,10 @@ SRC=$(SRC_DIR)/main.sh \
 	$(SRC_DIR)/do_swap.sh \
 	$(SRC_DIR)/do_restore.sh \
 	$(SRC_DIR)/run.sh
+BIN_DIR=~/.local/bin
+
+RESOURCES=resource
+RESOURCES_DIR=~/.local/share/setup
 
 GREEN=\033[0;32m
 NC=\033[0m
@@ -19,6 +24,28 @@ $(NAME): $(SRC)
 	@chmod +x $@
 	@echo -n "\r"
 	@echo "$@ [ $(GREEN)created$(NC) ]"
+
+install: $(NAME)
+	@echo -n "Installing $(NAME)..."
+	@mkdir -p $(BIN_DIR)
+	@cp $(NAME) $(BIN_DIR)
+	@cp -r $(RESOURCES) $(RESOURCES_DIR)
+	@echo -n "\r"
+	@echo "$(NAME) [ $(GREEN)installed$(NC) ]"
+
+link_install: $(NAME)
+	@echo -n "Installing $(NAME)..."
+	@ln -s $(PWD)/$(NAME) $(BIN_DIR)/$(NAME)
+	@ln -s $(PWD)/$(RESOURCES) $(RESOURCES_DIR)
+	@echo -n "\r"
+	@echo "$(NAME) [ $(GREEN)installed$(NC) ]"
+
+uninstall:
+	@echo -n "Uninstalling $(NAME)..."
+	@rm -f $(BIN_DIR)/$(NAME)
+	@rm -rf $(RESOURCES_DIR)
+	@echo -n "\r"
+	@echo "$(NAME) [ $(GREEN)uninstalled$(NC) ]"
 
 clean:
 	@echo -n "Removing $(NAME)..."

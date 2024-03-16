@@ -53,7 +53,7 @@ setup <command> [options]
 ### Resource Directory
 - Used by `install` command to know what to do.
 - Web resources stored at `$(dirname $resource)/.web`.
-- Backups stored at `$(dirname $resource)/.backup`.
+- Backups stored at `$(dirname $resource)/backup`.
 
 #### apt.list files
 - 1 package per line.
@@ -80,3 +80,21 @@ $---
 #### .swap files
 - 1 line per swap.
 - `<path from .swap file> @ <target DIRECTORY>`.
+
+#### Install
+```
+sudo apt install git make curl -y
+dst=$HOME/.local/src
+mkdir -p $dst
+git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
+cd $dst/setup
+make
+make install
+setup # To print help
+```
+Edit your `$HOME/.local/share/setup/resource` directory, then:
+```
+setup install
+# if apt needs sudo
+# sudo setup install -u $USER
+```
