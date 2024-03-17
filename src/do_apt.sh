@@ -34,6 +34,7 @@ ft_apt() {
                     while read -r line; do
                         if echo "$line" | grep -q "^$pkg : "; then
                             local target="$(echo "$line" | cut -d: -f2 | xargs)"
+                            target="$(echo "$target" | sed "s:~:$HOME:")"
                             DIFF=("${DIFF[@]}" "add:$target")
                         fi
                     done < "$to_clean"
