@@ -13,6 +13,7 @@ if [ "$COMMAND" != 'install' -a "$COMMAND" != 'restore' ]; then
 fi
 shift
 
+EXCLUDES=()
 while [ "$#" -gt 0 ]; do
     case "$1" in
     '-u' | '--user')
@@ -50,7 +51,10 @@ while [ "$#" -gt 0 ]; do
         ;;
     '-e' | '--exclude')
         shift
-        EXCLUDES=()
+        if [ "$#" -eq 0 ]; then
+            echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}."
+            exit 1
+        fi
         while [ "$#" -gt 0 ]; do
             if [ "${1:0:1}" = '-' ]; then
                 break
@@ -58,10 +62,6 @@ while [ "$#" -gt 0 ]; do
             EXCLUDES+=(! -path "*/$1/*")
             shift
         done
-        if [ "${#EXCLUDES[@]}" -eq 0 ]; then
-            echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}."
-            exit 1
-        fi
         ;;
     '-s' | '--silent')
         SILENT=1
