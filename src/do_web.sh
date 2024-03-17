@@ -108,6 +108,7 @@ ft_web() {
         elif [ ! -z "$to_run" ]; then
             if ! eval "$line" &>/dev/null; then
                 unset to_run
+                unset runned
                 local to_skip=1
                 rm -rf "$dst"
                 ft_echo "[$RED KO $NC]\n"
