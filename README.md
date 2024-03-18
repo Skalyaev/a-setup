@@ -9,7 +9,7 @@
 | IDE | Vim | [.vimrc](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/ide/vim/.vimrc) | [a-vim-theme](https://github.com/Skalyaeve/a-vim-theme.git) |
 | Browser | Firefox | ---- | [a-firefox-theme](https://github.com/Skalyaeve/a-firefox-theme.git) |
 
-## A Script
+# A script
 - Regroup the different components of your linux setup in a single place.
 - Manage your installations, updates, and configurations easier.
 - Bring your shortcuts, environment and applications everywhere you go.
@@ -30,16 +30,16 @@ setup <command> [options]
     * Perform backup using `diff` file.
 
 #### Options:
-- `-u, --user USER`:
+- `-u`, `--user USER`:
     * Setup for the specified user's `home` directory.
-- `-p, --path PATH`:
+- `-p`, `--path PATH`:
     * Specify a path to a `resource` or `backup` directory.
     * Default is `~/.local/share/setup/(resource|backup)`
-- `-e, --exclude DIR[S]`:
+- `-e`, `--exclude DIR[S]`:
     * When `install`, exclude the specified directories.
-- `-s, --silent`:
+- `-s`, `--silent`:
     * Run in silent mode.
-- `-n, --ninja`:
+- `-n`, `--ninja`:
     * When `install`, do not read `*.list` files.
 - `--no-apt`:
     * When `install`, do not read `apt.list` files.
@@ -51,15 +51,15 @@ setup <command> [options]
 
 ### Resource Directory
 - Used by `install` command to know what to do.
-- Web resources stored at `$(dirname $resource)/.web`.
 - Backups stored at `$(dirname $resource)/backup`.
+- Web resources stored at `$(dirname $resource)/.web`.
 
 #### apt.list files
 - 1 package per line:
 - `<package_name> : [description]`
 - `apt purge` and `apt clean` do not remove all files.
 - Use `.aptclean` files to remove them:
-- `<package_name> : <absolute path>` **strict format**.
+- `<package_name> : <absolute path>` ***strict format***.
 - 1 path per line.
 
 #### web.list files
