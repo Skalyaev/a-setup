@@ -1,0 +1,93 @@
+#!/bin/bash
+PATH='/bin:/sbin:/usr/bin:/usr/sbin'
+
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+GRAY='\033[0;37m'
+NC='\033[0m'
+
+USAGE="${GRAY}===================${NC}usage
+${YELLOW}$0 ${BLUE}<path> ${GREEN}[options]${NC}
+
+Navigate from the specified path.
+Push all changes to the remote repository.
+Read .add files to add specific files instead of *.
+Read .msg files to change default commit message.
+
+[options]:
+    ${GREEN}-e, --exclude DIR[S]${NC}
+    * Exclude specified directories from the commit.
+    ${GREEN}-a, --add STRING[S]${NC}
+    * Change default files to add.
+    ${GREEN}-m, --message STRING${NC}
+    * Change default commit message.
+    ${GREEN}--rm-add [DIR[S]]${NC}
+    * Remove .add files from all/specified directories.
+    ${GREEN}--rm-msg [DIR[S]]${NC}
+    * Remove .msg files from all/specified directories.
+    ${GREEN}-s, --silent${NC}
+    * Run in silent mode.
+"
+
+ft_echo() {
+    if [ -z "$SILENT" ]; then
+        echo -ne "$@"
+    fi
+}
+#
+#
+#================================== PARSE
+if [ "$#" -lt 1 ]; then
+    echo -e "$USAGE"
+    exit 1
+fi
+PATH="$1"
+EXCLUDE=()
+
+TO_ADD='*'
+MESSAGE='update'
+
+RM_ADD=''
+RM_MSG=''
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -e|--exclude)
+            shift
+        if [ "$#" -eq 0 ]; then
+            echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}."
+            exit 1
+        fi
+        while [ "$#" -gt 0 ]; do
+            if [ "${1:0:1}" = '-' ]; then
+                break
+            fi
+            EXCLUDES+=(! -path "*/$1/*")
+            shift
+        done
+            break
+            ;;
+        -a|--add)
+            shift
+            ;;
+        -m|--message)
+            shift
+            MESSAGE="$1"
+            ;;
+        --rm-add)
+            shift
+            ;;
+        --rm-msg)
+            shift
+            ;;
+        -s|--silent)
+            SILENT=1
+            ;;
+        *)
+            echo -e "$USAGE"
+            ;;
+    esac
+    shift
+done

@@ -1,6 +1,7 @@
 xorg : Serveur graphique
 pulseaudio : Serveur audio
 pulseaudio-module-bluetooth : Module pulseaudio
+ntp : Synchronisation horaire
 i3 : Gestionnaire de fenêtres
 i3blocks : Status bar
 redshift : "Mode nuit"
