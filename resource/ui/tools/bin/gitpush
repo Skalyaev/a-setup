@@ -45,13 +45,13 @@ if [ "$#" -lt 1 ]; then
 fi
 
 ROOT="$1"
-EXCLUDE=''
+EXCLUDE=()
 
-TO_ADD=''
+TO_ADD=()
 MESSAGE=''
 
-RM_ADD=''
-RM_MSG=''
+RM_ADD=()
+RM_MSG=()
 shift
 
 while [ "$#" -gt 0 ]; do
@@ -62,10 +62,10 @@ while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
                     break
                 fi
-                EXCLUDE="$EXCLUDE $1 "
+                EXCLUDE=("${EXCLUDE[@]}" "$1")
                 shift
             done
-            if [ -z "$EXCLUDE" ]; then
+            if [ "${#EXCLUDE[@]}" -eq 0 ]; then
                 ft_echo "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}\n"
                 exit 1
             fi
@@ -76,10 +76,10 @@ while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
                     break
                 fi
-                TO_ADD="$TO_ADD $1 "
+                TO_ADD=("${TO_ADD[@]}" "$1")
                 shift
             done
-            if [ -z "$TO_ADD" ]; then
+            if [ "${#TO_ADD[@]}" -eq 0 ]; then
                 ft_echo "[$RED ERROR $NC] Missing argument for ${GREEN}--add${NC}\n"
                 exit 1
             fi
@@ -98,11 +98,11 @@ while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
                     break
                 fi
-                RM_ADD="$RM_ADD $1 "
+                RM_ADD=("${RM_ADD[@]}" "$1")
                 shift
             done
-            if [ -z "$RM_ADD" ]; then
-                RM_ADD='*'
+            if [ "${#RM_ADD[@]}" -eq 0 ]; then
+                RM_ADD=('*')
             fi
             ;;
         --rm-msg)
@@ -111,11 +111,11 @@ while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
                     break
                 fi
-                RM_MSG="$RM_MSG $1 "
+                RM_MSG=("${RM_MSG[@]}" "$1")
                 shift
             done
             if [ -z "$RM_MSG" ]; then
-                RM_MSG='*'
+                RM_MSG=('*')
             fi
             ;;
         -s|--silent)
@@ -129,8 +129,8 @@ while [ "$#" -gt 0 ]; do
     esac
 done
 
-if [ -z "$TO_ADD" ]; then
-    TO_ADD='*'
+if [ "${#TO_ADD[@]}" -eq 0 ]; then
+    TO_ADD=('*')
 fi
 if [ -z "$MESSAGE" ]; then
     MESSAGE='update'
@@ -143,13 +143,13 @@ if ! cd "$ROOT"; then
     exit 1
 fi
 
-if [ ! -z "$EXCLUDE" ]; then
-    for target in $EXCLUDE; do
-        excluded="$(find . -type d -name "$target")"
+if [ "${#EXCLUDE[@]}" -gt 0 ]; then
+    for target in "${EXCLUDE[@]}"; do
+        excluded=$(find . -type d -name "$target")
         if [ -z "$excluded" ]; then
             ft_echo "[$RED ERROR $NC] $target not found from $ROOT\n"
             exit 1
-        elif [ -z "$(find "$excluded" -type d -name '.git')" ]; then
+        elif [ -z $(find "$excluded" -type d -name '.git') ]; then
             ft_echo "[$RED ERROR $NC] $target is not a git repository\n"
             exit 1
         fi
@@ -157,10 +157,11 @@ if [ ! -z "$EXCLUDE" ]; then
 fi
 
 do_it() {
-    local targets="$(find $(pwd) -mindepth 1 -maxdepth 1 -type d)"
-    if ! echo "$targets" | grep -q '\.git'; then
-        for target in $targets; do
-            if echo "$EXCLUDE" | grep -q " $(basename "$target") "; then
+    local cwd=$(pwd)
+    local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d))
+    if ! echo "${targets[@]}" | grep -q "$cwd/.git"; then
+        for target in "${targets[@]}"; do
+            if printf "%s\n" "${EXCLUDE[@]}" | grep -q "^$(basename "$target")$"; then
                 continue
             elif ! cd "$target"; then
                 ft_echo "[$YELLOW WARN $NC] Failed to 'cd $target'\n"
@@ -169,19 +170,23 @@ do_it() {
             do_it
         done
     else
-        if [ -z "$(git status -s)" ]; then
+        if [ -z $(git status -s) ]; then
             ft_echo "$cwd [$GREEN OK $NC]\n"
             return
         fi
-        if echo "$targets" | grep -q '\.add'; then
-            TO_ADD="$(cat '.add')"
-            rm_it "$RM_ADD" "$(realpath '.add')"
+        if echo "${targets[@]}" | grep -q "$cwd/.add"; then
+            TO_ADD=$(cat '.add')
+            if [ "${#RM_ADD[@]}" -gt 0 ]; then
+                rm_it "${RM_ADD[@]}" "$cwd/.add"
+            fi
         fi
-        if echo "$targets" | grep -q '\.msg'; then
-            MESSAGE="$(cat '.msg')"
-            rm_it "$RM_MSG" "$(realpath '.msg')"
+        if echo "${targets[@]}" | grep -q "$cwd/.msg"; then
+            MESSAGE=$(cat '.msg')
+            if [ "${#RM_MSG[@]}" -gt 0 ]; then
+                rm_it "${RM_MSG[@]}" "$cwd/.msg"
+            fi
         fi
-        for target in $TO_ADD; do
+        for target in "${TO_ADD[@]}"; do
             git add "$target" &>'/dev/null'
             case "$?" in
                 0) ;;
@@ -208,25 +213,28 @@ do_it() {
             return
         fi
         ft_echo "[$GREEN OK $NC]\n"
-        if [ ! -z "$(git status -s)" ]; then
+        if [ ! -z $(git status -s) ]; then
             ft_echo "[$YELLOW WARN $NC] Uncommitted changes in $cwd\n"
         fi
     fi
 }
 
 rm_it() {
-    local targets="$1"
-    local file="$2"
-    if [ -z "$targets" ]; then
+    local targets=("${@:1:$#-1}")
+    local file="${@: -1}"
+    if [ "${#targets[@]}" -eq 0 ]; then
         return
     fi
-    if [ "$targets" = '*' ]; then
+    if [ "${#targets[@]}" -eq 1 -a "${targets[0]}" = '*' ]; then
         rm "$file" &>'/dev/null'
     else
-        local dir="$(basename "$(dirname "$file")")"
-        if echo "$targets" | grep -q " $dir "; then
-            rm "$file" &>'/dev/null'
-        fi
+        local dir=$(basename $(dirname "$file"))
+        for target in "${targets[@]}"; do
+            if [ "$target" = "$dir" ]; then
+                rm "$file" &>'/dev/null'
+                return
+            fi
+        done
     fi
 }
 
