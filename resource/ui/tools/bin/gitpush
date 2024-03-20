@@ -17,18 +17,18 @@ Read .add files to add specific files instead of *.
 Read .msg files to change default commit message.
 
 [options]:
-    ${GREEN}-e, --exclude DIR[S]${NC}
-    * Exclude specified directories from the commit.
-    ${GREEN}-a, --add STRING[S]${NC}
-    * Change default files to add.
-    ${GREEN}-m, --message STRING${NC}
-    * Change default commit message.
-    ${GREEN}--rm-add [DIR[S]]${NC}
-    * Remove .add files from all/specified directories.
-    ${GREEN}--rm-msg [DIR[S]]${NC}
-    * Remove .msg files from all/specified directories.
-    ${GREEN}-s, --silent${NC}
-    * Run in silent mode.
+${GREEN}-e, --exclude DIR[S]${NC}
+* Exclude specified directories from the commit.
+${GREEN}-a, --add STRING[S]${NC}
+* Change default files to add.
+${GREEN}-m, --message STRING${NC}
+* Change default commit message.
+${GREEN}--rm-add [DIR[S]]${NC}
+* Remove .add files from all/specified directories.
+${GREEN}--rm-msg [DIR[S]]${NC}
+* Remove .msg files from all/specified directories.
+${GREEN}-s, --silent${NC}
+* Run in silent mode.
 "
 
 ft_echo() {
@@ -43,11 +43,12 @@ if [ "$#" -lt 1 ]; then
     echo -e "$USAGE"
     exit 1
 fi
-PATH="$1"
-EXCLUDE=()
 
-TO_ADD='*'
-MESSAGE='update'
+PATH="$1"
+EXCLUDE=''
+
+TO_ADD=''
+MESSAGE=''
 
 RM_ADD=''
 RM_MSG=''
@@ -56,38 +57,158 @@ while [ "$#" -gt 0 ]; do
     case "$1" in
         -e|--exclude)
             shift
-        if [ "$#" -eq 0 ]; then
-            echo -e "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}."
-            exit 1
-        fi
-        while [ "$#" -gt 0 ]; do
-            if [ "${1:0:1}" = '-' ]; then
-                break
+            while [ "$#" -gt 0 ]; do
+                if [ "${1:0:1}" = '-' ]; then
+                    break
+                fi
+                EXCLUDE="$EXCLUDE $1"
+                shift
+            done
+            if [ -z "$EXCLUDE" ]; then
+                ft_echo "[$RED ERROR $NC] Missing argument for ${GREEN}--exclude${NC}\n"
+                exit 1
             fi
-            EXCLUDES+=(! -path "*/$1/*")
-            shift
-        done
-            break
             ;;
         -a|--add)
             shift
+            while [ "$#" -gt 0 ]; do
+                if [ "${1:0:1}" = '-' ]; then
+                    break
+                fi
+                TO_ADD="$TO_ADD $1"
+                shift
+            done
+            if [ -z "$TO_ADD" ]; then
+                ft_echo "[$RED ERROR $NC] Missing argument for ${GREEN}--add${NC}\n"
+                exit 1
+            fi
             ;;
         -m|--message)
             shift
+            if [ "$#" -eq 0 ]; then
+                ft_echo "[$RED ERROR $NC] Missing argument for ${GREEN}--message${NC}\n"
+                exit 1
+            fi
             MESSAGE="$1"
             ;;
         --rm-add)
             shift
+            while [ "$#" -gt 0 ]; do
+                if [ "${1:0:1}" = '-' ]; then
+                    break
+                fi
+                RM_ADD="$RM_ADD $1"
+                shift
+            done
+            if [ -z "$RM_ADD" ]; then
+                RM_ADD='*'
+            fi
             ;;
         --rm-msg)
             shift
+            while [ "$#" -gt 0 ]; do
+                if [ "${1:0:1}" = '-' ]; then
+                    break
+                fi
+                RM_MSG="$RM_MSG $1"
+                shift
+            done
+            if [ -z "$RM_MSG" ]; then
+                RM_MSG='*'
+            fi
             ;;
         -s|--silent)
+            shift
             SILENT=1
             ;;
         *)
-            echo -e "$USAGE"
+            ft_echo "[$RED ERROR $NC] Unknown argument: $1\n"
+            exit 1
             ;;
     esac
-    shift
 done
+#
+#
+#================================== RUN
+if ! cd "$PATH"; then
+    ft_echo "[$RED ERROR $NC] Non-zero returned by: ${YELLOW}cd${NC} $PATH\n"
+    exit 1
+fi
+PATH="$(realpath .)"
+
+if [ -z "$TO_ADD" ]; then
+    TO_ADD='*'
+fi
+if [ -z "$MESSAGE" ]; then
+    MESSAGE='update'
+fi
+
+for target in "$EXCLUDE"; do
+    to_exclude="$(find "$PATH" -type d -name "$target")"
+    if [ -z "$to_exclude" ]; then
+        ft_echo "[$RED ERROR $NC] $target not found from $PATH\n"
+        exit 1
+    fi
+    if [ -z "$(find "$to_exclude" -type d -name '.git')" ]; then
+        ft_echo "[$RED ERROR $NC] $target is not a git repository\n"
+        exit 1
+    fi
+done
+
+do_it() {
+    local root="$1"
+    local targets=" $(ls -A "$root") "
+    if ! echo "$targets" | grep -q '.git'; then
+        for target in "$targets"; do
+            if echo "$EXCLUDE" | grep -q "$(basename "$target")"; then
+                continue
+            fi
+            do_it "$target"
+        done
+    else
+        if echo "$targets" | grep -q ' .add '; then
+            TO_ADD="$(cat "$root/.add")"
+            rm_it "$RM_ADD" "$root/.add"
+        fi
+        for target in "$TO_ADD"; do
+            if ! git add "$target"; then
+                ft_echo "[$YELLOW WARN $NC] Non-zero returned \
+                    from 'git add $target'\n"
+            fi
+        done
+        if echo "$targets" | grep -q ' .msg '; then
+            MESSAGE="$(cat "$root/.msg")"
+            rm_it "$RM_MSG" "$root/.msg"
+        fi
+        if ! git commit -m "$MESSAGE"; then
+            ft_echo "[$YELLOW WARN $NC] Non-zero returned from \
+                'git commit -m \"$MESSAGE\"'\n"
+        fi
+        if ! git push; then
+            ft_echo "[$YELLOW WARN $NC] Non-zero returned from 'git push'\n"
+        fi
+    fi
+}
+
+rm_it() {
+    local targets="$1"
+    local file="$2"
+    if [ ! -z "$targets" ]; then
+        if [ "$targets" = '*' ]; then
+            if ! rm "$file"; then
+                ft_echo "[$YELLOW WARN $NC] Non-zero returned from 'rm $file'\n"
+            fi
+        else
+            local cwd="$(basename "$(dirname "$file")")"
+            if echo "$targets" | grep -q "$cwd"; then
+                if ! rm "$file"; then
+                    ft_echo "[$YELLOW WARN $NC] Non-zero returned from 'rm $file'\n"
+                fi
+            fi
+        fi
+    fi
+}
+
+ft_echo "${GRAY}===================from $PATH${NC}\n"
+do_it "$PATH"
+ft_echo "${GRAY}===================done${NC}\n"
