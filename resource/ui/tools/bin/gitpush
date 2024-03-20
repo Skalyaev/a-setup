@@ -144,7 +144,7 @@ if ! cd "$ROOT"; then
 fi
 
 if [ ! -z "$EXCLUDE" ]; then
-    for target in "$EXCLUDE"; do
+    for target in $EXCLUDE; do
         excluded="$(find . -type d -name "$target")"
         if [ -z "$excluded" ]; then
             ft_echo "[$RED ERROR $NC] $target not found from $ROOT\n"
@@ -169,7 +169,6 @@ do_it() {
             do_it
         done
     else
-        echo $PWD
         if [ -z "$(git status -s)" ]; then
             ft_echo "$cwd [$GREEN OK $NC]\n"
             return
@@ -182,7 +181,7 @@ do_it() {
             MESSAGE="$(cat '.msg')"
             rm_it "$RM_MSG" "$(realpath '.msg')"
         fi
-        for target in "$TO_ADD"; do
+        for target in $TO_ADD; do
             git add "$target" &>'/dev/null'
             case "$?" in
                 0) ;;
