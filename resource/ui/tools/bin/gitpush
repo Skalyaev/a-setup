@@ -170,7 +170,8 @@ do_it() {
             do_it
         done
     else
-        if [ -z "$(git status -s)" ]; then
+        local state=$(git status -s)
+        if [ -z "$state" ]; then
             ft_echo "$cwd [$GREEN OK $NC]\n"
             return
         fi
