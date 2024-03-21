@@ -1,2 +1,3 @@
 bin/desktop-app @ ~/.local/bin
 bin/extract @ ~/.local/bin
+bin/gitpush @ ~/.local/bin

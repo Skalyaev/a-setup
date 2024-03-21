@@ -1,32 +1,73 @@
 #!/bin/bash
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+#============== FILE SYSTEM
+alias f='find'
+alias fd='find . -type d'
+alias ff='find . -type f'
+alias fl='find . -type l'
+alias fdn='find . -type d -name'
+alias ffn='find . -type f -name'
+alias fln='find . -type l -name'
+alias fdp='find . -type d -perm'
+alias ffp='find . -type f -perm'
+alias flp='find . -type l -perm'
+
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -A'
 alias lla='ls -lA'
+alias lF='ls -F'
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias l='ls --color=auto'
     alias ls='ls --color=auto'
+    alias l='ls --color=auto'
     alias ll='ls -l --color=auto'
     alias la='ls -A --color=auto'
     alias lla='ls -lA --color=auto'
-    alias dir='dir --color=auto'
-    alias grep='grep --color=auto'
-   
-    alias colors='for i in {0..256};do o=00$i;echo -ne "${o:${#o}-3:3} "$(tput setaf $i;tput setab $i)"   "$(tput sgr0);done; echo'
+    alias lF='ls -F --color=auto'
 fi
-alias c='cp'
-alias cr='cp -r'
-alias m='mv'
+
+alias t='touch'
+alias md='mkdir -p'
 
 alias r='rm'
 alias rr='rm -r'
 alias rf='rm -f'
 alias rrf='rm -rf'
 
+#============== STRING MANIPULATION
+alias e='echo'
+alias en='echo -n'
+alias ee='echo -e'
+alias ene='echo -ne'
+
+alias g='grep'
+alias gv='grep -v'
+alias gi='grep -i'
+alias gvi='grep -vi'
+if [ -x /usr/bin/dircolors ]; then
+    alias g='grep --color=auto'
+    alias gv='grep -v --color=auto'
+    alias gi='grep -i --color=auto'
+    alias gvi='grep -vi --color=auto'
+fi
+
+alias c='cut'
+alias s='sed'
+alias si='sed -i'
+
 alias x='xargs'
+alias xi='xargs -I {}'
 
-alias vi='vim'
-alias python='python3'
+#============== APPLICATIONS
+alias v='vim'
+alias py='python3'
+alias pyc='python3 -c'
 
-alias aptfull='sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
+#============== MISC
+alias fullapt='sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
+if [ -x /usr/bin/dircolors ]; then
+    alias colors='for i in {0..256};do o=00$i;echo -ne "${o:${#o}-3:3} "$(tput setaf $i;tput setab $i)"   "$(tput sgr0);done; echo'
+fi

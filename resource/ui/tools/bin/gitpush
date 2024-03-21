@@ -1,4 +1,5 @@
 #!/bin/bash
+# 0 20 * * * /home/skalya/.local/bin/gitpush /home/skalya/.local/share/git
 PATH='/bin:/sbin:/usr/bin:/usr/sbin'
 
 GREEN='\033[0;32m'
@@ -8,8 +9,8 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="${GRAY}===================${NC}usage
-${YELLOW}$0 ${BLUE}<path> ${GREEN}[options]${NC}
+USAGE="${GRAY}===================usage${NC}
+${YELLOW}$(basename $0) ${BLUE}<path> ${GREEN}[options]${NC}
 
 Navigate from the specified path.
 Push all changes to the remote repository.
@@ -18,7 +19,7 @@ Read .msg files to change default commit message.
 
 [options]:
 ${GREEN}-e, --exclude DIR[S]${NC}
-* Exclude specified directories from the commit.
+* Don't push changes from specified directories.
 ${GREEN}-a, --add STRING[S]${NC}
 * Change default files to add.
 ${GREEN}-m, --message STRING${NC}
@@ -28,8 +29,7 @@ ${GREEN}--rm-add [DIR[S]]${NC}
 ${GREEN}--rm-msg [DIR[S]]${NC}
 * Remove .msg files from all/specified directories.
 ${GREEN}-s, --silent${NC}
-* Run in silent mode.
-"
+* Run in silent mode."
 
 ft_echo() {
     if [ -z "$SILENT" ]; then
@@ -46,13 +46,13 @@ fi
 
 ROOT="$1"
 EXCLUDE=()
+shift
 
-TO_ADD=()
-MESSAGE=''
+TO_ADD=('*')
+MESSAGE='update'
 
 RM_ADD=()
 RM_MSG=()
-shift
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -114,7 +114,7 @@ while [ "$#" -gt 0 ]; do
                 RM_MSG=("${RM_MSG[@]}" "$1")
                 shift
             done
-            if [ -z "$RM_MSG" ]; then
+            if [ "${#RM_MSG[@]}" -eq 0 ]; then
                 RM_MSG=('*')
             fi
             ;;
@@ -128,13 +128,6 @@ while [ "$#" -gt 0 ]; do
             ;;
     esac
 done
-
-if [ "${#TO_ADD[@]}" -eq 0 ]; then
-    TO_ADD=('*')
-fi
-if [ -z "$MESSAGE" ]; then
-    MESSAGE='update'
-fi
 #
 #
 #================================== RUN
@@ -149,19 +142,23 @@ if [ "${#EXCLUDE[@]}" -gt 0 ]; then
         if [ -z "$excluded" ]; then
             ft_echo "[$RED ERROR $NC] $target not found from $ROOT\n"
             exit 1
-        elif [ -z $(find "$excluded" -type d -name '.git') ]; then
-            ft_echo "[$RED ERROR $NC] $target is not a git repository\n"
-            exit 1
+        else
+            repo=$(find "$excluded" -type d -name '.git')
+            if [ -z "$repo" ]; then
+                ft_echo "[$RED ERROR $NC] $target is not a git repository\n"
+                exit 1
+            fi
         fi
     done
 fi
 
 do_it() {
     local cwd=$(pwd)
-    local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d))
+    local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d | sort))
     if ! echo "${targets[@]}" | grep -q "$cwd/.git"; then
         for target in "${targets[@]}"; do
-            if printf "%s\n" "${EXCLUDE[@]}" | grep -q "^$(basename "$target")$"; then
+            local name=$(basename "$target")
+            if printf "%s\n" "${EXCLUDE[@]}" | grep -q "^$name$"; then
                 continue
             elif ! cd "$target"; then
                 ft_echo "[$YELLOW WARN $NC] Failed to 'cd $target'\n"
@@ -214,7 +211,8 @@ do_it() {
             return
         fi
         ft_echo "[$GREEN OK $NC]\n"
-        if [ ! -z $(git status -s) ]; then
+        state=$(git status -s)
+        if [ ! -z "$state" ]; then
             ft_echo "[$YELLOW WARN $NC] Uncommitted changes in $cwd\n"
         fi
     fi

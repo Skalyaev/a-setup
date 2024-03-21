@@ -19,7 +19,8 @@ xterm*color14: #40ffff
 xterm*color15: #ffffff
 
 xterm*cursorBlink: true
-xterm*font: xft:Terminess Nerd Font:size=15
+xterm*faceName: Terminess Nerd Font
+xterm*faceSize: 15
 
 xterm*VT100.metaSendsEscape: true
 xterm*VT100.Translations: #override \

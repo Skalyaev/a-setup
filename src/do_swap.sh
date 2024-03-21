@@ -6,20 +6,24 @@ ft_swap() {
         return
     fi
     ft_echo "${GRAY}================ READING: .swap$NC\n"
-    local files="$(find . "${EXCLUDES[@]}" -type f -name '.swap')"
+    local files=$(find . "${EXCLUDES[@]}" -type f -name '.swap')
     for file in $files; do
-        local dir="$(dirname "$file")"
+        local dir=$(dirname "$file")
         while read -r line; do
             if [ -z "$line" ]; then
                 continue
             fi
-            target="$(echo "$line" | cut -d'@' -f1 | xargs)"
-            src="$dir/$target"
-            target="$(basename "$target")"
-            dst="$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")"
+            local target=$(echo "$line" | cut -d'@' -f1 | xargs)
+            if [ "${target:0:8}" = 'no-link ' ]; then
+                local no-link=1
+                target="${target:8}"
+            fi
+            local src="$dir/$target"
+            local target=$(basename "$target")
+            local dst=$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")
 
             if [ -e "$dst/$target" ]; then
-                if diff "$src" "$dst/$target" &>/dev/null; then
+                if diff "$src" "$dst/$target" &>'/dev/null'; then
                     ft_echo "$dst/$target [$GREEN OK $NC]\n"
                     continue
                 fi
@@ -45,7 +49,12 @@ ft_swap() {
                     continue
                 fi
             fi
-            if ! cp -r "$src" "$dst"; then
+            if [ -z "$no_link" ]; then
+                ln -s $(realpath "$src") "$(realpath "$dst/$target")" &>'/dev/null'
+            else
+                cp -r "$src" "$dst" &>'/dev/null'
+            fi
+            if [ ! -e "$dst/$target" ]; then
                 ft_echo "[$RED KO $NC]\n"
                 ft_echo "[$YELLOW WARNING $NC] Can not set $dst/$target from $src\n"
                 if [ "$action" = 'swap' ]; then

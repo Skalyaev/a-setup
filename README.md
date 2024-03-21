@@ -67,22 +67,25 @@ setup <command> [options]
 - No multiline commands.
 - Blocks to: install | update | remove.
 ```sh
-<name> @ <url> ~ [description]
-$- INSTALL
+#!/bin/bash
+
+# <name> @ <url> ~ [description]
+# $- INSTALL
     [commands]
-$---
-$- UPDATE
+# $---
+# $- UPDATE
     [commands]
-$---
-$- REMOVE
+# $---
+# $- REMOVE
     [commands]
-$---
-@@@@
+# $---
+# @@@@
 ```
 
 #### .swap files
 - 1 line per swap.
-- `<path from .swap file> @ <target DIRECTORY>`.
+- To `cp` src instead of `ln -s`, add `no-link `.
+- `[no-link ]<path from .swap file> @ <target DIRECTORY>`.
 
 ## Install
 ```sh
@@ -123,5 +126,5 @@ Then:
 dir=$HOME/.local/src/setup
 cd $dir
 make uninstall
-rm -rf $dir
+rm -r $dir
 ```

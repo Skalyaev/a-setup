@@ -1,6 +1,6 @@
-vim @ https://github.com/vim/vim.git ~ Éditeur de texte
-
-$- INSTALL
+#!/bin/bash
+# vim @ https://github.com/vim/vim.git ~ Éditeur de texte
+# $- INSTALL
 git clone $src .
 dir=$HOME/.local
 if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
@@ -32,11 +32,9 @@ chown -h $USER:$USER $HOME/.local/bin/rvim
 chown -h $USER:$USER $HOME/.local/bin/rview
 chown -h $USER:$USER $HOME/.local/bin/view
 chown -h $USER:$USER $HOME/.local/bin/ex
-$---
-
-$- UPDATE
+# $---
+# $- UPDATE
 make distclean
-make clean
 git pull
 ./configure --prefix=$HOME/.local --enable-pythoninterp --enable-python3interp
 make
@@ -53,14 +51,10 @@ chown -h $USER:$USER $HOME/.local/bin/rvim
 chown -h $USER:$USER $HOME/.local/bin/rview
 chown -h $USER:$USER $HOME/.local/bin/view
 chown -h $USER:$USER $HOME/.local/bin/ex
-$---
-
-$- REMOVE
+# $---
+# $- REMOVE
 ./configure --prefix=$HOME/.local
 make uninstall
 rm -rf $HOME/.vim
-$---
-
-@@@@
-
-
+# $---
+# @@@@

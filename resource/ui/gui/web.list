@@ -1,6 +1,6 @@
-font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
-
-$- INSTALL
+#!/bin/bash
+# font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
+# $- INSTALL
 curl -kL $src -o Terminus.zip
 unzip Terminus.zip
 rm -f Terminus.zip
@@ -15,29 +15,24 @@ if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
 mv *.ttf $dir
 fc-cache -f -v
-$---
-
-$- UPDATE
+# $---
+# $- UPDATE
 curl -kL $src -o Terminus.zip
 unzip Terminus.zip
 rm -f Terminus.zip
 mv *.ttf /usr/share/fonts
 fc-cache -f -v
-$---
-
-$- REMOVE
+# $---
+# $- REMOVE
 dir=/usr/share/fonts
 if [ -e $dir ]; then files=$(find $dir -type f -name TerminessNerdFont*); fi
 if [ ! -z $files ]; then rm $files; fi
 fc-cache -f -v
-$---
+# $---
+# @@@@
 
-@@@@
-
-
-background @ https://github.com/Skalyaeve/images/blob/main/background/background.jpg?raw=true ~ Background
-
-$- INSTALL
+# background @ https://github.com/Skalyaeve/images/blob/main/background/background.jpg?raw=true ~ Background
+# $- INSTALL
 name=background.jpg
 curl -kL $src -o $name
 dir=/usr
@@ -68,9 +63,8 @@ ln -s $src $file
 file=$dir/login-background.svg
 if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
-$---
-
-$- UPDATE
+# $---
+# $- UPDATE
 name=background.jpg
 curl -k $src > $name
 src=/usr/local/share/backgrounds/$name
@@ -89,9 +83,8 @@ ln -s $src $file
 file=$dir/login-background.svg
 if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
-$---
-
-$- REMOVE
+# $---
+# $- REMOVE
 dir=/usr/share/images/desktop-base
 file=$dir/default
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
@@ -109,13 +102,11 @@ dir=/usr/local/share/backgrounds
 if [ -e $dir ]; then file=$dir/background.jpg; fi
 if [ ! -z $file -a ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ ! -z $file -a -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-$---
-@@@@
+# $---
+# @@@@
 
-
-background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/background/background.xml ~ Background XML
-
-$- INSTALL
+# background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/background/background.xml ~ Background XML
+# $- INSTALL
 name=background.xml
 curl -k $src > $name
 dir=/usr
@@ -140,9 +131,8 @@ ln -s $src $file
 file=$dir/desktop-lockscreen.xml
 if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
-$---
-
-$- UPDATE
+# $---
+# $- UPDATE
 name=background.xml
 curl -k $src > $name
 src=/usr/local/share/backgrounds/$name
@@ -155,9 +145,8 @@ ln -s $src $file
 file=$dir/desktop-lockscreen.xml
 if [ -e $file ]; then mv $file $file.ft.bak; fi
 ln -s $src $file
-$---
-
-$- REMOVE
+# $---
+# $- REMOVE
 dir=/usr/share/images/desktop-base
 file=$dir/desktop-background.xml
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
@@ -169,13 +158,11 @@ dir=/usr/local/share/backgrounds
 if [ -e $dir ]; then file=$dir/background.xml; fi
 if [ ! -z $file -a ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ ! -z $file -a -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-$---
-@@@@
+# $---
+# @@@@
 
-
-background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black.png?raw=true ~ Background GRUB
-
-$- INSTALL
+# background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black.png?raw=true ~ Background GRUB
+# $- INSTALL
 name=background.png
 curl -kL $src -o $name
 file=/boot/grub/$name
@@ -185,9 +172,8 @@ file=/etc/default/grub
 if [ -e $file ]; then mv $file $file.ft.bak; fi
 cp $ROOT/ui/gui/grub/grub $file
 update-grub
-$---
-
-$- UPDATE
+# $---
+# $- UPDATE
 name=background.png
 curl -kL $src -o $name
 file=/boot/grub/$name
@@ -197,15 +183,13 @@ file=/etc/default/grub
 if [ -e $file ]; then mv $file $file.ft.bak; fi
 cp $ROOT/ui/gui/grub/grub $file
 update-grub
-$---
-
-$- REMOVE
+# $---
+# $- REMOVE
 file=/boot/grub/background.png
 if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
 if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
 file=/etc/default/grub
 if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
 update-grub
-$---
-
-@@@@
+# $---
+# @@@@

@@ -34,4 +34,6 @@ fi
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
-PS1='${debian_chroot:+($debian_chroot)\[\033[38;5;240m\]-\[\033[00m\]}\u\[\033[38;5;240m\]@\[\033[00m\]\h\[\033[38;5;240m\]-[\[\033[00m\]\t\[\033[38;5;240m\]]-[\[\033[00m\]\w\[\033[38;5;240m\]]\[\033[00m\]\n\[\033[38;5;240m\][\[\033[00m\]$?\[\033[38;5;240m\]]\$\[\033[00m\] '
+gray='\[\033[38;5;240m\]'
+nc='\[\033[00m\]'
+PS1="${debian_chroot:+($debian_chroot)$gray-$nc}\u$gray@$nc\h$gray-[$nc\t$gray]-[$nc\w$gray]$nc\n$gray[$nc\$?$gray]\$$nc "

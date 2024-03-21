@@ -29,6 +29,7 @@ install: $(NAME)
 	@cp $(NAME) $(BIN_DIR)
 	@mkdir $(RESOURCES_DIR)
 	@cp -r $(RESOURCES) $(RESOURCES_DIR)
+	@ln -s $(RESOURCES_DIR)/$(RESOURCES) ~/$(NAME)
 	@echo "[$(GREEN) OK $(NC)]"
 
 link_install: $(NAME)
@@ -36,11 +37,13 @@ link_install: $(NAME)
 	@ln -s $(PWD)/$(NAME) $(BIN_DIR)/$(NAME)
 	@mkdir $(RESOURCES_DIR)
 	@ln -s $(PWD)/$(RESOURCES) $(RESOURCES_DIR)/$(RESOURCES)
+	@ln -s $(RESOURCES_DIR)/$(RESOURCES) ~/$(NAME)
 	@echo "[$(GREEN) OK $(NC)]"
 
 uninstall:
 	@echo -n "Uninstalling $(NAME)..."
 	@rm $(BIN_DIR)/$(NAME)
+	@rm ~/$(NAME)
 	@rm -r $(RESOURCES_DIR)
 	@echo "[$(GREEN) OK $(NC)]"
 

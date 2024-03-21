@@ -8,8 +8,8 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="${GRAY}===================${NC}usage
-${YELLOW}$0 ${BLUE}<command> ${GREEN}[options]${NC}
+USAGE="${GRAY}===================usage${NC}
+${YELLOW}$(basename $0) ${BLUE}<command> ${GREEN}[options]${NC}
 
 <command>:
     ${BLUE}command${NC}:
@@ -17,8 +17,7 @@ ${YELLOW}$0 ${BLUE}<command> ${GREEN}[options]${NC}
 
 [options]:
     ${GREEN}-o, --option${NC}
-    * description
-"
+    * description"
 #
 #
 #================================== PARSE

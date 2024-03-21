@@ -8,36 +8,36 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="${GRAY}===================${NC}usage
-${YELLOW}$0 ${BLUE}<command> ${GREEN}[options]${NC}
+USAGE="${GRAY}===================usage${NC}
+${YELLOW}$(basename $0) ${BLUE}<command> ${GREEN}[options]${NC}
 
 <command>:
-    ${BLUE}install${NC}:
-    * From a resource directory.
-    * Install or update targets specified in *.list files.
-    * Swap targets specified in .swap files.
-    ${BLUE}restore${NC}:
-    * From a backup directory.
-    * Perform backup using diff file.
+\t${BLUE}install${NC}:
+\t\t* From a resource directory.
+\t\t* Install or update targets specified in *.list files.
+\t\t* Swap targets specified in .swap files.
+\t${BLUE}restore${NC}:
+\t\t* From a backup directory.
+\t\t* Perform backup using diff file.
 
 [options]:
-    ${GREEN}-u, --user USER${NC}
-    * Setup for the specified user's home directory.
-    ${GREEN}-p, --path PATH${NC}
-    * Specify a path to the resource or backup directory.
-    * Default is ~/.local/share/setup/(resource|backup)
-    ${GREEN}-e, --exclude DIR[S]${NC}
-    * When ${BLUE}install${NC}, exclude the specified directories.
-    ${GREEN}-s, --silent${NC}
-    * Run in silent mode.
-    ${GREEN}-n, --ninja${NC}
-    * When ${BLUE}install${NC}, do not read *.list files.
-    ${GREEN}--no-apt${NC}
-    * When ${BLUE}install${NC}, do not read apt.list files.
-    ${GREEN}--no-web${NC}
-    * When ${BLUE}install${NC}, do not read web.list files.
-    ${GREEN}--no-local${NC}
-    * When ${BLUE}install${NC}, do not read .swap files.
+\t${GREEN}-u, --user USER${NC}
+\t\t* Setup for the specified user's home directory.
+\t${GREEN}-p, --path PATH${NC}
+\t\t* Specify a path to the resource or backup directory.
+\t\t* Default is ~/.local/share/setup/(resource|backup)
+\t${GREEN}-e, --exclude DIR[S]${NC}
+\t\t* When ${BLUE}install${NC}, exclude the specified directories.
+\t${GREEN}-s, --silent${NC}
+\t\t* Run in silent mode.
+\t${GREEN}-n, --ninja${NC}
+\t\t* When ${BLUE}install${NC}, do not read *.list files.
+\t${GREEN}--no-apt${NC}
+\t\t* When ${BLUE}install${NC}, do not read apt.list files.
+\t${GREEN}--no-web${NC}
+\t\t* When ${BLUE}install${NC}, do not read web.list files.
+\t${GREEN}--no-local${NC}
+\t\t* When ${BLUE}install${NC}, do not read .swap files.
 "
 
 ft_echo() {

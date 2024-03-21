@@ -6,9 +6,7 @@ ft_web() {
         return
     fi
     ft_echo "${GRAY}================ READING: web.list$NC\n"
-    local script="$(find . "${EXCLUDES[@]}" \
-        -type f -name 'web.list' |
-        xargs cat)"
+    local script=$(find . "${EXCLUDES[@]}" -type f -name 'web.list' | xargs cat)
     local webdir="$(dirname "$ROOT")/.web"
     if [ ! -e "$webdir" ]; then
         if ! mkdir "$webdir"; then
@@ -23,7 +21,7 @@ ft_web() {
             continue
         fi
         if [ -z "$to_run" -a -z "$to_skip" -a -z "$to_backup" ]; then
-            if [ "$line" = '@@@@' ]; then
+            if [ "$line" = '# @@@@' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
                     ft_echo "Unmatched $line.\n"
@@ -32,8 +30,9 @@ ft_web() {
                 fi
                 unset target src dst installed runned
             elif [[ "$line" == *'@'* ]]; then
-                local target="$(echo "$line" | cut -d'@' -f1 | xargs)"
-                local src="$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)"
+                local target=$(echo "$line" | cut -d'@' -f1 | xargs)
+                target=$(echo "$target" | sed 's/# //g')
+                local src=$(echo "$line" | cut -d'@' -f2 | cut -d'~' -f1 | xargs)
                 local dst="$webdir/$target"
                 if [ -e "$dst" ]; then
                     local installed=1
@@ -41,7 +40,7 @@ ft_web() {
                     mkdir "$dst"
                     chown "$USER:$USER" "$dst"
                 fi
-            elif [ "$line" = '$- INSTALL' ]; then
+            elif [ "$line" = '# $- INSTALL' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
                     ft_echo "src and/or dst missing for an INSTALL.\n"
@@ -57,7 +56,7 @@ ft_web() {
                         local to_skip=1
                     fi
                 fi
-            elif [ "$line" = '$- UPDATE' ]; then
+            elif [ "$line" = '# $- UPDATE' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
                     ft_echo "src and/or dst missing for an UPDATE.\n"
@@ -77,7 +76,7 @@ ft_web() {
                         ft_echo "$target [$GREEN OK $NC]\n"
                     fi
                 fi
-            elif [ "$line" = '$- REMOVE' ]; then
+            elif [ "$line" = '# $- REMOVE' ]; then
                 if [ -z "$src" -o -z "$dst" ]; then
                     ft_echo "[$YELLOW WARNING $NC] A web.list file is invalid.\n"
                     ft_echo "src and/or dst missing for a REMOVE.\n"
@@ -93,7 +92,7 @@ ft_web() {
                 fi
             fi
 
-        elif [ "$line" = '$---' ]; then
+        elif [ "$line" = '# $---' ]; then
             if [ ! -z "$to_backup" ]; then
                 DIFF=("${DIFF[@]}" '$---')
             elif [ ! -z "$to_run" ]; then
@@ -106,7 +105,7 @@ ft_web() {
             DIFF=("${DIFF[@]}" "$line")
 
         elif [ ! -z "$to_run" ]; then
-            if ! eval "$line" &>/dev/null; then
+            if ! eval "$line" &>'/dev/null'; then
                 unset to_run
                 unset runned
                 local to_skip=1
