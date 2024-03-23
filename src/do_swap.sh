@@ -15,7 +15,7 @@ ft_swap() {
             fi
             local target=$(echo "$line" | cut -d'@' -f1 | xargs)
             if [ "${target:0:8}" = 'no-link ' ]; then
-                local no-link=1
+                local nolink=1
                 target="${target:8}"
             fi
             local src="$dir/$target"
@@ -49,7 +49,7 @@ ft_swap() {
                     continue
                 fi
             fi
-            if [ -z "$no_link" ]; then
+            if [ -z "$nolink" ]; then
                 ln -s $(realpath "$src") "$(realpath "$dst/$target")" &>'/dev/null'
             else
                 cp -r "$src" "$dst" &>'/dev/null'
