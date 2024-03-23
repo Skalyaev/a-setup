@@ -1,4 +1,3 @@
-xorg : Serveur graphique
 clang : Compilateur C/C++
 nodejs : Environnement d'exécution JavaScript
 npm : Gestionnaire de paquets Node.js

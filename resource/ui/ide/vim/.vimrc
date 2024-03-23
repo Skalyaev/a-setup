@@ -3,8 +3,8 @@ call plug#begin()
 
 Plug 'github/copilot.vim'
 Plug 'vim-autoformat/vim-autoformat'
-Plug 'lunacookies/vim-sh'
 Plug 'preservim/nerdtree'
+Plug 'lunacookies/vim-sh'
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'

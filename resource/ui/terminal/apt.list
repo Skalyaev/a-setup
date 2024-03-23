@@ -1,4 +1,3 @@
-xorg : Serveur graphique
-terminator : Invite de commande
+Terminator : Terminal
 bash-completion : Auto-complétion bash
 most : Man en couleurs

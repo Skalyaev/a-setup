@@ -1,9 +1,7 @@
-firefox-esr : Navigateur web
-curl : Client HTTP
-ftp : Client FTP
-zip : Gestionnaire ZIP
 bc : Calculatrice
-ncdu : Nettoyage système
 scrot : Captures d'écran
-neofetch : Informations système
+feh : Visualisation images
 tree : Visualisation fs
+ncdu : Nettoyage système
+neofetch : Informations système
+firefox-esr : Navigateur web

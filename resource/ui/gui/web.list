@@ -1,31 +1,31 @@
 #!/bin/bash
 # font @ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Terminus.zip ~ Font
 # $- INSTALL
-curl -kL $src -o Terminus.zip
-unzip Terminus.zip
-rm -f Terminus.zip
-dir=/usr
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+curl -kL $src -o 'Terminus.zip'
+unzip 'Terminus.zip'
+rm -f 'Terminus.zip'
+dir='/usr'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/share
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/share'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/share/fonts
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/share/fonts'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-mv *.ttf $dir
+mv *'.ttf' $dir
 fc-cache -f -v
 # $---
 # $- UPDATE
-curl -kL $src -o Terminus.zip
-unzip Terminus.zip
-rm -f Terminus.zip
-mv *.ttf /usr/share/fonts
+curl -kL $src -o 'Terminus.zip'
+unzip 'Terminus.zip'
+rm -f 'Terminus.zip'
+mv *'.ttf' '/usr/share/fonts'
 fc-cache -f -v
 # $---
 # $- REMOVE
-dir=/usr/share/fonts
-if [ -e $dir ]; then files=$(find $dir -type f -name TerminessNerdFont*); fi
+dir='/usr/share/fonts'
+if [ -e $dir ]; then files=$(find $dir -type f -name 'TerminessNerdFont'*); fi
 if [ ! -z $files ]; then rm $files; fi
 fc-cache -f -v
 # $---
@@ -33,163 +33,163 @@ fc-cache -f -v
 
 # background @ https://github.com/Skalyaeve/images/blob/main/background/background.jpg?raw=true ~ Background
 # $- INSTALL
-name=background.jpg
+name='background.jpg'
 curl -kL $src -o $name
-dir=/usr
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/local
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/local'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/local/share
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/local/share'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/local/share/backgrounds
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/local/share/backgrounds'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-src=$dir/$name
-if [ -e $src ]; then mv $src $src.ft.bak; fi
+src="$dir/$name"
+if [ -e $src ]; then mv $src "$src.ft.bak"; fi
 mv $name $src
-dir=/usr/share/images/desktop-base
-file=$dir/default
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+dir='/usr/share/images/desktop-base'
+file="$dir/default"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/desktop-background
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/desktop-background"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/desktop-grub.png
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/desktop-grub.png"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/login-background.svg
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/login-background.svg"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
 # $---
 # $- UPDATE
-name=background.jpg
+name='background.jpg'
 curl -k $src > $name
-src=/usr/local/share/backgrounds/$name
-if [ -e $src ]; then mv $src $src.ft.bak; fi
+src="/usr/local/share/backgrounds/$name"
+if [ -e $src ]; then mv $src "$src.ft.bak"; fi
 mv $name $src
-dir=/usr/share/images/desktop-base
-file=$dir/default
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+dir='/usr/share/images/desktop-base'
+file="$dir/default"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/desktop-background
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/desktop-background"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/desktop-grub.png
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/desktop-grub.png"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/login-background.svg
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/login-background.svg"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
 # $---
 # $- REMOVE
-dir=/usr/share/images/desktop-base
-file=$dir/default
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-file=$dir/desktop-background
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-file=$dir/desktop-grub.png
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-file=$dir/login-background.svg
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-dir=/usr/local/share/backgrounds
-if [ -e $dir ]; then file=$dir/background.jpg; fi
-if [ ! -z $file -a ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ ! -z $file -a -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
+dir='/usr/share/images/desktop-base'
+file="$dir/default"
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+file="$dir/desktop-background"
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+file="$dir/desktop-grub.png"
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+file="$dir/login-background.svg"
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+dir='/usr/local/share/backgrounds'
+if [ -e $dir ]; then file="$dir/background.jpg"; fi
+if [ ! -z $file -a ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ ! -z $file -a -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
 # $---
 # @@@@
 
 # background-xml @ https://raw.githubusercontent.com/Skalyaeve/images/main/background/background.xml ~ Background XML
 # $- INSTALL
-name=background.xml
+name='background.xml'
 curl -k $src > $name
-dir=/usr
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/local
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/local'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/local/share
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/local/share'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-dir=/usr/local/share/backgrounds
-if [ ! -e $dir ]; then echo "add:$dir" >> $BACKUP/diff; fi
+dir='/usr/local/share/backgrounds'
+if [ ! -e $dir ]; then echo "add:$dir" >> "$BACKUP/diff"; fi
 if [ ! -e $dir ]; then mkdir $dir; fi
-src=$dir/$name
-if [ -e $src ]; then mv $src $src.ft.bak; fi
+src="$dir/$name"
+if [ -e $src ]; then mv $src "$src.ft.bak"; fi
 mv $name $src
-dir=/usr/share/images/desktop-base
-file=$dir/desktop-background.xml
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+dir='/usr/share/images/desktop-base'
+file="$dir/desktop-background.xml"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/desktop-lockscreen.xml
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/desktop-lockscreen.xml"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
 # $---
 # $- UPDATE
-name=background.xml
+name='background.xml'
 curl -k $src > $name
-src=/usr/local/share/backgrounds/$name
-if [ -e $src ]; then mv $src $src.ft.bak; fi
+src="/usr/local/share/backgrounds/$name"
+if [ -e $src ]; then mv $src "$src.ft.bak"; fi
 mv $name $src
-dir=/usr/share/images/desktop-base
-file=$dir/desktop-background.xml
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+dir='/usr/share/images/desktop-base'
+file="$dir/desktop-background.xml"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
-file=$dir/desktop-lockscreen.xml
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="$dir/desktop-lockscreen.xml"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 ln -s $src $file
 # $---
 # $- REMOVE
-dir=/usr/share/images/desktop-base
-file=$dir/desktop-background.xml
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-file=$dir/desktop-lockscreen.xml
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-dir=/usr/local/share/backgrounds
+dir='/usr/share/images/desktop-base'
+file="$dir/desktop-background.xml"
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+file="$dir/desktop-lockscreen.xml"
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+dir="/usr/local/share/backgrounds"
 if [ -e $dir ]; then file=$dir/background.xml; fi
-if [ ! -z $file -a ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ ! -z $file -a -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
+if [ ! -z $file -a ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ ! -z $file -a -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
 # $---
 # @@@@
 
 # background-grub @ https://github.com/Skalyaeve/images/blob/main/background/black.png?raw=true ~ Background GRUB
 # $- INSTALL
-name=background.png
+name='background.png'
 curl -kL $src -o $name
-file=/boot/grub/$name
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="/boot/grub/$name"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 mv $name $file
-file=/etc/default/grub
-if [ -e $file ]; then mv $file $file.ft.bak; fi
-cp $ROOT/ui/gui/grub/grub $file
+file='/etc/default/grub'
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
+cp "$ROOT/ui/gui/grub/grub" $file
 update-grub
 # $---
 # $- UPDATE
-name=background.png
+name='background.png'
 curl -kL $src -o $name
-file=/boot/grub/$name
-if [ -e $file ]; then mv $file $file.ft.bak; fi
+file="/boot/grub/$name"
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
 mv $name $file
-file=/etc/default/grub
-if [ -e $file ]; then mv $file $file.ft.bak; fi
-cp $ROOT/ui/gui/grub/grub $file
+file='/etc/default/grub'
+if [ -e $file ]; then mv $file "$file.ft.bak"; fi
+cp "$ROOT/ui/gui/grub/grub" $file
 update-grub
 # $---
 # $- REMOVE
-file=/boot/grub/background.png
-if [ ! -e $file.ft.bak -a -e $file ]; then rm $file; fi
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
-file=/etc/default/grub
-if [ -e $file.ft.bak ]; then mv $file.ft.bak $file; fi
+file='/boot/grub/background.png'
+if [ ! -e "$file.ft.bak" -a -e $file ]; then rm $file; fi
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
+file='/etc/default/grub'
+if [ -e "$file.ft.bak" ]; then mv "$file.ft.bak" $file; fi
 update-grub
 # $---
 # @@@@

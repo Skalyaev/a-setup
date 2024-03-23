@@ -12,7 +12,7 @@
 # A script
 - Regroup the different components of your linux setup in a single place.
 - Manage your installations, updates, and configurations easier.
-- Bring your shortcuts, environment and applications everywhere you go.
+- Bring your shortcuts, environment and tools everywhere you go.
 
 ### Usage
 ```sh
@@ -31,7 +31,7 @@ setup <command> [options]
 
 #### Options:
 - `-u`, `--user USER`:
-    * Setup for the specified user's `home` directory.
+    * Setup for the specified user's `$HOME` directory.
 - `-p`, `--path PATH`:
     * Specify a path to a `resource` or `backup` directory.
     * Default is `~/.local/share/setup/(resource|backup)`
@@ -58,7 +58,7 @@ setup <command> [options]
 - 1 package per line:
 - `<package_name> : [description]`
 - `apt purge` and `apt clean` do not remove all files.
-- Use `.aptclean` files to remove them:
+- Use `.aptclean` files to remove them when `restore`:
 - `<package_name> : <absolute path>` ***strict format***.
 - 1 path per line.
 
@@ -84,6 +84,7 @@ setup <command> [options]
 
 #### .swap files
 - 1 line per swap.
+- Swap files/directories from `$(dirname .swap)`.
 - To `cp` src instead of `ln -s`, add `no-link `.
 - `[no-link ]<path from .swap file> @ <target DIRECTORY>`.
 
