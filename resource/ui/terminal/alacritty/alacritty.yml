@@ -1,0 +1,36 @@
+window:
+  padding:
+    x: 4
+    y: 4
+  opacity: 0.8
+
+font:
+  normal:
+    family: "Terminess Nerd Font"
+    style: Regular
+  size: 9
+
+colors:
+  primary:
+    background: "0x000000"
+    foreground: "0xf8f8f2"
+
+  normal:
+    black: "0x121212"
+    red: "0xbf0060"
+    green: "0x00bf60"
+    yellow: "0xbfbf00"
+    blue: "0x6000bf"
+    magenta: "0x0060bf"
+    cyan: "0x00bfbf"
+    white: "0xa8a8a8"
+
+  bright:
+    black: "0x545454"
+    red: "0xff0080"
+    green: "0x00ff80"
+    yellow: "0xffff00"
+    blue: "0x8000ff"
+    magenta: "0x0080ff"
+    cyan: "0x00ffff"
+    white: "0xededed"

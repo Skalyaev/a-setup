@@ -9,7 +9,13 @@ ft_swap() {
     local files=$(find . "${EXCLUDES[@]}" -type f -name '.swap')
     for file in $files; do
         local dir=$(dirname "$file")
+        if [ ! -z "$nolink" ]; then
+            unset nolink
+        fi
         while read -r line; do
+            if [ ! -z "$nolink" ]; then
+                unset nolink
+            fi
             if [ -z "$line" ]; then
                 continue
             fi
