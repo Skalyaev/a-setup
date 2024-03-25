@@ -24,7 +24,7 @@ while [ "$#" -gt 0 ]; do
         fi
         USER="$1"
         shift
-        if ! getent passwd "$USER" &>'/dev/null'; then
+        if ! getent passwd "$USER" &>/dev/null; then
             echo -e "[$RED ERROR $NC] Can not set home for $USER."
             exit 1
         fi

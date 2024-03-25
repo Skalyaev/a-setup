@@ -105,7 +105,7 @@ ft_web() {
             DIFF=("${DIFF[@]}" "$line")
 
         elif [ ! -z "$to_run" ]; then
-            if ! eval "$line" &>'/dev/null'; then
+            if ! eval "$line" &>/dev/null; then
                 unset to_run
                 unset runned
                 local to_skip=1

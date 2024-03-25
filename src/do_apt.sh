@@ -6,7 +6,7 @@ ft_apt() {
         return
     fi
     ft_echo "${BLUE}Updating${NC} apt..."
-    if ! apt update -y &>'/dev/null'; then
+    if ! apt update -y &>/dev/null; then
         ft_echo "[$RED KO $NC]\n"
         ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
         ft_echo "You may need to run this command with sudo.\n"
@@ -18,11 +18,11 @@ ft_apt() {
         pkgs=$(echo "$pkgs" | xargs cat | cut -d: -f1 | sort | uniq)
         local to_clean=$(find . "${EXCLUDES[@]}" -type f -name '.aptclean')
         while read -r pkg; do
-            local answ=$(dpkg-query -W -f='${Status}' "$pkg" 2>'/dev/null')
-            if ! echo "$answ" | grep 'install ok installed' &>'/dev/null'; then
+            local answ=$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null)
+            if ! echo "$answ" | grep 'install ok installed' &>/dev/null; then
 
                 ft_echo "${BLUE}Installing${NC} $pkg..."
-                if ! apt install -y "$pkg" &>'/dev/null'; then
+                if ! apt install -y "$pkg" &>/dev/null; then
                     ft_echo "[$RED K0 $NC]\n"
                     ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
                     ft_echo "$pkg will not be installed.\n"

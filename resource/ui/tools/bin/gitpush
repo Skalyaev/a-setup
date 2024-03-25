@@ -10,7 +10,7 @@ GRAY='\033[0;37m'
 NC='\033[0m'
 
 USAGE="${GRAY}===================usage${NC}
-${YELLOW}$(basename $0) ${BLUE}<path> ${GREEN}[options]${NC}
+${YELLOW}$(basename "$0") ${BLUE}<path> ${GREEN}[options]${NC}
 
 Navigate from the specified path.
 Push all changes to the remote repository.
@@ -167,14 +167,14 @@ do_it() {
             do_it
         done
     else
-        if ! git pull &>'/dev/null'; then
-            ft_echo "$cwd [$RED KO $NC]\n"
-            ft_echo "Non-zero returned from 'git pull'\n"
-            return
-        fi
         local state=$(git status -s)
         if [ -z "$state" ]; then
             ft_echo "$cwd [$GREEN OK $NC]\n"
+            return
+        fi
+        if ! git pull &>/dev/null; then
+            ft_echo "$cwd [$RED KO $NC]\n"
+            ft_echo "Non-zero returned from 'git pull'\n"
             return
         fi
         if echo "${targets[@]}" | grep -q "$cwd/.add"; then
@@ -190,7 +190,7 @@ do_it() {
             fi
         fi
         for target in "${TO_ADD[@]}"; do
-            git add "$target" &>'/dev/null'
+            git add "$target" &>/dev/null
             case "$?" in
                 0) ;;
                 1) ;;
@@ -205,12 +205,12 @@ do_it() {
             esac
         done
         ft_echo "${BLUE}Pushing${NC} $cwd..."
-        if ! git commit -m "$MESSAGE" &>'/dev/null'; then
+        if ! git commit -m "$MESSAGE" &>/dev/null; then
             ft_echo "[$RED KO $NC]\n"
             ft_echo "Non-zero returned from 'git commit -m \"$MESSAGE\"'\n"
             return
         fi
-        if ! git push &>'/dev/null'; then
+        if ! git push &>/dev/null; then
             ft_echo "[$RED KO $NC]\n"
             ft_echo "Non-zero returned from 'git push'\n"
             return
@@ -230,12 +230,12 @@ rm_it() {
         return
     fi
     if [ "${#targets[@]}" -eq 1 -a "${targets[0]}" = '*' ]; then
-        rm "$file" &>'/dev/null'
+        rm "$file" &>/dev/null
     else
         local dir=$(basename $(dirname "$file"))
         for target in "${targets[@]}"; do
             if [ "$target" = "$dir" ]; then
-                rm "$file" &>'/dev/null'
+                rm "$file" &>/dev/null
                 return
             fi
         done

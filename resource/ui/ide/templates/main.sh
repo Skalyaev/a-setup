@@ -9,7 +9,7 @@ GRAY='\033[0;37m'
 NC='\033[0m'
 
 USAGE="${GRAY}===================usage${NC}
-${YELLOW}$(basename $0) ${BLUE}<command> ${GREEN}[options]${NC}
+${YELLOW}$(basename "$0") ${BLUE}<command> ${GREEN}[options]${NC}
 
 <command>:
     ${BLUE}command${NC}:

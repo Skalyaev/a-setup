@@ -11,9 +11,10 @@ nnoremap <leader>o :on <CR>
 nnoremap <leader>O :on! <CR>
 
 nnoremap <leader>e :e# <CR>
-nnoremap <leader>& :e ~/setup/ui <CR>
-nnoremap <leader>é :e ~/setup/ui/tools/bin <CR>
-nnoremap <leader>" :e ~/setup/ui/ide/templates <CR>
+nnoremap <leader>& :e ~/.local/share/git <CR>
+nnoremap <leader>é :e ~/setup/ui <CR>
+nnoremap <leader>" :e ~/setup/ui/tools/bin <CR>
+nnoremap <leader>' :e ~/setup/ui/ide/templates <CR>
 
 nnoremap <leader>1 :e ~/.bash_aliases <CR>
 nnoremap <leader>2 :e ~/.inputrc <CR>

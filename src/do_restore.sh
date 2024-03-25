@@ -17,7 +17,7 @@ ft_restore() {
             if [ ! -z "$skip_it" ]; then
                 continue
             fi
-            if ! eval "$line" &>'/dev/null'; then
+            if ! eval "$line" &>/dev/null; then
                 unset to_run
                 local to_skip=1
                 ft_echo "[$RED KO $NC]\n"
@@ -34,7 +34,7 @@ ft_restore() {
                     local apt_clean=1
                 fi
                 ft_echo "${BLUE}Removing${NC} $target..."
-                if ! apt purge -y "$target" &>'/dev/null'; then
+                if ! apt purge -y "$target" &>/dev/null; then
                     ft_echo "[$RED KO $NC]\n"
                     ft_echo "[$YELLOW WARNING $NC] Non-zero returned from apt.\n"
                     ft_echo "You may need to run this command with sudo.\n"
@@ -78,8 +78,8 @@ ft_restore() {
     rm -r "$ROOT"
     if [ ! -z "$apt_clean" ]; then
         ft_echo "${BLUE}Cleaning${NC} apt..."
-        apt autoremove -y &>'/dev/null'
-        apt autoclean -y &>'/dev/null'
+        apt autoremove -y &>/dev/null
+        apt autoclean -y &>/dev/null
         ft_echo "[$GREEN OK $NC]\n"
     fi
 }
