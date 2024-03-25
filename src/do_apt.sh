@@ -18,8 +18,8 @@ ft_apt() {
         pkgs=$(echo "$pkgs" | xargs cat | cut -d: -f1 | sort | uniq)
         local to_clean=$(find . "${EXCLUDES[@]}" -type f -name '.aptclean')
         while read -r pkg; do
-            local answ=$(dpkg-query -W -f='${Status}' $pkg 2>'/dev/null')
-            if ! echo "$answ" | grep "install ok installed" &>'/dev/null'; then
+            local answ=$(dpkg-query -W -f='${Status}' "$pkg" 2>'/dev/null')
+            if ! echo "$answ" | grep 'install ok installed' &>'/dev/null'; then
 
                 ft_echo "${BLUE}Installing${NC} $pkg..."
                 if ! apt install -y "$pkg" &>'/dev/null'; then

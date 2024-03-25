@@ -56,7 +56,7 @@ RM_MSG=()
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
-        -e|--exclude)
+        '-e'|'--exclude')
             shift
             while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
@@ -70,7 +70,7 @@ while [ "$#" -gt 0 ]; do
                 exit 1
             fi
             ;;
-        -a|--add)
+        '-a'|'--add')
             shift
             while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
@@ -84,7 +84,7 @@ while [ "$#" -gt 0 ]; do
                 exit 1
             fi
             ;;
-        -m|--message)
+        '-m'|'--message')
             shift
             if [ "$#" -eq 0 ]; then
                 ft_echo "[$RED ERROR $NC] Missing argument for ${GREEN}--message${NC}\n"
@@ -92,7 +92,7 @@ while [ "$#" -gt 0 ]; do
             fi
             MESSAGE="$1"
             ;;
-        --rm-add)
+        '--rm-add')
             shift
             while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
@@ -105,7 +105,7 @@ while [ "$#" -gt 0 ]; do
                 RM_ADD=('*')
             fi
             ;;
-        --rm-msg)
+        '--rm-msg')
             shift
             while [ "$#" -gt 0 ]; do
                 if [ "${1:0:1}" = '-' ]; then
@@ -118,7 +118,7 @@ while [ "$#" -gt 0 ]; do
                 RM_MSG=('*')
             fi
             ;;
-        -s|--silent)
+        '-s'|'--silent')
             shift
             SILENT=1
             ;;
@@ -167,6 +167,11 @@ do_it() {
             do_it
         done
     else
+        if ! git pull &>'/dev/null'; then
+            ft_echo "$cwd [$RED KO $NC]\n"
+            ft_echo "Non-zero returned from 'git pull'\n"
+            return
+        fi
         local state=$(git status -s)
         if [ -z "$state" ]; then
             ft_echo "$cwd [$GREEN OK $NC]\n"
@@ -199,7 +204,7 @@ do_it() {
                     ;;
             esac
         done
-        ft_echo "Pushing $cwd..."
+        ft_echo "${BLUE}Pushing${NC} $cwd..."
         if ! git commit -m "$MESSAGE" &>'/dev/null'; then
             ft_echo "[$RED KO $NC]\n"
             ft_echo "Non-zero returned from 'git commit -m \"$MESSAGE\"'\n"
