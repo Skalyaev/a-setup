@@ -1,0 +1,8 @@
+clients, ^checkout(clients)
+
+^tag(clients)
+http, ^checkout(http)
+ssh, /usr/bin/alacritty -e /usr/bin/bash -c "ssh --help; exec bash"
+
+^tag(http)
+firefox, /usr/bin/firefox-esr
