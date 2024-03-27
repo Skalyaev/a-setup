@@ -1,3 +1,4 @@
 vim/.vimrc @ ~
 vim/binds.vim @ ~/.vim
 git/.gitconfig @ ~
+.selected_editor @ ~
