@@ -1,0 +1,17 @@
+#===========================ROOT
+client, ^checkout(client)
+social network, ^checkout(social-network)
+
+#===========================SUB - CLIENT
+^tag(client)
+http, ^checkout(http)
+ssh, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
+
+#===========================SUB - CLIENT/HTTP
+^tag(http)
+firefox, /usr/local/bin/use-nvidia /usr/bin/firefox-esr
+
+#===========================SUB - SOCIAL-NETWORK
+^tag(social-network)
+github, /usr/bin/firefox-esr -new-tab https://github.com/Skalyaeve
+
