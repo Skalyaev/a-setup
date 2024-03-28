@@ -32,6 +32,9 @@ fi
 alias t='touch'
 alias md='mkdir -p'
 
+alias cm='chmod'
+alias cmx='chmod +x'
+
 alias r='rm'
 alias rr='rm -r'
 alias rf='rm -f'
@@ -53,10 +56,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias gi='grep -i --color=auto'
     alias gvi='grep -vi --color=auto'
 fi
-
-alias c='cut'
-alias s='sed'
-alias si='sed -i'
 
 alias x='xargs'
 alias xi='xargs -I {}'

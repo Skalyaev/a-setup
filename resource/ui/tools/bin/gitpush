@@ -16,6 +16,7 @@ Navigate from the specified path.
 Push all changes to the remote repository.
 Read .add files to add specific files instead of *.
 Read .msg files to change default commit message.
+Read .ord files to change push order.
 
 [options]:
 ${GREEN}-e, --exclude DIR[S]${NC}
@@ -38,7 +39,7 @@ ft_echo() {
 }
 #
 #
-#================================== PARSE
+#==================================PARSE
 if [ "$#" -lt 1 ]; then
     echo -e "$USAGE"
     exit 1
@@ -154,7 +155,26 @@ fi
 
 do_it() {
     local cwd=$(pwd)
-    local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d | sort))
+    if find "$cwd" -mindepth 1 -maxdepth 1 -type f -name '.ord' | grep -q '.ord'; then
+        local order=$(cat '.ord')
+        local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d))
+        local ordered=()
+        while [ "${#targets[@]}" -gt 0 ]; do
+            local next=$(echo "$order" | head -n 1)
+            for target in "${targets[@]}"; do
+                local name=$(basename "$target")
+                if [ "$name" = "$next" ]; then
+                    ordered=("${ordered[@]}" "$target")
+                    targets=($(printf "%s\n" "${targets[@]}" | grep -v "^$target$"))
+                    order=$(echo "$order" | tail -n +2)
+                    break
+                fi
+            done
+        done
+        targets=("${ordered[@]}")
+    else
+        local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d | sort))
+    fi
     if ! echo "${targets[@]}" | grep -q "$cwd/.git"; then
         for target in "${targets[@]}"; do
             local name=$(basename "$target")
@@ -172,7 +192,7 @@ do_it() {
             ft_echo "$cwd [$GREEN OK $NC]\n"
             return
         fi
-        if ! git pull &>/dev/null; then
+        if ! git pull &>'/dev/null'; then
             ft_echo "$cwd [$RED KO $NC]\n"
             ft_echo "Non-zero returned from 'git pull'\n"
             return
@@ -190,7 +210,7 @@ do_it() {
             fi
         fi
         for target in "${TO_ADD[@]}"; do
-            git add "$target" &>/dev/null
+            git add "$target" &>'/dev/null'
             case "$?" in
                 0) ;;
                 1) ;;
@@ -205,12 +225,12 @@ do_it() {
             esac
         done
         ft_echo "${BLUE}Pushing${NC} $cwd..."
-        if ! git commit -m "$MESSAGE" &>/dev/null; then
+        if ! git commit -m "$MESSAGE" &>'/dev/null'; then
             ft_echo "[$RED KO $NC]\n"
             ft_echo "Non-zero returned from 'git commit -m \"$MESSAGE\"'\n"
             return
         fi
-        if ! git push &>/dev/null; then
+        if ! git push &>'/dev/null'; then
             ft_echo "[$RED KO $NC]\n"
             ft_echo "Non-zero returned from 'git push'\n"
             return
@@ -230,12 +250,12 @@ rm_it() {
         return
     fi
     if [ "${#targets[@]}" -eq 1 -a "${targets[0]}" = '*' ]; then
-        rm "$file" &>/dev/null
+        rm "$file" &>'/dev/null'
     else
         local dir=$(basename $(dirname "$file"))
         for target in "${targets[@]}"; do
             if [ "$target" = "$dir" ]; then
-                rm "$file" &>/dev/null
+                rm "$file" &>'/dev/null'
                 return
             fi
         done

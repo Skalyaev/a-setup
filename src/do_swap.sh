@@ -29,7 +29,7 @@ ft_swap() {
             local dst=$(echo "$line" | cut -d'@' -f2 | xargs | sed "s:~:$HOME:g")
 
             if [ -e "$dst/$target" ]; then
-                if diff "$src" "$dst/$target" &>/dev/null; then
+                if diff "$src" "$dst/$target" &>'/dev/null'; then
                     ft_echo "$dst/$target [$GREEN OK $NC]\n"
                     continue
                 fi
@@ -56,9 +56,9 @@ ft_swap() {
                 fi
             fi
             if [ -z "$nolink" ]; then
-                ln -s $(realpath "$src") "$(realpath "$dst/$target")" &>/dev/null
+                ln -s $(realpath "$src") "$(realpath "$dst/$target")" &>'/dev/null'
             else
-                cp -r "$src" "$dst" &>/dev/null
+                cp -r "$src" "$dst" &>'/dev/null'
             fi
             if [ ! -e "$dst/$target" ]; then
                 ft_echo "[$RED KO $NC]\n"

@@ -11,7 +11,7 @@ NC='\033[0m'
 USAGE="${GRAY}===================usage${NC}
 ${YELLOW}$(basename "$0") ${BLUE}<archive(s)>${NC}
 
-Extracts the given archive(s) to theyr respective directories."
+Extracts the given archive(s) to their respective directories."
 #
 #
 #==================================RUN
@@ -22,14 +22,14 @@ fi
 
 is_installed() {
     local app="$1"
-    local answ=$(dpkg-query -W -f='${Status}' "$app" 2>/dev/null)
-    if ! echo "$answ" | grep 'install ok installed' &>/dev/null; then
+    local answ=$(dpkg-query -W -f='${Status}' "$app" 2>'/dev/null')
+    if ! echo "$answ" | grep 'install ok installed' &>'/dev/null'; then
         echo -e "$app needed, install ?"
         select _ in 'Yes' 'No'; do
             case "$_" in
                 'Yes')
                     echo -e "${BLUE}Installing$NC $app..."
-                    if ! apt install -y "$app" &>/dev/null; then
+                    if ! apt install -y "$app" &>'/dev/null'; then
                         echo -e "[$RED KO $NC] Non-zero returned from apt."
                         echo -e 'Sudo might be needed.'
                         return 1
@@ -54,7 +54,7 @@ do_extract() {
         return
     fi
     echo -ne "${BLUE}Extracting$NC $file..."
-    eval "$cmd" >/dev/null
+    eval "$cmd" >'/dev/null'
     echo -e "[$GREEN OK $NC]"
 }
 
