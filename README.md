@@ -10,10 +10,6 @@
 | Browser | Firefox | ---- | [a-firefox-theme](https://github.com/Skalyaeve/a-firefox-theme.git) |
 
 # A script
-- Regroup the different components of your linux setup in a single place.
-- Manage your installations, updates, and configurations easier.
-- Bring your shortcuts, environment and tools everywhere you go.
-
 ### Usage
 ```sh
 setup <command> [options]
