@@ -1,13 +1,13 @@
 # A setup
-| Component | Name | Configuration | Theme |
-|-|-|-|-|
-| OS | Debian 12 | ---- | ---- |
-| DE | ---- | ---- | ---- |
-| WM | i3 |  [i3/config](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/gui/i3/config)  | ---- |
-| Shell | Bash |  [.bashrc](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/terminal/bash/.bashrc)  | ---- |
-| Terminal | Alacritty |  [alacritty.yml](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/terminal/alacritty/alacritty.yml)  | ---- |
-| IDE | Vim | [.vimrc](https://github.com/Skalyaeve/a-linux-setup/blob/main/resource/ui/ide/vim/.vimrc) | [a-vim-theme](https://github.com/Skalyaeve/a-vim-theme.git) |
-| Browser | Firefox | ---- | [a-firefox-theme](https://github.com/Skalyaeve/a-firefox-theme.git) |
+| Component | Name | Configuration |
+|-|-|-|
+| OS | Debian 12 | ---- |
+| DE | ---- | ---- |
+| WM | i3 |  [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/gui/i3/config)  |
+| Shell | Bash |  [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/terminal/bash/.bashrc)  |
+| Terminal | Alacritty |  [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/terminal/alacritty/alacritty.yml)  |
+| IDE | Vim | [.vimrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/ide/vim/.vimrc) |
+
 
 # A script
 ### Usage
@@ -51,10 +51,10 @@ setup <command> [options]
 - Web resources stored at `$(dirname $resource)/.web`.
 
 #### apt.list files
-- 1 package per line:
 - `<package_name> : [description]`
-- `apt purge` and `apt clean` do not remove all files.
-- Use `.aptclean` files to remove them when `restore`:
+- 1 package per line:
+
+`apt purge` and `apt clean` do not remove all files, use `.aptclean` files to remove them during `restore`:
 - `<package_name> : <absolute path>` ***strict format***.
 - 1 path per line.
 
@@ -79,28 +79,28 @@ setup <command> [options]
 ```
 
 #### .swap files
-- 1 line per swap.
 - Swap files/directories from `$(dirname .swap)`.
 - To `cp` src instead of `ln -s`, add `no-link `.
 - `[no-link ]<path from .swap file> @ <target DIRECTORY>`.
+- 1 line per swap.
 
 ## Install
 ```sh
-sudo apt update -y
-sudo apt install git make curl -y
+apt update -y
+apt install git make curl -y
 
-mkdir -p $HOME/.local/bin
-mkdir -p $HOME/.local/share
-mkdir -p $HOME/.local/src
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/share
+mkdir -p ~/.local/src
 
-dst=$HOME/.local/src
+dst=~/.local/src
 git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
 cd $dst/setup
 make install
 # or
 # make link_install
 ```
-Edit your `$HOME/.local/share/setup/resource` directory, then:
+Edit the `resource` directory, then:
 ```sh
 export PATH=$HOME/.local/bin:$PATH
 setup install
@@ -111,7 +111,7 @@ setup install
 
 ## Uninstall
 ```sh
-count=$(ls $HOME/.local/share/setup/backup)
+count=$(ls ~/.local/share/setup/backup)
 for _ in $count; do
     setup restore
     # or
@@ -120,7 +120,7 @@ done
 ```
 Then:
 ```sh
-dir=$HOME/.local/src/setup
+dir=~/.local/src/setup
 cd $dir
 make uninstall
 rm -r $dir

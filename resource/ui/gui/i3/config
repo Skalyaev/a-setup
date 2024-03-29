@@ -21,16 +21,16 @@ set $ws9 "9: "
 
 include ~/.config/i3/binds.conf
 
-set $black #000000F0
-set $black_l1 #070707F0
-set $black_l2 #0e0e0eF
-set $gray_d3 #1F1F1FF0
-set $gray_d2 #404040F0
-set $gray_d1 #5E5E5EF0
-set $gray #808080F0
-set $gray_l1 #A1A1A1F0
-set $gray_l2 #BFBFBFF0
-set $gray_l3 #E0E0E0F0
+set $black #000000e8
+set $black_l1 #070707e8
+set $black_l2 #0e0e0ee8
+set $gray_d3 #1F1F1Fe8
+set $gray_d2 #404040e8
+set $gray_d1 #5E5E5Ee8
+set $gray #808080e8
+set $gray_l1 #A1A1A1e8
+set $gray_l2 #BFBFBFe8
+set $gray_l3 #E0E0E0e8
 set $white #FFFFFF
 
 #set $refresh_i3status killall -SIGUSR1 i3status

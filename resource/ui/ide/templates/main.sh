@@ -8,19 +8,19 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="${GRAY}===================usage${NC}
-${YELLOW}$(basename "$0") ${BLUE}<command> ${GREEN}[options]${NC}
+USAGE="$GRAY===================USAGE$NC
+$YELLOW$(basename "$0") $BLUE<command> $GREEN[options]$NC
 
 <command>:
-    ${BLUE}command${NC}:
-    * description
+\t${BLUE}command$NC:
+\t* description
 
 [options]:
-    ${GREEN}-o, --option${NC}
-    * description"
+\t$GREEN-o, --option$NC
+\t* description"
 #
 #
-#================================== PARSE
+#==================================PARSE
 if [ "$#" -lt 1 ]; then
     echo -e "$USAGE"
     exit 1

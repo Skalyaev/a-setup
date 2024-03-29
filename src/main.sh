@@ -12,32 +12,32 @@ USAGE="${GRAY}===================usage${NC}
 ${YELLOW}$(basename "$0") ${BLUE}<command> ${GREEN}[options]${NC}
 
 <command>:
-\t${BLUE}install${NC}:
-\t\t* From a resource directory.
-\t\t* Install or update targets specified in *.list files.
-\t\t* Swap targets specified in .swap files.
-\t${BLUE}restore${NC}:
-\t\t* From a backup directory.
-\t\t* Perform backup using diff file.
+${BLUE}install${NC}:
+\t* From a resource directory.
+\t* Install or update targets specified in *.list files.
+\t* Swap targets specified in .swap files.
+${BLUE}restore${NC}:
+\t* From a backup directory.
+\t* Perform backup using diff file.
 
 [options]:
-\t${GREEN}-u, --user USER${NC}
-\t\t* Setup for the specified user's home directory.
-\t${GREEN}-p, --path PATH${NC}
-\t\t* Specify a path to the resource or backup directory.
-\t\t* Default is ~/.local/share/setup/(resource|backup)
-\t${GREEN}-e, --exclude DIR[S]${NC}
-\t\t* When ${BLUE}install${NC}, exclude the specified directories.
-\t${GREEN}-s, --silent${NC}
-\t\t* Run in silent mode.
-\t${GREEN}-n, --ninja${NC}
-\t\t* When ${BLUE}install${NC}, do not read *.list files.
-\t${GREEN}--no-apt${NC}
-\t\t* When ${BLUE}install${NC}, do not read apt.list files.
-\t${GREEN}--no-web${NC}
-\t\t* When ${BLUE}install${NC}, do not read web.list files.
-\t${GREEN}--no-local${NC}
-\t\t* When ${BLUE}install${NC}, do not read .swap files.
+${GREEN}-u, --user USER${NC}
+\t* Setup for the specified user's home directory.
+${GREEN}-p, --path PATH${NC}
+\t* Specify a path to the resource or backup directory.
+\t* Default is ~/.local/share/setup/(resource|backup)
+${GREEN}-e, --exclude DIR[S]${NC}
+\t* When ${BLUE}install${NC}, exclude the specified directories.
+${GREEN}-s, --silent${NC}
+\t* Run in silent mode.
+${GREEN}-n, --ninja${NC}
+\t* When ${BLUE}install${NC}, do not read *.list files.
+${GREEN}--no-apt${NC}
+\t* When ${BLUE}install${NC}, do not read apt.list files.
+${GREEN}--no-web${NC}
+\t* When ${BLUE}install${NC}, do not read web.list files.
+${GREEN}--no-local${NC}
+\t* When ${BLUE}install${NC}, do not read .swap files.
 "
 
 ft_echo() {
