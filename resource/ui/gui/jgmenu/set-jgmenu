@@ -1,0 +1,308 @@
+#!/bin/bash
+# Set a jgmenu from some .list files
+PATH='/bin:/sbin:/usr/bin:/usr/sbin'
+
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+GRAY='\033[0;37m'
+NC='\033[0m'
+
+USAGE="${GRAY}===================usage${NC}
+${YELLOW}$(basename "$0") ${BLUE}<menu> ${GREEN}[options]${NC}
+
+From the ${BLUE}<menu>${NC} directory,
+Set a jgmenu from some .list files:
+\t* categories.list
+\t* applications.list
+\t* links.list
+
+[options]:
+\t*$GREEN -p, --path <path>$NC
+\t${BLUE}<menu>$NC path.
+\tDefault is: ~/.local/share/jgmenu/sets
+\t*$GREEN -o, --output <path>$NC
+\tPath to the csv output file.
+\tDefault is: ~/.config/jgmenu/menu.csv
+\t*$GREEN -add-c, --add-category <category>$NC
+\tAdd a (sub)category to the menu.
+\tExemple:
+\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-c category$NC
+\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-c parent/sub$NC
+\t*$GREEN -add-a, --add-application [category] <name> [term] <command>$NC
+\tAdd an application to the menu.
+\tExemple:
+\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-a name command$NC
+\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-a category name 'term' command$NC
+\t*$GREEN -add-l, --add-link [category] <name> <url>$NC
+\tAdd a link to the menu.
+\tExemple:
+\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-l name url$NC
+\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-l parent/sub name url$NC
+\t*$GREEN -rm-c, --remove-category <category>$NC
+\tRemove a category from the menu.
+\t*$GREEN -rm-a, --remove-application [category] <name>$NC
+\tRemove an application from the menu.
+\t*$GREEN -rm-l, --remove-link [category] <name>$NC
+\tRemove a link from the menu."
+
+if [ "$#" -lt 1 ]; then
+    echo -e "$USAGE"
+    exit 1
+fi
+DIR="$HOME/.local/share/jgmenu/set/$1"
+CSV="$HOME/.config/jgmenu/menu.csv"
+shift
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -p|--path)
+            if [ "$#" -lt 2 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            DIR="$2/$(basename "$DIR")"
+            shift 2
+            ;;
+        -o|--output)
+            if [ "$#" -lt 2 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            CSV="$2"
+            shift 2
+            ;;
+        -add-c|--add-category)
+            if [ "$#" -lt 2 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            echo "$2" >> "$DIR/categories.list"
+            shift 2
+            ;;
+        -add-a|--add-application)
+            if [ "$#" -lt 3 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            shift
+            if [ "$#" -eq 2 ]; then
+                name="$1"
+                cmd="$2"
+                shift 2
+                echo "$name ==$cmd" >> "$DIR/applications.list"
+            elif [ "$#" -eq 3 ]; then
+                category="$1"
+                name="$2"
+                cmd="$3"
+                shift 3
+                echo "$category @@ $name ==$cmd" >> "$DIR/applications.list"
+            elif [ "$#" -eq 4 ]; then
+                category="$1"
+                name="$2"
+                term="$3"
+                cmd="$4"
+                echo "$category @@ $name ==$term $cmd" >> "$DIR/applications.list"
+                shift 4
+            fi
+            ;;
+        -add-l|--add-link)
+            if [ "$#" -lt 3 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            shift
+            if [ "$#" -eq 2 ]; then
+                name="$1"
+                url="$2"
+                shift 2
+                echo "$name ==$url" >> "$DIR/links.list"
+            elif [ "$#" -eq 3 ]; then
+                category="$1"
+                name="$2"
+                url="$3"
+                shift 3
+                echo "$category @@ $name ==$url" >> "$DIR/links.list"
+            fi
+            ;;
+        -rm-c|--remove-category)
+            if [ "$#" -lt 2 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            sed -i "/^$2$/d" "$DIR/categories.list"
+            shift 2
+            ;;
+        -rm-a|--remove-application)
+            if [ "$#" -lt 2 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            shift
+            if [ "$#" -eq 1 ]; then
+                sed -i "/^$1 ==/d" "$DIR/applications.list"
+                shift
+            elif [ "$#" -eq 2 ]; then
+                sed -i "/^$1 @@ $2 ==/d" "$DIR/applications.list"
+                shift 2
+            fi
+            ;;
+        -rm-l|--remove-link)
+            if [ "$#" -lt 2 ]; then
+                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
+                exit 1
+            fi
+            shift
+            if [ "$#" -eq 1 ]; then
+                sed -i "/^$1 ==/d" "$DIR/links.list"
+                shift
+            elif [ "$#" -eq 2 ]; then
+                sed -i "/^$1 @@ $2 ==/d" "$DIR/links.list"
+                shift 2
+            fi
+            ;;
+        *)
+            echo -e "[$RED ERR $NC] Unknown option:$GREEN $1$NC"
+            exit 1
+            ;;
+    esac
+done
+
+CATEGORIES=$(cat "$DIR"/categories.list)
+CATEGORIES=$(echo "$CATEGORIES" | grep -v '^$' | grep -v '^#')
+
+APPLICATIONS=$(cat "$DIR"/applications.list)
+APPLICATIONS=$(echo "$APPLICATIONS" | grep -v '^$' | grep -v '^#')
+use_term() {
+    local terminal='/usr/bin/alacritty -e'
+    local shell='/usr/bin/bash -c'
+    local cmd="$1; exec $(echo "$shell" | cut -d' ' -f1)"
+    echo "$terminal $shell \"$cmd\""
+}
+
+LINKS=$(cat "$DIR"/links.list)
+LINKS=$(echo "$LINKS" | grep -v '^$' | grep -v '^#')
+open_link() {
+    local browser='/usr/bin/firefox-esr -new-tab'
+    echo "$browser $1"
+}
+#
+#
+#
+ENTRIES=()
+
+while read entry; do
+    c_entry=$(echo "$entry" | tr ' ' '-')
+    if echo "$entry" | grep -q '/'; then
+        parent="require[$(dirname "$c_entry")] "
+        c_entry=$(basename "$c_entry")
+        entry=$(basename "$entry")
+    fi
+    entry="$parent$entry, ^checkout($c_entry)"
+    ENTRIES=("${ENTRIES[@]}" "$entry")
+    unset parent
+done <<< "$CATEGORIES"
+
+while read entry; do
+    if echo "$entry" | grep -q '@@'; then
+        parent=$(echo "$entry" | cut -d'@' -f1)
+        parent=$(echo "$parent" | sed 's/ $//')
+        parent=$(echo "$parent" | tr ' ' '-')
+        parent="require[$parent] "
+        entry=$(echo "$entry" | cut -d'@' -f3-)
+    fi
+    if echo "$entry" | grep -q '=='; then
+        name=$(echo "$entry" | cut -d'=' -f1)
+        name=$(echo "$name" | sed 's/ $//')
+        name=$(echo "$name" | sed 's/^ //')
+
+        cmd=$(echo "$entry" | cut -d'=' -f3-)
+        cmd=$(echo "$cmd" | sed 's/^ //')
+        if echo "$cmd" | grep -q '^term '; then
+            cmd=$(echo "$cmd" | cut -d' ' -f2-)
+            cmd=$(use_term "$cmd")
+        fi
+
+        entry="$parent$name, $cmd"
+        ENTRIES=("${ENTRIES[@]}" "$entry")
+        unset name cmd
+    else
+        echo 'Jgmenu setup: applications.list: invalid entry:'
+        echo "$entry"
+    fi
+    unset parent
+done <<< "$APPLICATIONS"
+
+while read entry; do
+    if echo "$entry" | grep -q '@@'; then
+        parent=$(echo "$entry" | cut -d'@' -f1)
+        parent=$(echo "$parent" | sed 's/ $//')
+        parent=$(echo "$parent" | tr ' ' '-')
+        parent="require[$parent] "
+        entry=$(echo "$entry" | cut -d'@' -f3-)
+    fi
+    if echo "$entry" | grep -q '=='; then
+        name=$(echo "$entry" | cut -d'=' -f1)
+        name=$(echo "$name" | sed 's/ $//')
+        name=$(echo "$name" | sed 's/^ //')
+
+        url=$(echo "$entry" | cut -d'=' -f3-)
+        url=$(echo "$url" | sed 's/^ //')
+
+        entry="$parent$name, $(open_link "$url")"
+        ENTRIES=("${ENTRIES[@]}" "$entry")
+        unset name url
+    else
+        echo 'Jgmenu setup: links.list: invalid entry:'
+        echo "$entry"
+    fi
+    unset parent
+done <<< "$LINKS"
+#
+#
+#
+OUTPUT="#===========================ROOT"
+SUBS=()
+x=0
+while [ "$x" -lt "${#ENTRIES[@]}" ]; do
+    entry="${ENTRIES[$x]}"
+    if echo "$entry" | grep -q '^require\['; then
+        x=$((x+1))
+        sub=$(echo "$entry" | cut -d' ' -f1)
+        sub=$(echo "$sub" | cut -d'[' -f2-)
+        sub=$(echo "$sub" | cut -d']' -f1)
+        for entry in "${SUBS[@]}"; do
+            if [ "$entry" = "$sub" ]; then
+                continue 2
+            fi
+        done
+        SUBS=("${SUBS[@]}" "$sub")
+        continue
+    fi
+    ENTRIES=("${ENTRIES[@]:0:$x}" "${ENTRIES[@]:$((x+1))}")
+    OUTPUT="$OUTPUT\n$entry"
+done
+OUTPUT="$OUTPUT\n"
+
+x=0
+while [ "$x" -lt "${#SUBS[@]}" ]; do
+    sub="${SUBS[$x]}"
+    subname="SUB - $(echo "$sub" | tr '[:lower:]' '[:upper:]')"
+    OUTPUT="$OUTPUT\n#===========================$subname"
+    OUTPUT="$OUTPUT\n^tag($(basename "$sub"))"
+    y=0
+    while [ "$y" -lt "${#ENTRIES[@]}" ]; do
+        entry="${ENTRIES[$y]}"
+        if echo "$entry" | grep -q "^require\[$sub\] "; then
+            ENTRIES=("${ENTRIES[@]:0:$y}" "${ENTRIES[@]:$((y+1))}")
+            entry=$(echo "$entry" | cut -d' ' -f2-)
+            OUTPUT="$OUTPUT\n$entry"
+            continue
+        fi
+        y=$((y+1))
+    done
+    OUTPUT="$OUTPUT\n"
+    x=$((x+1))
+done
+
+echo -e "$OUTPUT" > "$CSV"

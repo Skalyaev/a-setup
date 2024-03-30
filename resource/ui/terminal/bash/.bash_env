@@ -1,3 +1,5 @@
 #!/bin/bash
 export PATH="$HOME/.local/bin:$PATH"
 export MANPAGER='most'
+export SETUP="$HOME/setup"
+export NOTES="$HOME/notes"

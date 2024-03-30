@@ -1,5 +1,8 @@
 i3 @ ~/.config
-jgmenu @ ~/.config
+jgmenu/jgmenurc @ ~/.config/jgmenu
+jgmenu/menu.csv @ ~/.config/jgmenu
+jgmenu/set-jgmenu @ ~/.local/bin
+jgmenu/set @ ~/.local/share/jgmenu
 gtk-2.0 @ ~/.config
 gtk-3.0 @ ~/.config
 qt5ct @ ~/.config

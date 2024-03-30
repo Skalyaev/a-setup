@@ -1,11 +1,16 @@
 #===========================ROOT
 client, ^checkout(client)
-social network, ^checkout(social-network)
+url, ^checkout(url)
 
 #===========================SUB - CLIENT
 ^tag(client)
 http, ^checkout(http)
 ssh, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
+
+#===========================SUB - URL
+^tag(url)
+ai, ^checkout(ai)
+social network, ^checkout(social-network)
 
 #===========================SUB - CLIENT/HTTP
 ^tag(http)
@@ -14,4 +19,8 @@ firefox, /usr/local/bin/use-nvidia /usr/bin/firefox-esr
 #===========================SUB - SOCIAL-NETWORK
 ^tag(social-network)
 github, /usr/bin/firefox-esr -new-tab https://github.com/Skalyaeve
+
+#===========================SUB - AI
+^tag(ai)
+chatgpt, /usr/bin/firefox-esr -new-tab https://chat.openai.com/
 
