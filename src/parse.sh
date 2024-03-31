@@ -80,7 +80,7 @@ while [ "$#" -gt 0 ]; do
         NO_WEB=1
         shift
         ;;
-    '--no-local')
+    '--no-swap')
         NO_SWAP=1
         shift
         ;;

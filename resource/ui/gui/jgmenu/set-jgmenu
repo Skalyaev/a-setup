@@ -24,28 +24,7 @@ Set a jgmenu from some .list files:
 \tDefault is: ~/.local/share/jgmenu/sets
 \t*$GREEN -o, --output <path>$NC
 \tPath to the csv output file.
-\tDefault is: ~/.config/jgmenu/menu.csv
-\t*$GREEN -add-c, --add-category <category>$NC
-\tAdd a (sub)category to the menu.
-\tExemple:
-\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-c category$NC
-\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-c parent/sub$NC
-\t*$GREEN -add-a, --add-application [category] <name> [term] <command>$NC
-\tAdd an application to the menu.
-\tExemple:
-\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-a name command$NC
-\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-a category name 'term' command$NC
-\t*$GREEN -add-l, --add-link [category] <name> <url>$NC
-\tAdd a link to the menu.
-\tExemple:
-\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-l name url$NC
-\t\t${YELLOW}$(basename "$0") ${BLUE}<directory> -add-l parent/sub name url$NC
-\t*$GREEN -rm-c, --remove-category <category>$NC
-\tRemove a category from the menu.
-\t*$GREEN -rm-a, --remove-application [category] <name>$NC
-\tRemove an application from the menu.
-\t*$GREEN -rm-l, --remove-link [category] <name>$NC
-\tRemove a link from the menu."
+\tDefault is: ~/.config/jgmenu/menu.csv"
 
 if [ "$#" -lt 1 ]; then
     echo -e "$USAGE"
@@ -71,95 +50,6 @@ while [ "$#" -gt 0 ]; do
             fi
             CSV="$2"
             shift 2
-            ;;
-        -add-c|--add-category)
-            if [ "$#" -lt 2 ]; then
-                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
-                exit 1
-            fi
-            echo "$2" >> "$DIR/categories.list"
-            shift 2
-            ;;
-        -add-a|--add-application)
-            if [ "$#" -lt 3 ]; then
-                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
-                exit 1
-            fi
-            shift
-            if [ "$#" -eq 2 ]; then
-                name="$1"
-                cmd="$2"
-                shift 2
-                echo "$name ==$cmd" >> "$DIR/applications.list"
-            elif [ "$#" -eq 3 ]; then
-                category="$1"
-                name="$2"
-                cmd="$3"
-                shift 3
-                echo "$category @@ $name ==$cmd" >> "$DIR/applications.list"
-            elif [ "$#" -eq 4 ]; then
-                category="$1"
-                name="$2"
-                term="$3"
-                cmd="$4"
-                echo "$category @@ $name ==$term $cmd" >> "$DIR/applications.list"
-                shift 4
-            fi
-            ;;
-        -add-l|--add-link)
-            if [ "$#" -lt 3 ]; then
-                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
-                exit 1
-            fi
-            shift
-            if [ "$#" -eq 2 ]; then
-                name="$1"
-                url="$2"
-                shift 2
-                echo "$name ==$url" >> "$DIR/links.list"
-            elif [ "$#" -eq 3 ]; then
-                category="$1"
-                name="$2"
-                url="$3"
-                shift 3
-                echo "$category @@ $name ==$url" >> "$DIR/links.list"
-            fi
-            ;;
-        -rm-c|--remove-category)
-            if [ "$#" -lt 2 ]; then
-                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
-                exit 1
-            fi
-            sed -i "/^$2$/d" "$DIR/categories.list"
-            shift 2
-            ;;
-        -rm-a|--remove-application)
-            if [ "$#" -lt 2 ]; then
-                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
-                exit 1
-            fi
-            shift
-            if [ "$#" -eq 1 ]; then
-                sed -i "/^$1 ==/d" "$DIR/applications.list"
-                shift
-            elif [ "$#" -eq 2 ]; then
-                sed -i "/^$1 @@ $2 ==/d" "$DIR/applications.list"
-                shift 2
-            fi
-            ;;
-        -rm-l|--remove-link)
-            if [ "$#" -lt 2 ]; then
-                echo -e "[$RED ERR $NC] Missing argument for option:$GREEN $1$NC"
-                exit 1
-            fi
-            shift
-            if [ "$#" -eq 1 ]; then
-                sed -i "/^$1 ==/d" "$DIR/links.list"
-                shift
-            elif [ "$#" -eq 2 ]; then
-                sed -i "/^$1 @@ $2 ==/d" "$DIR/links.list"
-                shift 2
-            fi
             ;;
         *)
             echo -e "[$RED ERR $NC] Unknown option:$GREEN $1$NC"

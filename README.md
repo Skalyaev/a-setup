@@ -41,7 +41,7 @@ setup <command> [options]
     * When `install`, do not read `apt.list` files.
 - `--no-web`:
     * When `install`, do not read `web.list` files.
-- `--no-local`:
+- `--no-swap`:
     * When `install`, do not read `.swap` files.
 
 

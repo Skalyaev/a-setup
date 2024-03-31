@@ -36,7 +36,7 @@ ${GREEN}--no-apt${NC}
 \t* When ${BLUE}install${NC}, do not read apt.list files.
 ${GREEN}--no-web${NC}
 \t* When ${BLUE}install${NC}, do not read web.list files.
-${GREEN}--no-local${NC}
+${GREEN}--no-swap${NC}
 \t* When ${BLUE}install${NC}, do not read .swap files.
 "
 
