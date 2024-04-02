@@ -16,6 +16,7 @@ call plug#end()
 
 "================================================ CONFIG - PLUGINS
 let g:python3_host_prog="/usr/bin/python3"
+let g:autoformat_autoindent=0
 
 let g:NERDTreeShowFilesLines=1
 let g:NERDTreeShowHidden=1
