@@ -14,7 +14,7 @@ social network, ^checkout(social-network)
 
 #===========================SUB - CLIENT/HTTP
 ^tag(http)
-firefox, /usr/local/bin/use-nvidia /usr/bin/firefox-esr
+firefox, /usr/bin/firefox-esr
 
 #===========================SUB - SOCIAL-NETWORK
 ^tag(social-network)
