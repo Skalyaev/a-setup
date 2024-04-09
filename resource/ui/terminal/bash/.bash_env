@@ -2,5 +2,5 @@
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR='vim'
 export MANPAGER='most'
-export SETUP="$HOME/setup"
-export NOTES="$HOME/notes"
+export setup="$HOME/setup"
+export notes="$HOME/notes"
