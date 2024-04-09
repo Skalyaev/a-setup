@@ -6,5 +6,4 @@ ncdu : Nettoyage système
 neofetch : Informations système
 firefox-esr : Navigateur web
 ffmpeg : Capture vidéo
-vlc: Lecteur vidéo
-mpv : Lecteur GIF
+mpv : Lecteur multimédia
