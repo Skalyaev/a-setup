@@ -1,70 +1,56 @@
 #!/bin/bash
-PATH='/bin:/sbin:/usr/bin:/usr/sbin'
-
-GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
-RED='\033[0;31m'
 BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="${GRAY}===================usage${NC}
-${YELLOW}$(basename "$0") ${BLUE}<archive(s)>${NC}
+USAGE="$GRAY===================usage$NC
+$YELLOW$(basename "$0") $BLUE<archive(s)>$NC
 
-Extracts the given archive(s) to their respective directories."
-#
-#
-#==================================RUN
-if [ "$#" -lt 1 ]; then
-    echo -e "$USAGE"
-    exit 1
-fi
+extracts the given archive(s)
+"
+(( "$#" < 1 )) && echo -e "$USAGE" && exit 1
 
 is_installed() {
     local app="$1"
-    local answ=$(dpkg-query -W -f='${Status}' "$app" 2>'/dev/null')
-    if ! echo "$answ" | grep 'install ok installed' &>'/dev/null'; then
-        echo -e "$app needed, install ?"
-        select _ in 'Yes' 'No'; do
-            case "$_" in
-                'Yes')
-                    echo -e "${BLUE}Installing$NC $app..."
-                    if ! apt install -y "$app" &>'/dev/null'; then
-                        echo -e "[$RED KO $NC] Non-zero returned from apt."
-                        echo -e 'Sudo might be needed.'
-                        return 1
-                    else
-                        echo -e "[$GREEN OK $NC]"
-                        return 0
-                    fi
-                    ;;
-                'No') return 1;;
-            esac
-        done
-    else
-        return 0
-    fi
-}
+    ! grep -q 'install ok installed'\
+        <<<"$(dpkg-query -W -f='${Status}' "$app" 2>'/dev/null')"\
+        && return 0
 
+    echo -e "$app needed, install ?"
+    select _ in 'Yes' 'No'; do
+        case "$_" in
+        'Yes')
+            echo -e "${BLUE}Installing$NC $app..."
+            ! apt install -y "$app" &> '/dev/null'\
+                && echo -e "[$RED KO $NC] apt failed"\
+                ; return 1
+            fi
+            echo -e "[$GREEN OK $NC]"
+            return 0
+            ;;
+        'No') return 1;;
+        esac
+    done
+}
 do_extract() {
     local app="$1"
     local cmd="$2"
-    if ! is_installed "$app"; then
-        echo -e "[$YELLOW WARN $NC] Can not extract $file"
-        return
-    fi
-    echo -ne "${BLUE}Extracting$NC $file..."
-    eval "$cmd" >'/dev/null'
-    echo -e "[$GREEN OK $NC]"
-}
+    ! is_installed "$app"\
+        && echo -e "[$YELLOW WARN $NC] can not extract $file"\
+        ; return 1
 
-while [ "$#" -gt 0 ]; do
+    echo -ne "${BLUE}Extracting$NC $file..."
+    eval "$cmd" &> '/dev/null'
+    echo -e "[$GREEN OK $NC]"
+    return 0
+}
+while (( "$#" -gt 0 )); do
     file="$1"
     shift
-    if [ ! -e "$file" ]; then
-        echo -e "[$YELLOW WARN $NC] $file not found"
-        continue
-    fi
+    [[ ! -e "$file" ]]\
+        && echo -e "[$YELLOW WARN $NC] $file not found"\
+        ; continue
     case "$file" in
         *'.zip') do_extract 'unzip' "unzip -q $file";;
         *'.rar') do_extract 'unrar' "unrar x -o- $file";;

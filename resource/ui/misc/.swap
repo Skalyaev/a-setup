@@ -1,1 +1,4 @@
 bin/extract @ ~/.local/bin
+bin/videocrop @ ~/.local/bin
+bin/videocut @ ~/.local/bin
+bin/video2gif @ ~/.local/bin

@@ -68,6 +68,9 @@ alias pyc='python3 -c'
 
 #============== MISC
 alias fullapt='sudo apt update -y && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
+
 if [ -x /usr/bin/dircolors ]; then
     alias colors='for i in {0..256};do o=00$i;echo -ne "${o:${#o}-3:3} "$(tput setaf $i;tput setab $i)"   "$(tput sgr0);done; echo'
 fi
+
+alias record='ffmpeg -f x11grab -i :0.0 -s 1920x1080 -r 25'

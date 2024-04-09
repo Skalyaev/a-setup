@@ -13,12 +13,12 @@ nnoremap <leader>O :on! <CR>
 nnoremap <leader>e :e# <CR>
 nnoremap <leader>& :e ~/.local/share/git <CR>
 nnoremap <leader>é :e ~/setup/ui <CR>
-nnoremap <leader>" :e ~/setup/ui/tools/bin <CR>
+nnoremap <leader>" :e ~/setup/ui/misc/bin <CR>
 nnoremap <leader>' :e ~/setup/ui/ide/templates <CR>
 
 nnoremap <leader>1 :e ~/.bash_aliases <CR>
 nnoremap <leader>2 :e ~/.inputrc <CR>
-nnoremap <leader>3 :e ~/.config/terminator/config <CR>
+nnoremap <leader>3 :e ~/.config/alacritty/alacritty.yml <CR>
 nnoremap <leader>4 :e ~/.vim/binds.vim <CR>
 nnoremap <leader>5 :e ~/.vim/plugged/a-vim-theme/colors/neon.vim <CR>
 nnoremap <leader>6 :e ~/.vimrc <CR>
