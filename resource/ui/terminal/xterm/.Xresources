@@ -1,22 +1,5 @@
 xterm*background: #121212 
-
-xterm*color0: #202020
-xterm*color1: #ff0080
-xterm*color2: #00ff80
-xterm*color3: #ff8000
-xterm*color4: #8000ff
-xterm*color5: #0080ff 
-xterm*color6: #00ffff
-xterm*color7: #efefef
-
-xterm*color8: #404040
-xterm*color9: #ff409f
-xterm*color10: #40ff9f
-xterm*color11: #ff9f40
-xterm*color12: #9f40ff
-xterm*color13: #409fff
-xterm*color14: #40ffff
-xterm*color15: #ffffff
+xterm*foreground: #ffffff
 
 xterm*cursorBlink: true
 xterm*faceName: Terminess Nerd Font
