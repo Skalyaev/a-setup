@@ -51,6 +51,7 @@ alias gv='grep -v'
 alias gi='grep -i'
 alias gvi='grep -vi'
 if [ -x /usr/bin/dircolors ]; then
+    alias grep='grep --color=auto'
     alias g='grep --color=auto'
     alias gv='grep -v --color=auto'
     alias gi='grep -i --color=auto'
