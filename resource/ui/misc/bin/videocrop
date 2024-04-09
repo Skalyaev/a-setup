@@ -13,4 +13,4 @@ crop a video
 
 ffmpeg -i "$1"\
     -filter:v "crop=$2:$3:$4:$5"\
-    "${1%.*}_crop.${1##*.}"
+    "crop_${1%.*}.${1##*.}"
