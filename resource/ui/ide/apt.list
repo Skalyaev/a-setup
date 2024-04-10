@@ -7,6 +7,8 @@ xclip : Presse-papier
 libtool-bin : Support bibliothèques partagées
 libxt-dev : Bibliothèques X11
 libxext-dev : Bibliothèques X11
+libgtk-3-dev : Bibliothèques GTK 3
+libgtk-4-dev : Bibliothèques GTK 4
 libbsd-dev : Bibliothèques BSD
 libreadline-dev : Bibliothèques Readline
 libpython3-dev : Bibliothèques Python

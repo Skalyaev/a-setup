@@ -1,5 +1,7 @@
 #!/bin/bash
+RED='\033[0;31m'
 YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
@@ -13,19 +15,18 @@ extracts the given archive(s)
 
 is_installed() {
     local app="$1"
-    ! grep -q 'install ok installed'\
+    grep -q 'install ok installed'\
         <<<"$(dpkg-query -W -f='${Status}' "$app" 2>'/dev/null')"\
         && return 0
 
     echo -e "$app needed, install ?"
-    select _ in 'Yes' 'No'; do
-        case "$_" in
+    select x in 'Yes' 'No'; do
+        case "$x" in
         'Yes')
             echo -e "${BLUE}Installing$NC $app..."
             ! apt install -y "$app" &> '/dev/null'\
                 && echo -e "[$RED KO $NC] apt failed"\
-                ; return 1
-            fi
+                && return 1
             echo -e "[$GREEN OK $NC]"
             return 0
             ;;
@@ -38,26 +39,25 @@ do_extract() {
     local cmd="$2"
     ! is_installed "$app"\
         && echo -e "[$YELLOW WARN $NC] can not extract $file"\
-        ; return 1
+        && return 1
 
     echo -ne "${BLUE}Extracting$NC $file..."
     eval "$cmd" &> '/dev/null'
     echo -e "[$GREEN OK $NC]"
     return 0
 }
-while (( "$#" -gt 0 )); do
+while (( "$#" > 0 )); do
     file="$1"
+    echo "file: $file"
     shift
     [[ ! -e "$file" ]]\
         && echo -e "[$YELLOW WARN $NC] $file not found"\
-        ; continue
+        && continue
     case "$file" in
         *'.zip') do_extract 'unzip' "unzip -q $file";;
         *'.rar') do_extract 'unrar' "unrar x -o- $file";;
         *'.tar') do_extract 'tar' "tar xf $file";;
-        *'.tar.bz2') do_extract 'tar' "tar xjf $file";;
-        *'.tar.gz') do_extract 'tar' "tar xzf $file";;
-        *'.tar.xz') do_extract 'tar' "tar xJf $file";;
+        *'.tgz') do_extract 'tar' "tar xzf $file";;
         *) echo -e "[$YELLOW WARN $NC] Can not extract $file";;
     esac
 done
