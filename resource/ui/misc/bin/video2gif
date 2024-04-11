@@ -5,12 +5,13 @@ GRAY='\033[0;37m'
 NC='\033[0m'
 
 USAGE="$GRAY===================usage$NC
-$YELLOW$(basename "$0") $BLUE<path> <fps>$NC
+$YELLOW$(basename "$0") $BLUE<video>$NC
 
 Convert video to gif
 "
 (( "$#" != 2 )) && echo -e "$USAGE" && exit 1
 
 ffmpeg -i "$1"\
-    -r "$2"\
+    -filter_complex\
+    "[0]split[a][b]; [a]palettegen[palette]; [b][palette]paletteuse"\
     "${1%.*}.gif"
