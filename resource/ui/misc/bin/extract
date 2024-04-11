@@ -57,6 +57,7 @@ while (( "$#" > 0 )); do
         *'.zip') do_extract 'unzip' "unzip -q $file";;
         *'.rar') do_extract 'unrar' "unrar x -o- $file";;
         *'.tar') do_extract 'tar' "tar xf $file";;
+        *'.tar.gz') do_extract 'tar' "tar xzf $file";;
         *'.tgz') do_extract 'tar' "tar xzf $file";;
         *) echo -e "[$YELLOW WARN $NC] Can not extract $file";;
     esac
