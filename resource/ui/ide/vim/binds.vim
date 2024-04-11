@@ -24,7 +24,7 @@ nnoremap <leader>4 :e ~/.bash_aliases <CR>
 nnoremap <leader>5 :e ~/.inputrc <CR>
 nnoremap <leader>6 :e ~/.config/alacritty/alacritty.yml <CR>
 
-nnoremap <leader>7 :e ~/setup/ui/gui/jgmenu/set/main <CR>
+nnoremap <leader>7 :e ~/.local/share/jgmenu/set/main <CR>
 nnoremap <leader>8 :e ~/.config/i3 <CR>
 nnoremap <leader>9 :e ~/setup/ui <CR>
 

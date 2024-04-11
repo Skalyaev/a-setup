@@ -1,4 +1,5 @@
-clang : Compilateur C/C++
+clang : Compilation C/C++
+nasm : Compilation ASM
 nodejs : Environnement d'exécution JavaScript
 npm : Gestionnaire de paquets Node.js
 gawk : GNU awk

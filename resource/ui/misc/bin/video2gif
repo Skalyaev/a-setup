@@ -9,7 +9,7 @@ $YELLOW$(basename "$0") $BLUE<video>$NC
 
 Convert video to gif
 "
-(( "$#" != 2 )) && echo -e "$USAGE" && exit 1
+(( "$#" != 1 )) && echo -e "$USAGE" && exit 1
 
 ffmpeg -i "$1"\
     -filter_complex\
