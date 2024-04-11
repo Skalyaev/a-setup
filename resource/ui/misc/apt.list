@@ -1,9 +1,11 @@
-bc : Calculatrice
+firefox-esr : Navigateur web
+docker-io : Conteneurs
+docker-compose : Gestionnaire docker
 scrot : Captures d'écran
 feh : Visualisation images
+ffmpeg : Capture vidéo
+mpv : Lecteur multimédia
+bc : Calculatrice
 tree : Visualisation fs
 ncdu : Nettoyage système
 neofetch : Informations système
-firefox-esr : Navigateur web
-ffmpeg : Capture vidéo
-mpv : Lecteur multimédia

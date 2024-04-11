@@ -9,18 +9,24 @@ ssh, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
 
 #===========================SUB - URL
 ^tag(url)
-ai, ^checkout(ai)
+ai tool, ^checkout(ai-tool)
+media editor, ^checkout(media-editor)
 social network, ^checkout(social-network)
 
 #===========================SUB - CLIENT/HTTP
 ^tag(http)
 firefox, /usr/bin/firefox-esr
 
+#===========================SUB - AI-TOOL
+^tag(ai-tool)
+gemini, /usr/bin/firefox-esr -new-tab https://gemini.google.com/app
+chatgpt, /usr/bin/firefox-esr -new-tab https://chat.openai.com/
+
+#===========================SUB - MEDIA-EDITOR
+^tag(media-editor)
+video2gif, /usr/bin/firefox-esr -new-tab https://new.express.adobe.com/tools/convert-to-gif
+
 #===========================SUB - SOCIAL-NETWORK
 ^tag(social-network)
 github, /usr/bin/firefox-esr -new-tab https://github.com/Skalyaeve
-
-#===========================SUB - AI
-^tag(ai)
-chatgpt, /usr/bin/firefox-esr -new-tab https://chat.openai.com/
 

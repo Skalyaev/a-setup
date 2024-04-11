@@ -55,6 +55,8 @@ set wrap
 set whichwrap=b,s,>,<,[,]
 set backspace=indent,eol,start
 
+au BufWrite * :Autoformat
+
 let g:mapleader=" "
 source ~/.vim/binds.vim
 
