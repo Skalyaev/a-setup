@@ -13,3 +13,12 @@ libgtk-4-dev : Bibliothèques GTK 4
 libbsd-dev : Bibliothèques BSD
 libreadline-dev : Bibliothèques Readline
 libpython3-dev : Bibliothèques Python
+python3 : Language de script
+python3-bs4 : Parser HTML
+python3-tk : Développement graphique en Python
+python3-pil : Gestion d'images en Python
+python3-pil.imagetk : Support Tkinter de Pillow
+python3-py3exiv2 : Gestion metadata d'images en Python
+python3-qrcode : Gestion QRcode en Python
+libcurl4-openssl-dev : Support SSL pour curl
+libjsoncpp-dev : Manipulation JSON en C++
