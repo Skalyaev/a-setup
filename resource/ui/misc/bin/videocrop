@@ -4,12 +4,15 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="$GRAY===================usage$NC
+USAGE="$GRAY===================USAGE
 $YELLOW$(basename "$0") $BLUE<file> <width> <height> <x> <y>$NC
 
 crop a video
 "
-(( "$#" != 5 )) && echo -e "$USAGE" && exit 1
+if (( "$#" < 5 ));then
+    echo -e "$USAGE"
+    exit 1
+fi
 
 ffmpeg -i "$1"\
     -filter:v "crop=$2:$3:$4:$5"\

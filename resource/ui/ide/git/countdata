@@ -1,0 +1,102 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+GRAY='\033[0;37m'
+NC='\033[0m'
+
+USAGE="$GRAY===================USAGE
+$YELLOW$(basename "$0") $GREEN[options]$NC $BLUE<root>$NC
+
+Count the amount of data from $BLUE<root>$NC using file extensions
+
+$BLUE<root>$NC:
+    $RED*$NC The root directory to start counting from
+
+$GREEN[options]$NC:
+-e, --exclude \"<name1> <name2> ...\"
+    $RED*$NC Exclude files/directories from the count
+-h, --help
+    $RED*$NC Print this message
+"
+if (( "$#" < 1 )); then
+    echo -e "$USAGE"
+    exit 1
+fi
+EXCLUDE='.git'
+while (( "$#" )); do
+    case "$1" in
+        -e|--exclude)
+            if (( "$#" < 2 )); then
+                echo -e "$USAGE"
+                exit 1
+            fi
+            EXCLUDE+=" $2"
+            shift 2
+            ;;
+        -h|--help)
+            echo -e "$USAGE"
+            exit 0
+            ;;
+        *)
+            if [[ "$ROOT" ]]; then
+                echo -e "$USAGE"
+                exit 1
+            fi
+            ROOT="$1"
+            shift
+            ;;
+    esac
+done
+if [[ ! "$ROOT" ]]; then
+    echo -e "$USAGE"
+    exit 1
+fi
+EXT=('sh' 'c;h' 'cpp;hpp' 'html' 'css' 'js' 'py' 'tsx')
+for x in "${EXT[@]}"; do
+    TOTAL=0
+    while read ext;do
+        PAYLOAD="find $ROOT"
+
+        while read line;do
+            PAYLOAD+=" -not -path \"*/$line*\""
+        done <<< "$(tr ' ' '\n' <<< "$EXCLUDE")"
+
+        PAYLOAD+=" -name \"*.$ext\"\
+            | xargs wc -c | tail -n 1 | cut -d' ' -f1"
+        COUNT="$(eval "$PAYLOAD")"
+        TOTAL="$((TOTAL + COUNT))"
+
+    done <<< "$(tr ';' '\n' <<< "$x")"
+    BYTES+=("$TOTAL")
+done
+for x in "${!BYTES[@]}"; do
+    y=0
+    for z in "${!SORTED[@]}"; do
+        (( "${BYTES[x]}" >= "${SORTED[z]}" )) && break
+        (( y++ ))
+    done
+    SORTED=("${SORTED[@]:0:$y}" "${BYTES[x]}" "${SORTED[@]:$y}")
+done
+TOTAL="$(IFS=+; echo "$((${BYTES[*]}))")"
+for x in "${!SORTED[@]}"; do
+    for y in "${!BYTES[@]}"; do
+        if (( "${SORTED[x]}" == "${BYTES[y]}" ));then
+            if (( "${BYTES[y]}" )); then
+                PERCENT="$(bc -l\
+                    <<< "scale=2; ${BYTES[y]} / $TOTAL * 100"\
+                    | cut -d. -f1)"
+            else
+                PERCENT=0
+            fi
+            echo -e "$(cut -d ';' -f 1 <<< "${EXT[y]}"\
+                ): $PERCENT% (${BYTES[y]} bytes)"
+            EXT=("${EXT[@]:0:$y}" "${EXT[@]:$((y + 1))}")
+            BYTES=("${BYTES[@]:0:$y}" "${BYTES[@]:$((y + 1))}")
+            break
+        fi
+    done
+done

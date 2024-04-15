@@ -4,12 +4,15 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="$GRAY===================usage$NC
+USAGE="$GRAY===================USAGE
 $YELLOW$(basename "$0") $BLUE<video>$NC
 
 Convert video to gif
 "
-(( "$#" != 1 )) && echo -e "$USAGE" && exit 1
+if (( ! "$#" ));then
+    echo -e "$USAGE"
+    exit 1
+fi
 
 ffmpeg -i "$1"\
     -filter_complex\

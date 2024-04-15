@@ -4,8 +4,8 @@ BLUE='\033[0;34m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 
-USAGE="$GRAY===================usage$NC
-$YELLOW$(basename "$0") $BLUE<output> <size> <pos>$NC
+USAGE="$GRAY===================USAGE
+$YELLOW$(basename "$0") $BLUE<output> [size] [pos]$NC
 
 $BLUE<output>$NC: exemple.mp4
 $BLUE<size>$NC: 1920x1080
@@ -13,6 +13,18 @@ $BLUE<pos>$NC: 0,0
 
 Record a $BLUE<size>$NC video from $BLUE<pos>$NC and save it to $BLUE<output>$NC
 "
-(( "$#" != 3 )) && echo -e "$USAGE" && exit 1
+if (( ! "$#" ));then
+    echo -e "$USAGE"
+    exit 1
+fi
 
-ffmpeg -f x11grab -s $2 -i :0.0+$3 $1
+base='ffmpeg -f x11grab'
+pos='-i :0.0'
+
+if (( "$#" > 1 ));then
+    size="-s $2"
+fi
+if (( "$#" > 2 ));then
+    pos="+$3"
+fi
+eval "$base $size $pos $1"

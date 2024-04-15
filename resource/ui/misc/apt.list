@@ -9,3 +9,6 @@ bc : Calculatrice
 tree : Visualisation fs
 ncdu : Nettoyage système
 neofetch : Informations système
+unzip : Archives ZIP
+unrar : Archives RAR
+tar : Archives TAR
