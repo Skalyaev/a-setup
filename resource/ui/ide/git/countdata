@@ -9,12 +9,15 @@ GRAY='\033[0;37m'
 NC='\033[0m'
 
 USAGE="$GRAY===================USAGE
-$YELLOW$(basename "$0") $GREEN[options]$NC $BLUE<root>$NC
+$YELLOW$(basename "$0") $BLUE<root> <output>$NC $GREEN[options]$NC
 
 Count the amount of data from $BLUE<root>$NC using file extensions
+Output it at end of a README.md file as shield.io badges
 
 $BLUE<root>$NC:
     $RED*$NC The root directory to start counting from
+$BLUE<output>$NC:
+    $RED*$NC The README.md file to append the output to
 
 $GREEN[options]$NC:
 -e, --exclude \"<name1> <name2> ...\"
@@ -22,42 +25,59 @@ $GREEN[options]$NC:
 -h, --help
     $RED*$NC Print this message
 "
-if (( "$#" < 1 )); then
+if (( "$#" < 2 )); then
     echo -e "$USAGE"
     exit 1
 fi
+ROOT="$1"
+OUTPUT="$2"
+shift 2
 EXCLUDE='.git'
 while (( "$#" )); do
     case "$1" in
         -e|--exclude)
-            if (( "$#" < 2 )); then
+            shift
+            if (( "$#" < 1 )); then
                 echo -e "$USAGE"
                 exit 1
             fi
-            EXCLUDE+=" $2"
-            shift 2
+            while (( "$#" >= 1 )); do
+                if [[ "${1:0:1}" == '-' ]]; then
+                    break
+                fi
+                EXCLUDE+=" $1"
+                shift
+            done
             ;;
         -h|--help)
             echo -e "$USAGE"
             exit 0
             ;;
         *)
-            if [[ "$ROOT" ]]; then
-                echo -e "$USAGE"
-                exit 1
-            fi
-            ROOT="$1"
-            shift
+            echo -e "$USAGE"
+            exit 1
             ;;
     esac
 done
-if [[ ! "$ROOT" ]]; then
-    echo -e "$USAGE"
-    exit 1
-fi
-EXT=('sh' 'c;h' 'cpp;hpp' 'html' 'css' 'js' 'py' 'tsx')
+EXT=(
+    'sh 3178c6 sh powershell'
+    'c;h 555555 c c'
+    'cpp;hpp f34b7d c%2B%2B cplusplus'
+    'html e34c26 html html5'
+    'css 563d7c css css3'
+    'js e34c26 js javascript'
+    'py 555555 py python'
+    'tsx 3178c6 ts typescript'
+)
+TAIL="${#EXT[@]}"
+echo -e "[$YELLOW WARNING $NC] This will remove the last $TAIL lines from $OUTPUT"
+read -p "Continue? [y/N] " -n 1 -r
+echo
+[[ ! $REPLY =~ ^[Yy]$ ]] &&  exit 1
+
 for x in "${EXT[@]}"; do
     TOTAL=0
+    x="$(cut -d ' ' -f 1 <<< "$x")"
     while read ext;do
         PAYLOAD="find $ROOT"
 
@@ -82,6 +102,7 @@ for x in "${!BYTES[@]}"; do
     SORTED=("${SORTED[@]:0:$y}" "${BYTES[x]}" "${SORTED[@]:$y}")
 done
 TOTAL="$(IFS=+; echo "$((${BYTES[*]}))")"
+PAYLOAD=''
 for x in "${!SORTED[@]}"; do
     for y in "${!BYTES[@]}"; do
         if (( "${SORTED[x]}" == "${BYTES[y]}" ));then
@@ -92,11 +113,17 @@ for x in "${!SORTED[@]}"; do
             else
                 PERCENT=0
             fi
-            echo -e "$(cut -d ';' -f 1 <<< "${EXT[y]}"\
-                ): $PERCENT% (${BYTES[y]} bytes)"
+            COLOR="$(cut -d ' ' -f 2 <<< "${EXT[y]}")"
+            LABEL="$(cut -d ' ' -f 3 <<< "${EXT[y]}")"
+            LOGO="$(cut -d ' ' -f 4 <<< "${EXT[y]}")"
+            COUNT="$(sed -r 's/([0-9]+)([0-9]{3})/\1.\2/g' <<< "${BYTES[y]}")"
+            PAYLOAD+="https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL\n"
             EXT=("${EXT[@]:0:$y}" "${EXT[@]:$((y + 1))}")
             BYTES=("${BYTES[@]:0:$y}" "${BYTES[@]:$((y + 1))}")
             break
         fi
     done
 done
+
+BUFFER="$(head -n -"$TAIL" "$OUTPUT")"
+echo -ne "$BUFFER\n\n$PAYLOAD" > "$OUTPUT"
