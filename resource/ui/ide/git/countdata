@@ -70,6 +70,11 @@ EXT=(
     'tsx 3178c6 ts typescript'
 )
 TAIL="${#EXT[@]}"
+if (( "$TAIL" % 2 )); then
+    TAIL="$((TAIL + 1))"
+fi
+TAIL="$((TAIL/2 + 3))"
+
 echo -e "[$YELLOW WARNING $NC] This will remove the last $TAIL lines from $OUTPUT"
 read -p "Continue? [y/N] " -n 1 -r
 echo
@@ -102,7 +107,8 @@ for x in "${!BYTES[@]}"; do
     SORTED=("${SORTED[@]:0:$y}" "${BYTES[x]}" "${SORTED[@]:$y}")
 done
 TOTAL="$(IFS=+; echo "$((${BYTES[*]}))")"
-PAYLOAD=''
+PAYLOAD="|||\n|-|-|\n"
+TMP=0
 for x in "${!SORTED[@]}"; do
     for y in "${!BYTES[@]}"; do
         if (( "${SORTED[x]}" == "${BYTES[y]}" ));then
@@ -117,7 +123,11 @@ for x in "${!SORTED[@]}"; do
             LABEL="$(cut -d ' ' -f 3 <<< "${EXT[y]}")"
             LOGO="$(cut -d ' ' -f 4 <<< "${EXT[y]}")"
             COUNT="$(sed -r 's/([0-9]+)([0-9]{3})/\1.\2/g' <<< "${BYTES[y]}")"
-            PAYLOAD+="![](https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL)\n"
+            PAYLOAD+="| ![](https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL) "
+            ((TMP++))
+            if (( TMP % 2 == 0 )); then
+                PAYLOAD+="|\n"
+            fi
             EXT=("${EXT[@]:0:$y}" "${EXT[@]:$((y + 1))}")
             BYTES=("${BYTES[@]:0:$y}" "${BYTES[@]:$((y + 1))}")
             break
@@ -125,5 +135,7 @@ for x in "${!SORTED[@]}"; do
     done
 done
 
+PAYLOAD="$(echo -e "$PAYLOAD")"
+[[ "${PAYLOAD: -1}" != '|' ]] &&  PAYLOAD+="| |\n"
 BUFFER="$(head -n -"$TAIL" "$OUTPUT")"
-echo -ne "$BUFFER\n\n$PAYLOAD" > "$OUTPUT"
+echo -ne "$BUFFER\n\n$PAYLOAD\n| | |" > "$OUTPUT"
