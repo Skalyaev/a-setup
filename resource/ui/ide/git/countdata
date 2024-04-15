@@ -117,7 +117,7 @@ for x in "${!SORTED[@]}"; do
             LABEL="$(cut -d ' ' -f 3 <<< "${EXT[y]}")"
             LOGO="$(cut -d ' ' -f 4 <<< "${EXT[y]}")"
             COUNT="$(sed -r 's/([0-9]+)([0-9]{3})/\1.\2/g' <<< "${BYTES[y]}")"
-            PAYLOAD+="https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL\n"
+            PAYLOAD+="![](https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL)\n"
             EXT=("${EXT[@]:0:$y}" "${EXT[@]:$((y + 1))}")
             BYTES=("${BYTES[@]:0:$y}" "${BYTES[@]:$((y + 1))}")
             break
