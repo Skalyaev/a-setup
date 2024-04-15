@@ -60,13 +60,13 @@ while (( "$#" )); do
     esac
 done
 EXT=(
-    'sh 3178c6 sh powershell'
+    'sh 89e051 sh powershell'
     'c;h 555555 c c'
     'cpp;hpp f34b7d c%2B%2B cplusplus'
     'html e34c26 html html5'
     'css 563d7c css css3'
-    'js e34c26 js javascript'
-    'py 555555 py python'
+    'js f1e05a js javascript'
+    'py 3572a5 py python'
     'tsx 3178c6 ts typescript'
 )
 TAIL="${#EXT[@]}"
