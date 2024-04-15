@@ -60,14 +60,14 @@ while (( "$#" )); do
     esac
 done
 EXT=(
-    'sh 89e051 sh powershell'
-    'c;h 555555 c c'
     'cpp;hpp f34b7d c%2B%2B cplusplus'
-    'html e34c26 html html5'
-    'css 563d7c css css3'
-    'js f1e05a js javascript'
+    'c;h 555555 c c'
+    'sh 89e051 sh powershell'
     'py 3572a5 py python'
     'tsx 3178c6 ts typescript'
+    'js f1e05a js javascript'
+    'css 563d7c css css3'
+    'html e34c26 html html5'
 )
 TAIL="${#EXT[@]}"
 if (( "$TAIL" % 2 )); then
@@ -98,41 +98,24 @@ for x in "${EXT[@]}"; do
     done <<< "$(tr ';' '\n' <<< "$x")"
     BYTES+=("$TOTAL")
 done
-for x in "${!BYTES[@]}"; do
-    y=0
-    for z in "${!SORTED[@]}"; do
-        (( "${BYTES[x]}" >= "${SORTED[z]}" )) && break
-        (( y++ ))
-    done
-    SORTED=("${SORTED[@]:0:$y}" "${BYTES[x]}" "${SORTED[@]:$y}")
-done
 TOTAL="$(IFS=+; echo "$((${BYTES[*]}))")"
 PAYLOAD="|||\n|-|-|\n"
 TMP=0
-for x in "${!SORTED[@]}"; do
-    for y in "${!BYTES[@]}"; do
-        if (( "${SORTED[x]}" == "${BYTES[y]}" ));then
-            if (( "${BYTES[y]}" )); then
-                PERCENT="$(bc -l\
-                    <<< "scale=2; ${BYTES[y]} / $TOTAL * 100"\
-                    | cut -d. -f1)"
-            else
-                PERCENT=0
-            fi
-            COLOR="$(cut -d ' ' -f 2 <<< "${EXT[y]}")"
-            LABEL="$(cut -d ' ' -f 3 <<< "${EXT[y]}")"
-            LOGO="$(cut -d ' ' -f 4 <<< "${EXT[y]}")"
-            COUNT="$(sed -r 's/([0-9]+)([0-9]{3})/\1.\2/g' <<< "${BYTES[y]}")"
-            PAYLOAD+="| ![](https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL) "
-            ((TMP++))
-            if (( TMP % 2 == 0 )); then
-                PAYLOAD+="|\n"
-            fi
-            EXT=("${EXT[@]:0:$y}" "${EXT[@]:$((y + 1))}")
-            BYTES=("${BYTES[@]:0:$y}" "${BYTES[@]:$((y + 1))}")
-            break
-        fi
-    done
+for x in "${!BYTES[@]}"; do
+    if (( "${BYTES[x]}" )); then
+        PERCENT="$(bc -l\
+            <<< "scale=2; ${BYTES[x]} / $TOTAL * 100"\
+            | cut -d. -f1)"
+    else
+        PERCENT=0
+    fi
+    COLOR="$(cut -d ' ' -f 2 <<< "${EXT[x]}")"
+    LABEL="$(cut -d ' ' -f 3 <<< "${EXT[x]}")"
+    LOGO="$(cut -d ' ' -f 4 <<< "${EXT[x]}")"
+    COUNT="$(sed -r 's/([0-9]+)([0-9]{3})/\1.\2/g' <<< "${BYTES[x]}")"
+    PAYLOAD+="| ![](https://img.shields.io/badge/--$PERCENT%25--%20$COUNT%20octets-%23$COLOR?style=for-the-badge&logo=$LOGO&logoColor=white&labelColor=424242&label=$LABEL) "
+    ((TMP++))
+    (( TMP % 2 == 0 )) &&  PAYLOAD+="|\n"
 done
 
 PAYLOAD="$(echo -e "$PAYLOAD")"
