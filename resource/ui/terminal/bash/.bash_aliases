@@ -62,7 +62,7 @@ alias x='xargs'
 alias xi='xargs -I {}'
 
 #============== APPLICATIONS
-alias v='vim'
+alias v='nvim'
 alias py='python3'
 alias pyc='python3 -c'
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
 export EDITOR='vim'
 export MANPAGER='most'
 export setup="$HOME/setup"

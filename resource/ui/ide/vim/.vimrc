@@ -1,15 +1,14 @@
 "================================================ PLUGINS
 call plug#begin()
 
+Plug 'preservim/nerdtree'
 Plug 'github/copilot.vim'
 Plug 'vim-autoformat/vim-autoformat'
-Plug 'preservim/nerdtree'
-Plug 'lunacookies/vim-sh'
 
 Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'mattn/vim-lsp-settings'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'bfrg/vim-cpp-modern'
 Plug 'Skalyaeve/a-vim-theme'
 
 call plug#end()
@@ -29,6 +28,8 @@ let g:lsp_use_native_client=1
 let g:lsp_semantic_enabled=1
 
 "================================================ CONFIG - THEME
+filetype plugin indent on
+
 syntax on
 if (has("termguicolors"))
     set termguicolors
@@ -36,8 +37,6 @@ endif
 colorscheme neon
 
 "================================================ CONFIG - VIM
-filetype plugin indent on
-
 set incsearch
 set showmatch
 

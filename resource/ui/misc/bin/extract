@@ -62,11 +62,12 @@ while (( "$#" ));do
         *'.zip') do_extract 'unzip' "unzip -q $file";;
         *'.rar') do_extract 'unrar' "unrar x -o- $file";;
         *'.iso') do_extract 'p7zip-full' "7z x $file";;
-        *'.tgz') do_extract 'tar' "tar xzf $file";;
         *'.tar') do_extract 'tar' "tar xf $file";;
         *'.tar.gz') do_extract 'tar' "tar xzf $file";;
         *'.tar.xz') do_extract 'tar' "tar xJf $file";;
         *'.tar.bz2') do_extract 'tar' "tar xjf $file";;
+        *'.gz') do_extract 'gzip' "gunzip $file";;
+        *'.tgz') do_extract 'tar' "tar xzf $file";;
         *) echo -e "[$YELLOW WARN $NC] Can not extract $file";;
     esac
 done
