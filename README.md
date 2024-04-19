@@ -1,4 +1,4 @@
-# ▣────── A setup ──────▣
+# ▣──────┤ A script├──────▣
 | Component | Name | Conf | Binds |
 |:-|:-|-:|-|
 | OS | Debian 12 | ---- | ---- |
@@ -8,7 +8,7 @@
 | Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) | [.inputrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc)
 | IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/init.lua) | [binds.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/lua/binds.lua) |
 
-# ▣────── A script ──────▣
+# ▣──────┤ A script ├──────▣
 - To quickly setup any Debian `home`/system
 - To keep updated git/web resources
 - To regroup your different tools and configurations
@@ -92,7 +92,7 @@ rm -rf ~/.local/share/setup
 rm ~/.local/bin/setup
 ```
 
-# ▣────── Some tools ──────▣
+# ▣─────┤ Some tools ├─────▣
 - [extract](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Extract archives
 - [setmenu](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/setmenu): Set a [jgmenu csv](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/menu.csv) from a [directory](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/set/main)
 - [gitpush](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Commit and push repositories from a directory
