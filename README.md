@@ -1,4 +1,14 @@
-# <p align="center">A script</p>
+# A setup
+| Component | Name | Conf |
+|:-|:-:|-:|
+| OS | Debian 12 | ---- |
+| DE | ---- | ---- |
+| WM | i3 | [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) |
+| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) |
+| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) |
+| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/.init.lua) |
+
+# A script
 - To quickly setup any Debian `home`/system
 - To keep updated git/web resources
 - To regroup your different tools and configurations
@@ -82,18 +92,7 @@ rm -rf ~/.local/share/setup
 rm ~/.local/bin/setup
 ```
 
-# <p align="center">A setup</p>
-| Component | Name | Conf |
-|:-|:-:|-:|
-| OS | Debian 12 | ---- |
-| DE | ---- | ---- |
-| WM | i3 | [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) |
-| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) |
-| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) |
-| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/.init.lua) |
-
-
-# <p align="center">Some tools</p>
+# Some tools
 - [extract](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Extract archives
 - [setmenu](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/setmenu): Set a [jgmenu csv](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/menu.csv) from a [directory](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/set/main)
 - [gitpush](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Commit and push repositories from a directory
