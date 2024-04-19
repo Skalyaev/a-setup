@@ -1,15 +1,19 @@
 # A setup
-| Component | Name | Configuration |
+| Component | Name | Conf |
 |-|-|-|
 | OS | Debian 12 | ---- |
 | DE | ---- | ---- |
-| WM | i3 |  [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/gui/i3/config)  |
-| Shell | Bash |  [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/terminal/bash/.bashrc)  |
-| Terminal | Alacritty |  [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/terminal/alacritty/alacritty.yml)  |
-| IDE | Vim | [.vimrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/ui/ide/vim/.vimrc) |
-
+| WM | i3 | [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) |
+| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) |
+| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) |
+| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/.init.lua) |
 
 # A script
+
+- To quickly setup any home directory / system
+- To keep updated git and other web resources
+- To regroup your different tools and configurations
+
 ### Usage
 ```sh
 setup <command> [options]
@@ -17,90 +21,58 @@ setup <command> [options]
 
 #### Commands
 - `install`:
-    * From a `resource` directory.
-    * Install or update targets specified in `*.list` files.
-    * Swap targets specified in `.swap` files.
+    * Running from a `resource` directory
+    * Install apt packages via .apt files
+    * Run install.sh scripts from .script dirs
+    * Install local resources via .swap files
 
 - `restore`:
-    * From a `backup` directory.
-    * Perform backup using `diff` file.
+    * Running from a `backup` directory
+    * Uninstall apt packages via diff file
+    * Run remove.sh scripts
+    * Restore local resources via diff file
 
 #### Options:
 - `-u`, `--user USER`:
-    * Setup for the specified user's `$HOME` directory.
+    * Install/Backup for the specified user
 - `-p`, `--path PATH`:
-    * Specify a path to a `resource` or `backup` directory.
-    * Default is `~/.local/share/setup/(resource|backup)`
+    * Specify a path to the resource/backup directory
+    * Default: $HOME/.local/share/setup
 - `-e`, `--exclude DIR[S]`:
-    * When `install`, exclude the specified directories.
-- `-s`, `--silent`:
-    * Run in silent mode.
-- `-n`, `--ninja`:
-    * When `install`, do not read `*.list` files.
+    * When `install`, exclude the specified directories
 - `--no-apt`:
-    * When `install`, do not read `apt.list` files.
-- `--no-web`:
-    * When `install`, do not read `web.list` files.
+    * When `install`, do not read `.apt` files
+- `--no-script`:
+    * When `install`, do not read `.script` files
 - `--no-swap`:
-    * When `install`, do not read `.swap` files.
+    * When `install`, do not read `.swap` files
+- `--no-backup`:
+    * When `install`, do not create backup
 
-
-### Resource Directory
-- Used by `install` command to know what to do.
-- Backups stored at `$(dirname $resource)/backup`.
-- Web resources stored at `$(dirname $resource)/.web`.
-
-#### apt.list files
+#### .apt files
 - `<package_name> : [description]`
-- 1 package per line:
+- 1 package per line
 
-`apt purge` and `apt clean` do not remove all files, use `.aptclean` files to remove them during `restore`:
-- `<package_name> : <absolute path>` ***strict format***.
-- 1 path per line.
-
-#### web.list files
-- Bash commands.
-- No multiline commands.
-- Blocks to: install | update | remove.
-```sh
-#!/bin/bash
-
-# <name> @ <url> ~ [description]
-# $- INSTALL
-    [commands]
-# $---
-# $- UPDATE
-    [commands]
-# $---
-# $- REMOVE
-    [commands]
-# $---
-# @@@@
-```
+#### .script dirs
+- Per subdirectory:
+    * 1 `install.sh` bash script
+    * 1 optional `remove.sh` bash script
 
 #### .swap files
-- Swap files/directories from `$(dirname .swap)`.
-- To `cp` src instead of `ln -s`, add `no-link `.
-- `[no-link ]<path from .swap file> @ <target DIRECTORY>`.
-- 1 line per swap.
+- Swap files/directories from `$(dirname .swap)`
+- To `cp` src instead of `ln -s`, add `no-link `
+- `[no-link ]<path from .swap file> @ <target DIRECTORY>`
+- 1 line per swap
 
 ## Install
 ```sh
-apt update -y
-apt install git make curl -y
-
-mkdir -p ~/.local/bin
-mkdir -p ~/.local/share
-mkdir -p ~/.local/src
-
 dst=~/.local/src
-git clone https://github.com/Skalyaeve/a-linux-setup.git $dst/setup
+git clone https://github.com/Skalyaeve/a-setup.git $dst/setup
 cd $dst/setup
-make install
-# or
-# make link_install
+ln -s $PWD/setup.sh $HOME/.local/bin/setup
+ln -s $PWD/resource $HOME/.local/share/setup/resource
 ```
-Edit the `resource` directory, then:
+Edit `resource` directory to your needs
 ```sh
 export PATH=$HOME/.local/bin:$PATH
 setup install
@@ -117,11 +89,12 @@ for _ in $count; do
     # or
     # sudo setup restore -u $USER
 done
+rm -rf ~/.local/share/setup
+rm ~/.local/bin/setup
 ```
-Then:
-```sh
-dir=~/.local/src/setup
-cd $dir
-make uninstall
-rm -r $dir
-```
+
+# Some tools
+- [extract](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Extract archives
+- [setmenu](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/setmenu): Set a [jgmenu csv](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/menu.csv) from a [directory](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/set/main)
+- [gitpush](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Commit and push repositories from a directory
+- [codecount](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/countdata): Count bytes of code from a directory, then give a percentage for each file type

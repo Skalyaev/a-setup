@@ -1,6 +1,0 @@
-#!/bin/bash
-export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
-export EDITOR='vim'
-export MANPAGER='most'
-export setup="$HOME/setup"
-export notes="$HOME/notes"

@@ -1,8 +1,0 @@
-bash/.profile @ ~
-bash/.inputrc @ ~
-bash/.bashrc @ ~
-bash/.bash_aliases @ ~
-bash/.bash_env @ ~
-bash/.bash_logout @ ~
-xterm/.Xresources @ ~
-alacritty @ ~/.config

@@ -1,5 +1,0 @@
-vim/.vimrc @ ~
-vim/binds.vim @ ~/.vim
-git/.gitconfig @ ~
-git/gitpush @ ~/.local/bin
-git/countdata @ ~/.local/bin
