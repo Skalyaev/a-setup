@@ -1,12 +1,44 @@
-# A setup
-| Component | Name | Conf | Binds |
-|-|-|-|-|
-| OS | Debian 12 | ---- | ---- |
-| DE | ---- | ---- | ---- |
-| WM | i3 | [config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) | [binds.conf](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf) |
-| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) | [.bash_aliases](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases) |
-| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) | [.inputrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc)
-| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/init.lua) | [binds.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/lua/binds.lua) |
+# <p align="center">A setup</p>
+<table align="center>
+  <tr>
+    <th>Component</th>
+    <th>Name</th>
+    <th>Conf</th>
+    <th>Binds</th>
+  </tr>
+  <tr>
+    <td>OS</td>
+    <td>DE</td>
+    <td>WM</td>
+    <td>Shell</td>
+    <td>Terminal</td>
+    <td>IDE</td>
+  </tr>
+  <tr>
+    <td>Debian 12</td>
+    <td>----</td>
+    <td>i3</td>
+    <td>Bash</td>
+    <td>Alacritty</td>
+    <td>Neovim</td>
+  </tr>
+  <tr>
+    <td>OS</td>
+    <td>----</td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config">config</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc">.bashrc</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml">alacritty.yml</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/init.lua">init.lua</a></td>
+  </tr>
+  <tr>
+    <td>OS</td>
+    <td>----</td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf">binds.conf</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases">.bash_aliases</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc">.inputrc</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/lua/binds.lua">binds.lua</a></td>
+  </tr>
+</table>
 
 # A script
 - To quickly setup any Debian `home`/system
