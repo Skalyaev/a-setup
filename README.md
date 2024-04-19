@@ -6,7 +6,7 @@
 | WM | i3 | [config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) | [binds.conf](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf) |
 | Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) | [.bash_aliases](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases) |
 | Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) | [.inputrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc)
-| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/init.lua) | [binds.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/lua/binds.lua) |
+| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/init.lua) | [binds.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/lua/binds.lua) |
 
 # A script
 - To quickly setup any Debian `home`/system
@@ -96,4 +96,4 @@ rm ~/.local/bin/setup
 - [extract](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Extract archives
 - [setmenu](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/setmenu): Set a [jgmenu csv](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/menu.csv) from a [directory](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/set/main)
 - [gitpush](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Commit and push repositories from a directory
-- [codecount](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/countdata): Count % of bytes for each file type in a directory
+- [codecount](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/codecount): Count % of bytes for each file type in a directory

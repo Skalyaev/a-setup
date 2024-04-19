@@ -36,6 +36,7 @@ if [[ "$#" -lt 1 ]];then
 fi
 ft_echo() {
     [[ "$SILENT" ]] || echo -ne "$@"
+    return 0
 }
 ROOT="$1"
 shift
@@ -155,7 +156,7 @@ do_it() {
         return 0
     fi
 
-    ft_echo "${BLUE}Pushing${NC} $cwd..."
+    ft_echo "${BLUE}Pushing${NC} $cwd...\n"
     git pull 1>"/dev/null" || return 1
 
     #==================== .add & .msg files
@@ -172,8 +173,9 @@ do_it() {
 
     #==================== Add, commit & push
     for target in "${TO_ADD[@]}";do git add "$target";done
-    git commit -m "$MESSAGE" 1>"/dev/null" || return 1
-    git push 1>"/dev/null" || return 1
+    ! git commit -m "$MESSAGE"\
+        && ft_echo "[$RED KO $NC]\n" && return 1
+    ! git push && ft_echo "[$RED KO $NC]\n" && return 1
     ft_echo "[$GREEN OK $NC]\n"
 
     [[ "$(git status -s)" ]]\
