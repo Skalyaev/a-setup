@@ -1,12 +1,12 @@
 # A setup
-| Component | Name | Conf |
-|:-|:-:|-:|
-| OS | Debian 12 | ---- |
-| DE | ---- | ---- |
-| WM | i3 | [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) |
-| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) |
-| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) |
-| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/.init.lua) |
+| Component | Name | Conf | Binds |
+|-|-|-|-|-|
+| OS | Debian 12 | ---- | ---- |
+| DE | ---- | ---- | ---- |
+| WM | i3 | [config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) | [binds.conf](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf) |
+| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) | [.bash_aliases](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases) |
+| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) | [.inputrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc)
+| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/init.lua) | [binds.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/lua/binds.lua) |
 
 # A script
 - To quickly setup any Debian `home`/system
@@ -32,12 +32,12 @@ setup <command> [options]
     * Restore local resources via `diff` file
 
 #### Options:
-- `-u`, `--user <user>`:
+- `-u/--user <user>`:
     * `install`/`restore` for specified `<user>`
-- `-p`, `--path <path>`:
+- `-p/--path <path>`:
     * Specify a path to `resource`/`backup` directory
     * Default: `$HOME/.local/share/setup`
-- `-e`, `--exclude <dir1> [dir2]...`:
+- `-e/--exclude <dir1> [dir2]...`:
     * When `install`, exclude the specified directories
 - `--no-apt`:
     * When `install`, do not read `.apt` files
