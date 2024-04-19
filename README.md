@@ -1,4 +1,4 @@
-# ▣──────┤ A script├──────▣
+# ▣──────┤ A setup ├───────▣
 | Component | Name | Conf | Binds |
 |:-|:-|-:|-|
 | OS | Debian 12 | ---- | ---- |
