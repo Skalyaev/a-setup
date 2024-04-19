@@ -1,17 +1,6 @@
-# A setup
-| Component | Name | Conf |
-|-|-|-|
-| OS | Debian 12 | ---- |
-| DE | ---- | ---- |
-| WM | i3 | [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) |
-| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) |
-| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) |
-| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/.init.lua) |
-
-# A script
-
-- To quickly setup any home directory / system
-- To keep updated git and other web resources
+# <p align="center">A script</p>
+- To quickly setup any Debian `home`/system
+- To keep updated git/web resources
 - To regroup your different tools and configurations
 
 ### Usage
@@ -22,23 +11,23 @@ setup <command> [options]
 #### Commands
 - `install`:
     * Running from a `resource` directory
-    * Install apt packages via .apt files
-    * Run install.sh scripts from .script dirs
-    * Install local resources via .swap files
+    * Install apt packages via `.apt` files
+    * Run `install.sh` scripts from `.script` dirs
+    * Install local resources via `.swap` files
 
 - `restore`:
     * Running from a `backup` directory
-    * Uninstall apt packages via diff file
-    * Run remove.sh scripts
-    * Restore local resources via diff file
+    * Uninstall apt packages via `diff` file
+    * Run `remove.sh` scripts
+    * Restore local resources via `diff` file
 
 #### Options:
-- `-u`, `--user USER`:
-    * Install/Backup for the specified user
-- `-p`, `--path PATH`:
-    * Specify a path to the resource/backup directory
-    * Default: $HOME/.local/share/setup
-- `-e`, `--exclude DIR[S]`:
+- `-u`, `--user <user>`:
+    * `install`/`restore` for specified `<user>`
+- `-p`, `--path <path>`:
+    * Specify a path to `resource`/`backup` directory
+    * Default: `$HOME/.local/share/setup`
+- `-e`, `--exclude <dir1> [dir2]...`:
     * When `install`, exclude the specified directories
 - `--no-apt`:
     * When `install`, do not read `.apt` files
@@ -72,7 +61,7 @@ cd $dst/setup
 ln -s $PWD/setup.sh $HOME/.local/bin/setup
 ln -s $PWD/resource $HOME/.local/share/setup/resource
 ```
-Edit `resource` directory to your needs
+Edit `resource` directory to your needs, then:
 ```sh
 export PATH=$HOME/.local/bin:$PATH
 setup install
@@ -93,8 +82,19 @@ rm -rf ~/.local/share/setup
 rm ~/.local/bin/setup
 ```
 
-# Some tools
+# <p align="center">A setup</p>
+| Component | Name | Conf |
+|:-|:-:|-:|
+| OS | Debian 12 | ---- |
+| DE | ---- | ---- |
+| WM | i3 | [i3/config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) |
+| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) |
+| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) |
+| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/neovim/.init.lua) |
+
+
+# <p align="center">Some tools</p>
 - [extract](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Extract archives
 - [setmenu](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/setmenu): Set a [jgmenu csv](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/menu.csv) from a [directory](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/set/main)
 - [gitpush](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Commit and push repositories from a directory
-- [codecount](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/countdata): Count bytes of code from a directory, then give a percentage for each file type
+- [codecount](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/countdata): Count % of bytes for each file type in a directory
