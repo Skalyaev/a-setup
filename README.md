@@ -1,6 +1,6 @@
 # A setup
 | Component | Name | Conf | Binds |
-|-|-|-|-|-|
+|-|-|-|-|
 | OS | Debian 12 | ---- | ---- |
 | DE | ---- | ---- | ---- |
 | WM | i3 | [config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) | [binds.conf](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf) |
