@@ -18,4 +18,3 @@ for file in "${FILES[@]}";do
         rm -f "$file"
     fi
 done
-exit 0

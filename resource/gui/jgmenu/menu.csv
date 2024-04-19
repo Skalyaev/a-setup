@@ -1,3 +1,17 @@
 #===========================ROOT
-, ^checkout()
+client, ^checkout(client)
+url, ^checkout(url)
+
+#===========================SUB - CLIENT
+^tag(client)
+http, ^checkout(http)
+ssh, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
+
+#===========================SUB - CLIENT/HTTP
+^tag(http)
+firefox, /usr/bin/firefox-esr
+
+#===========================SUB - URL
+^tag(url)
+github, /usr/bin/firefox-esr -new-tab https://github.com/Skalyaeve
 

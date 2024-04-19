@@ -8,14 +8,10 @@ PKGS=(
     "build-essential"
 )
 for pkg in "${PKGS[@]}";do
-    if dpkg-query -W -f='${Status}' "$pkg"\
-        | grep -q "install ok installed"
-    then
-        continue
-    fi
-    if ! apt install -y "$pkg" &>"/dev/null";then
-        exit 1
-    fi
+    dpkg-query -W -f='${Status}' "$pkg"\
+        | grep -q "install ok installed"\
+        && continue
+    apt install -y "$pkg" &>"/dev/null" || exit 1
     [[ "$NO_BACKUP" ]] || DIFF+=("apt:$pkg")
 done
 NAME="neovim"
@@ -25,12 +21,10 @@ if [[ -e "$DST" ]];then
     cd "$DST" || exit 1
     make distclean
     git checkout "master" || exit 1
-    if [[ "$(git pull)" == "Déjà à jour."\
-        || "$(git pull)" == "Already up to date." ]]
-    then
-        exit 0
-    fi
-    [[ "$?" != 0 ]] && exit 1
+    [[ "$(git pull)" == "Déjà à jour."\
+        || "$(git pull)" == "Already up to date." ]]\
+        && exit 0
+    [[ "$?" -ne 0 ]] && exit 1
 else
     git clone "$URL" "$DST" && cd "$DST" || exit 1
 fi
@@ -42,13 +36,10 @@ make install
 make clean
 
 CONFIG="$HOME/.config/nvim"
-if [[ ! -e "$CONFIG" ]];then
-    mkdir "$CONFIG" || exit 1
-fi
+[[ ! -e "$CONFIG" ]] && ! mkdir "$CONFIG" && exit 1
+
 URL="https://raw.githubusercontent.com/Skalyaeve/a-neovim-theme"
 SRC="$HOME/.local/src/a-neovim-theme"
-if [[ ! -e "$SRC" ]];then
-    git clone "$URL" "$SRC" || exit 1
-fi
+[[ ! -e "$SRC" ]] && ! git clone "$URL" "$SRC" && exit 1
+
 [[ -e "$CONFIG/colors" ]] || ln -s "$SRC/colors" "$CONFIG/colors"
-exit 0

@@ -6,14 +6,11 @@ NC='\033[0m'
 
 USAGE="$GRAY===================USAGE
 $YELLOW$(basename "$0") $BLUE<video>$NC
-
-Convert video to gif
 "
-if (( ! "$#" ));then
+if [[ "$#" -lt 1 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-
 ffmpeg -i "$1"\
     -filter_complex\
     "[0]split[a][b]; [a]palettegen[palette]; [b][palette]paletteuse"\

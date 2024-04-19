@@ -12,36 +12,34 @@ doit() {
     for file in "${files[@]}";do
         [[ -e "$FROM/$file" ]] || continue
         if ! diff "$FROM/$file" "$target";then
-            DONTSTOP=1
+            local dontstop=1
             break
         fi
     done
-    if [[ ! "$DONTSTOP" ]];then
-        return 0
-    fi
+    [[ "$dontstop" ]] || return 0
+
     if [[ ! -w "$FROM" ]]; then
         echo "Permission denied: $FROM" 1>&2
         return 1
     fi
-    if [[ -e "$TO/$target" ]];then
-        if ! mv "$TO/$target" "$TO/$target.ft.bak";then
-            return 1
-        fi
-    fi
+    [[ -e "$TO/$target" ]]\
+        && ! mv "$TO/$target" "$TO/$target.ft.bak"\
+        && return 1
+
     if ! mv "$target" "$TO/$target";then
         mv "$TO/$target.ft.bak" "$TO/$target"
         return 1
     fi
     for file in "${files[@]}";do
-        if [[ -e "$FROM/$file" ]];then
-            if ! mv "$FROM/$file" "$FROM/$file.ft.bak";then
-                for old in "${files[@]}";do
-                    [[ "$file" == "$old" ]] && break
-                    mv "$FROM/$old.ft.bak" "$FROM/$old"
-                done
-                mv "$TO/$target.ft.bak" "$TO/$target"
-                return 1
-            fi
+        if [[ -e "$FROM/$file" ]]\
+            && ! mv "$FROM/$file" "$FROM/$file.ft.bak"
+        then
+            for old in "${files[@]}";do
+                [[ "$file" == "$old" ]] && break
+                mv "$FROM/$old.ft.bak" "$FROM/$old"
+            done
+            mv "$TO/$target.ft.bak" "$TO/$target"
+            return 1
         fi
         if ! ln -s "$TO/$target" "$FROM/$file";then
             for old in "${files[@]}";do
@@ -66,7 +64,7 @@ P1="https://github.com/Skalyaeve"
 P2="/images/blob/main/background/$NAME"
 URL="$P1$P2"
 curl -kL "$URL" -o "$NAME" && doit "$NAME" "${FILES[@]}"
-if [[ "$?" == 0 ]];then
+if [[ "$?" -eq 0 ]];then
     NAME="background.xml"
     FILES=(
         "desktop-background.xml"
@@ -75,7 +73,7 @@ if [[ "$?" == 0 ]];then
     P1="https://raw.githubusercontent.com/Skalyaeve"
     P2="/images/main/background/$NAME"
     URL="$P1$P2"
-    curl -k $URL > "$NAME" && doit "$NAME" "${FILES[@]}"
+    curl -k "$URL" > "$NAME" && doit "$NAME" "${FILES[@]}"
 fi
 
 #======================= GRUB BACKGROUND
@@ -87,7 +85,7 @@ NAME="black.png"
 P1="https://raw.githubusercontent.com/Skalyaeve"
 P2="/images/main/background/$NAME"
 URL="$P1$P2"
-curl -kL $URL -o "$NAME"
+curl -kL "$URL" -o "$NAME"
 DST="/boot/grub"
 if [[ -e "$DST/$NAME" ]];then
     diff "$NAME" "$DST/$NAME" && bye 0

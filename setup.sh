@@ -39,7 +39,7 @@ $GREEN[options]$NC:
 --no-backup
     $RED*$NC When install, do not create backup
 "
-if [[ "$#" < 1 ]];then
+if [[ "$#" -lt 1 ]];then
     echo -e "$USAGE"
     exit 1
 fi
@@ -52,26 +52,26 @@ shift
 [[ "$COMMAND" != "install" && "$COMMAND" != "restore" ]]\
     && err "unknown command: $COMMAND"
 
-while [[ "$#" > 0 ]];do
+while [[ "$#" -gt 0 ]];do
     case "$1" in
     "-u" | "--user")
-        [[ "$#" < 2 ]] && err "missing argument for $GREEN$1$NC"
+        [[ "$#" -lt 2 ]] && err "missing argument for $GREEN$1$NC"
         USER="$2"
         HOME="$(getent passwd "$USER" | cut -d: -f6)"
         [[ "$HOME" ]] || err "can not set home for $USER"
         shift 2
         ;;
     "-p" | "--path")
-        [[ "$#" < 2 ]] && err "missing argument for $GREEN$1$NC"
+        [[ "$#" -lt 2 ]] && err "missing argument for $GREEN$1$NC"
         [[ -e "$2" ]] || err "path not found: $2"
         ROOT="$(realpath "$2")"
         shift 2
         ;;
     "-e" | "--exclude")
-        [[ "$#" < 2 || "${2:0:1}" == "-" ]]\
+        [[ "$#" -lt 2 || "${2:0:1}" == "-" ]]\
             && err "missing argument for $GREEN$1$NC"
         shift
-        while [[ "$#" > 0 ]];do
+        while [[ "$#" -gt 0 ]];do
             [[ "${1:0:1}" == "-" ]] && break
             EXCLUDES+=("!" "-path" "*/$1/*")
             shift
@@ -228,40 +228,40 @@ if [ "$EUID" -eq 0 -a "$USER" != "root" ];then
 fi
 echo -e "$GRAY============Running as $is_sudo$USER$NC"
 case "$COMMAND" in
-    "install")
-        ROOT+="/resource"
-        [[ -e "$ROOT" ]] || err "resource not found: $ROOT"
-        if [[ ! "$NO_BACKUP" ]];then
-            BACKUP="$(dirname $ROOT)/backup/$(date +%s)"
-            mkdir -p "$BACKUP" || exit 1
-            chown "$USER:$USER" "$BACKUP"
-        fi
-        cd "$ROOT"
-        [[ "$NO_APT" ]] || ft_apt
-        [[ "$NO_SCRIPT" ]] || ft_script
-        [[ "$NO_SWAP" ]] || ft_swap
-        [[ "$NO_BACKUP" ]] && exit 0
-        if [[ "${#DIFF[@]}" == 0 ]];then
-            rm -r "$BACKUP"
-            BACKUP="$(dirname $ROOT)/backup"
-            [[ "$(ls -A "$BACKUP")" ]] || rm -r "$BACKUP"
-            exit 0
-        fi
-        for line in "${DIFF[@]}";do
-            echo "$line"
-        done>"$BACKUP/diff"
-        ;;
-    "restore")
-        ROOT+="/backup"
-        [[ -e "$ROOT" ]] || err "backup not found: $ROOT"
-        backup="$(ls -t "$ROOT" | head -n1)"
-        if [[ ! "$backup" ]];then
-            rm -r "$ROOT"
-            err "no more backup: $ROOT"
-        fi
-        ROOT+="/$backup"
-        cd "$ROOT"
-        ft_restore
+"install")
+    ROOT+="/resource"
+    [[ -e "$ROOT" ]] || err "resource not found: $ROOT"
+    if [[ ! "$NO_BACKUP" ]];then
+        BACKUP="$(dirname "$ROOT")/backup/$(date +%s)"
+        mkdir -p "$BACKUP" || exit 1
+    fi
+    cd "$ROOT"
+    [[ "$NO_APT" ]] || ft_apt
+    [[ "$NO_SCRIPT" ]] || ft_script
+    [[ "$NO_SWAP" ]] || ft_swap
+    [[ "$NO_BACKUP" ]] && exit 0
+    if [[ "${#DIFF[@]}" -eq 0 ]];then
+        rm -r "$BACKUP"
+        BACKUP="$(dirname "$ROOT")/backup"
+        [[ "$(ls -A "$BACKUP")" ]] || rm -r "$BACKUP"
+        exit 0
+    fi
+    for line in "${DIFF[@]}";do
+        echo "$line"
+    done>"$BACKUP/diff"
+    chown -R "$USER:$USER" "$BACKUP"
+    ;;
+"restore")
+    ROOT+="/backup"
+    [[ -e "$ROOT" ]] || err "backup not found: $ROOT"
+    backup="$(ls -t "$ROOT" | head -n1)"
+    if [[ ! "$backup" ]];then
         rm -r "$ROOT"
-        ;;
+        err "no more backup: $ROOT"
+    fi
+    ROOT+="/$backup"
+    cd "$ROOT"
+    ft_restore
+    rm -r "$ROOT"
+    ;;
 esac

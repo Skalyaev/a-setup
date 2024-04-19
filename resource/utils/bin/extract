@@ -8,66 +8,50 @@ NC='\033[0m'
 
 USAGE="$GRAY===================USAGE
 $YELLOW$(basename "$0") $BLUE<archive(s)>$NC
-
-extracts the given archive(s)
 "
-if (( ! "$#" ));then
+if [[ "$#" -eq 0 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-
 is_installed() {
-    local app="$1"
-    grep -q 'install ok installed'\
-        <<<"$(dpkg-query -W -f='${Status}' "$app" 2>'/dev/null')"\
+    local pkg="$1"
+    dpkg-query -W -f='${Status}' "$pkg"\
+        | grep -q "install ok installed"\
         && return 0
-
-    echo -e "$app needed, install ?"
-    select x in 'Yes' 'No';do
-        case "$x" in
-        'Yes')
-            echo -e "${BLUE}Installing$NC $app..."
-            if ! sudo apt install -y "$app" &> '/dev/null';then
-                echo -e "[$RED KO $NC] apt failed"
-                return 1
-            fi
-            echo -e "[$GREEN OK $NC]"
-            return 0
-            ;;
-        'No') return 1;;
-        esac
-    done
+    echo -e "$pkg needed, install ?"
+    read -p "y/n: " -n 1 -r
+    echo
+    [[ "$REPLY" != 'y' ]] && return 1
+    sudo apt install -y "$pkg" || return 1
+    return 0
 }
 do_extract() {
     local app="$1"
     local cmd="$2"
-    if ! is_installed "$app";then
-        echo -e "[$YELLOW WARN $NC] can not extract $file"
-        return 1
-    fi
-    echo -e "${BLUE}Extracting$NC $file..."
+    is_installed "$app" || return 1
+    echo -e "${BLUE}extracting$NC $FILE..."
     eval "$cmd"
-    echo -e "[$GREEN EXTRACTED $NC] $file"
+    echo -e "[$GREEN OK $NC] $FILE"
     return 0
 }
-while (( "$#" ));do
-    file="$1"
-    echo "file: $file"
+while [[ "$#" -gt 0 ]];do
+    FILE="$1"
     shift
-    if [[ ! -f "$file" ]];then
-        echo -e "[$YELLOW WARN $NC] $file not found"
+    if [[ ! -e "$FILE" ]];then
+        echo -e "[$YELLOW ERR $NC] not found: $FILE"
         continue
     fi
-    case "$file" in
-        *'.zip') do_extract 'unzip' "unzip -q $file";;
-        *'.rar') do_extract 'unrar' "unrar x -o- $file";;
-        *'.iso') do_extract 'p7zip-full' "7z x $file";;
-        *'.tar') do_extract 'tar' "tar xf $file";;
-        *'.tar.gz') do_extract 'tar' "tar xzf $file";;
-        *'.tar.xz') do_extract 'tar' "tar xJf $file";;
-        *'.tar.bz2') do_extract 'tar' "tar xjf $file";;
-        *'.gz') do_extract 'gzip' "gunzip $file";;
-        *'.tgz') do_extract 'tar' "tar xzf $file";;
-        *) echo -e "[$YELLOW WARN $NC] Can not extract $file";;
+    case "$FILE" in
+    # <package name> <extract command>
+    *'.zip') do_extract 'unzip' "unzip -q $FILE";;
+    *'.rar') do_extract 'unrar' "unrar x -o- $FILE";;
+    *'.iso') do_extract 'p7zip-full' "7z x $FILE";;
+    *'.tar') do_extract 'tar' "tar xf $FILE";;
+    *'.tar.gz') do_extract 'tar' "tar xzf $FILE";;
+    *'.tar.xz') do_extract 'tar' "tar xJf $FILE";;
+    *'.tar.bz2') do_extract 'tar' "tar xjf $FILE";;
+    *'.gz') do_extract 'gzip' "gunzip $FILE";;
+    *'.tgz') do_extract 'tar' "tar xzf $FILE";;
+    *) echo -e "[$YELLOW ERR $NC] unknown type: $FILE";;
     esac
 done

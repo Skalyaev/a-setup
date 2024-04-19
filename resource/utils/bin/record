@@ -8,23 +8,16 @@ USAGE="$GRAY===================USAGE
 $YELLOW$(basename "$0") $BLUE<output> [size] [pos]$NC
 
 $BLUE<output>$NC: exemple.mp4
-$BLUE<size>$NC: 1920x1080
-$BLUE<pos>$NC: 0,0
-
-Record a $BLUE<size>$NC video from $BLUE<pos>$NC and save it to $BLUE<output>$NC
+$BLUE[size]$NC: 1920x1080
+$BLUE[pos]$NC: 0,0
 "
-if (( ! "$#" ));then
+if [[ "$#" -lt 1 ]];then
     echo -e "$USAGE"
     exit 1
 fi
+BASE='ffmpeg -f x11grab'
+POS='-i :0.0'
+[[ "$#" -gt 1 ]] && SIZE="-s $2"
+[[ "$#" -gt 2 ]] && POS="+$3"
 
-base='ffmpeg -f x11grab'
-pos='-i :0.0'
-
-if (( "$#" > 1 ));then
-    size="-s $2"
-fi
-if (( "$#" > 2 ));then
-    pos="+$3"
-fi
-eval "$base $size $pos $1"
+eval "$BASE $SIZE $POS $1"
