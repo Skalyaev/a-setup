@@ -34,7 +34,7 @@ do_extract() {
     echo -e "[$GREEN OK $NC] $FILE"
     return 0
 }
-while [[ "$#" -gt 0 ]];do
+while [[ "$#" -gt 0 ]];do
     FILE="$1"
     shift
     if [[ ! -e "$FILE" ]];then
