@@ -23,20 +23,20 @@ From a backup directory:
     $RED*$NC Uninstall local resources via diff file
 
 $GREEN[options]$NC:
--u, --user <user>
+$GREEN-u, --user <user>$NC
     $RED*$NC Install/Backup for the specified user
--p, --path <dir>
+$GREEN-p, --path <dir>$NC
     $RED*$NC Specify a path to the resource/backup directory
     $RED*$NC Default: $HOME/.local/share/setup
--e, --exclude <dir1> [dir2]...
+$GREEN-e, --exclude <dir1> [dir2]...$NC
     $RED*$NC When install, exclude the specified directories
---no-apt
+$GREEN--no-apt$NC
     $RED*$NC When install, do not read .apt files
---no-script
+$GREEN--no-script$NC
     $RED*$NC When install, do not read .script dirs
---no-swap
+$GREEN--no-swap$NC
     $RED*$NC When install, do not read .swap files
---no-backup
+$GREEN--no-backup$NC
     $RED*$NC When install, do not create backup
 "
 if [[ "$#" -lt 1 ]];then

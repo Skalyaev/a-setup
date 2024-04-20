@@ -14,8 +14,6 @@ From $BLUE<root>$NC, count bytes per file extension
 $GREEN[options]$NC:
 -e, --exclude <name1> [name2]...
     $RED*$NC Exclude files/directories from the count
--o, --output <file>
-    $RED*$NC Append result to <file>
 -sio, --shield-io
     $RED*$NC Append result as shield.io badges
 -h, --help
@@ -54,12 +52,6 @@ while [[ "$#" -gt 0 ]];do
             shift
         done
         ;;
-    "-o" | "--output")
-        shift
-        [[ "$#" -lt 1 ]] && usage 1
-        OUTPUT="$1"
-        shift
-        ;;
     "-sio" | "--shield-io") DO_SIO=1; shift;;
     "-h" | "--help") usage 0;;
     *) usage 1;;
@@ -86,7 +78,7 @@ for x in "${EXT[@]}";do
 done
 TOTAL="$(IFS=+; echo "$((${BYTES[*]}))")"
 
-payload() {
+render() {
     local ext="$1"
     local size="$2"
     size="$(sed ':a;s/\B[0-9]\{3\}\>/.&/;ta' <<< "$size")"
@@ -117,11 +109,6 @@ for x in "${!EXT[@]}";do
         at="$y"
     done
     percent="$(echo "scale=2; $size*100/$TOTAL" | bc)"
-    PAYLOAD+="$(payload "$ext" "$size" "$percent")\n"
+    render "$ext" "$size" "$percent"
     BYTES[at]=-1
 done
-if [[ "$OUTPUT" ]];then
-    echo -ne "$PAYLOAD" >> "$OUTPUT"
-else
-    echo -ne "$PAYLOAD"
-fi
