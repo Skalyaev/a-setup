@@ -1,5 +1,6 @@
 # A setup
 > work in progress
+
 | Component | Name | Conf | Binds |
 |:-|:-|-:|-:|
 | OS | Debian 12 | ---- | ---- |
