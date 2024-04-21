@@ -14,8 +14,6 @@ for pkg in "${PKGS[@]}";do
     apt install -y "$pkg" &>"/dev/null" || exit 1
     [[ "$NO_BACKUP" ]] || DIFF+=("apt:$pkg")
 done
-su "$USER"
-whoami 1>&2
 NAME="neovim"
 URL="https://github.com/$NAME/$NAME"
 DST="$HOME/.local/src/$NAME"
@@ -46,3 +44,7 @@ SRC="$HOME/.local/src/a-neovim-theme"
 mkdir -p "$CONFIG/colors" || exit 1
 [[ -e "$CONFIG/colors/nvim" ]]\
     || ln -s "$SRC/colors/neon" "$CONFIG/colors/neon"
+chown -R "$USER:$USER" "$SRC"
+chown -R "$USER:$USER" "$CONFIG"
+chown -R "$USER:$USER" "$HOME/.cache"
+chown -R "$USER:$USER" "$HOME/.local"
