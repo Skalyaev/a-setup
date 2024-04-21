@@ -95,7 +95,7 @@ ft_apt() {
     echo -e "[$GREEN OK $NC]"
     echo -e "$GRAY============READING: .apt$NC"
     while read pkg;do
-        if dpkg-query -W -f='${Status}' "$pkg"\
+        if dpkg-query -W -f='${Status}' "$pkg" 2>"/dev/null"\
             | grep -q "install ok installed"
         then
             echo -e "$pkg [$GREEN OK $NC]"
