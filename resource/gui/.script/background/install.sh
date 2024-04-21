@@ -67,7 +67,9 @@ FILES=(
 P1="https://github.com/Skalyaeve"
 P2="/images/blob/main/background/$NAME"
 URL="$P1$P2"
+nodiff=0
 curl -kL "$URL" -o "$NAME" && doit "$NAME" "${FILES[@]}"
+[[ "$?" -eq -1 ]] && ((nodiff++))
 if [[ "$?" -eq 0 ]];then
     NAME="background.xml"
     FILES=(
@@ -78,6 +80,7 @@ if [[ "$?" -eq 0 ]];then
     P2="/images/main/background/$NAME"
     URL="$P1$P2"
     curl -k "$URL" > "$NAME" && doit "$NAME" "${FILES[@]}"
+    [[ "$?" -eq -1 ]] && ((nodiff++))
 fi
 
 #======================= GRUB BACKGROUND
@@ -92,7 +95,10 @@ URL="$P1$P2"
 curl -kL "$URL" -o "$NAME"
 DST="/boot/grub"
 if [[ -e "$DST/$NAME" ]];then
-    diff "$NAME" "$DST/$NAME" && bye 0
+    if diff "$NAME" "$DST/$NAME";then
+        [[ "$nodiff" -eq 2 ]] && bye -1
+        bye 0
+    fi
     mv "$DST/$NAME" "$DST/$NAME.ft.bak" || bye 1
 fi
 mv "$NAME" "$DST/$NAME" || bye 1

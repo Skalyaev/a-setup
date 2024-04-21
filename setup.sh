@@ -172,10 +172,11 @@ ft_script() {
         while read file;do
             echo -e "${BLUE}Running$NC $file..."
             bash "$file" 1>"/dev/null"
-            local ret="$?"
-            [[ "$ret" -ne 0 && "$ret" -ne -1 ]] && continue
-            echo -e "[$GREEN OK $NC]\n"
-            [[ "$ret" -eq -1 || "$NO_BACKUP" ]] && continue
+            if [[ "$?" -eq -1 ]];then
+                echo -e "[$GREEN OK $NC]\n"
+                continue
+            fi
+            [[ "$?" -eq 0 ]] && echo -e "[$RED OK $NC]\n"
 
             local dir="$(dirname "$file")"
             mkdir -p "$BACKUP/$dir"

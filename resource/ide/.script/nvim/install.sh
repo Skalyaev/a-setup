@@ -28,23 +28,25 @@ if [[ -e "$DST" ]];then
 else
     git clone "$URL" "$DST" && cd "$DST" || exit 1
 fi
+
+chown -R "$USER:$USER" "."
 git checkout "stable" || exit 1
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
     || exit 1
 make install
 make clean
+chown -R "$USER:$USER" "$HOME/.cache"
+chown -R "$USER:$USER" "$HOME/.local"
 
 CONFIG="$HOME/.config/nvim"
 [[ ! -e "$CONFIG" ]] && ! mkdir "$CONFIG" && exit 1
 
 URL="https://github.com/Skalyaeve/a-nvim-theme.git"
-SRC="$HOME/.local/src/a-neovim-theme"
+SRC="$HOME/.local/src/a-nvim-theme"
 [[ ! -e "$SRC" ]] && ! git clone "$URL" "$SRC" && exit 1
 mkdir -p "$CONFIG/colors" || exit 1
-[[ -e "$CONFIG/colors/nvim" ]]\
+[[ -e "$CONFIG/colors/neon" ]]\
     || ln -s "$SRC/colors/neon" "$CONFIG/colors/neon"
-chown -R "$USER:$USER" "$SRC"
 chown -R "$USER:$USER" "$CONFIG"
-chown -R "$USER:$USER" "$HOME/.cache"
-chown -R "$USER:$USER" "$HOME/.local"
+chown -R "$USER:$USER" "$SRC"
