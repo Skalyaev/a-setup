@@ -146,7 +146,7 @@ ft_swap() {
                         echo -e "$to [$GREEN OK $NC]"
                         continue
                     elif [[ ! "$NO_BACKUP" ]];then
-                        mv "$from" "$BACKUP" || continue
+                        mv "$to" "$BACKUP" || continue
                         DIFF+=("swap:$to")
                         local swapped=1
                     fi
