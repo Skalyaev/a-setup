@@ -15,6 +15,7 @@ for pkg in "${PKGS[@]}";do
     [[ "$NO_BACKUP" ]] || DIFF+=("apt:$pkg")
 done
 su "$USER"
+echo "$USER"
 NAME="neovim"
 URL="https://github.com/$NAME/$NAME"
 DST="$HOME/.local/src/$NAME"
