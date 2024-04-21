@@ -1,4 +1,4 @@
 #!/bin/bash
 export PATH="/usr/local/bin:$HOME/.pyenv/bin:$HOME/.local/bin:$PATH"
-export EDITOR="vim"
+export EDITOR="nvim"
 export MANPAGER="most"
