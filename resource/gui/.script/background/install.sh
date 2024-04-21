@@ -20,7 +20,7 @@ doit() {
             break
         fi
     done
-    [[ "$dontstop" ]] || return 0
+    [[ "$dontstop" ]] || return -1
 
     if [[ ! -w "$FROM" ]]; then
         echo "Permission denied: $FROM" 1>&2

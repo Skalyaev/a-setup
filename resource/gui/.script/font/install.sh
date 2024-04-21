@@ -15,7 +15,7 @@ unzip "$NAME.zip" || bye 1
 rm -f "$NAME.zip"
 DST="/usr/share/fonts/$NAME"
 if [[ -e "$DST" ]];then
-    diff -r "../$NAME" "$DST" && bye 0
+    diff -r "../$NAME" "$DST" && bye -1
     rm -rf "$DST" || bye 1
 fi
 mkdir "$DST" || bye 1

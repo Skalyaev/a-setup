@@ -58,6 +58,7 @@ setup <command> [options]
 - Per subdirectory:
     * 1 `install.sh` bash script
     * 1 optional `remove.sh` bash script
+    * exit -1 = Do not copy `remove.sh` to backup
 
 #### .swap files:
 - Swap files/directories from `$(dirname .swap)`

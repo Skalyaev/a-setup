@@ -171,13 +171,15 @@ ft_script() {
     while read dir;do
         while read file;do
             echo -ne "${BLUE}Running$NC $file..."
-            if [[ ! "$NO_BACKUP" ]];then
-                local dir="$(dirname "$file")"
-                mkdir -p "$BACKUP/$dir"
-                [[ -e "$dir/remove.sh" ]]\
-                    && cp -r "$dir/remove.sh" "$BACKUP/$dir"
-            fi
-            bash "$file" 1>"/dev/null" || continue
+            bash "$file" 1>"/dev/null"
+            if [[ "$?" -eq -1 ]];then
+                if [[ ! "$NO_BACKUP" ]];then
+                    local dir="$(dirname "$file")"
+                    mkdir -p "$BACKUP/$dir"
+                    [[ -e "$dir/remove.sh" ]]\
+                        && cp -r "$dir/remove.sh" "$BACKUP/$dir"
+                fi
+            elif [[ "$?" -ne 0 ]];then continue; fi
             echo -e "[$GREEN OK $NC]\n"
         done< <(find "$dir" -type f -name "install.sh")
         cd "$ROOT"

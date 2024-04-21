@@ -23,7 +23,7 @@ if [[ -e "$DST" ]];then
     git checkout "master" || exit 1
     [[ "$(git pull)" == "Déjà à jour."\
         || "$(git pull)" == "Already up to date." ]]\
-        && exit 0
+        && exit -1
     [[ "$?" -ne 0 ]] && exit 1
 else
     git clone "$URL" "$DST" && cd "$DST" || exit 1
