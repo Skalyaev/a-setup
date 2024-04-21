@@ -68,6 +68,10 @@ setup <command> [options]
 ## Install
 ```sh
 dst=~/.local/src
+mkdir -p $dst
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/share/setup
+mkdir -p ~/.config
 git clone https://github.com/Skalyaeve/a-setup.git $dst/setup
 cd $dst/setup
 ln -s $PWD/setup.sh ~/.local/bin/setup
@@ -75,14 +79,16 @@ ln -s $PWD/resource ~/.local/share/setup/resource
 ```
 Edit `resource` directory to your needs, then:
 ```sh
-export PATH=~/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 setup install
-# or
-# sudo ln -s ~/.local/bin/setup /bin/setup
-# sudo setup install -u $USER
+```
+or
+```sh
+sudo ln -s ~/.local/bin/setup /bin/setup
+sudo setup install -u $USER
 ```
 
-## Uninstall
+## Backup
 ```sh
 count=$(ls ~/.local/share/setup/backup)
 for _ in $count; do
@@ -90,7 +96,12 @@ for _ in $count; do
     # or
     # sudo setup restore -u $USER
 done
+```
+
+## Uninstall
+```sh
 rm -rf ~/.local/share/setup
+rm -rf ~/.local/src/setup
 rm ~/.local/bin/setup
 ```
 
