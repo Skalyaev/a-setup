@@ -2,6 +2,10 @@
 #======================= LIGHTDM BACKGROUNDS
 FROM='/usr/share/images/desktop-base'
 TO="/usr/share/images/backgrounds"
+if [[ ! -e "$TO" ]]; then
+    mkdir "$TO" || exit 1
+    [[ "$NO_BACKUP" ]] || DIFF+=("add:$TO")
+fi
 
 TMP="$(mktemp -d)" || exit 1
 cd "$TMP" || exit 1
