@@ -8,7 +8,7 @@ PKGS=(
     "build-essential"
 )
 for pkg in "${PKGS[@]}";do
-    dpkg-query -W -f='${Status}' "$pkg"\
+    dpkg-query -W -f='${Status}' "$pkg" 2>"/dev/null"\
         | grep -q "install ok installed"\
         && continue
     apt install -y "$pkg" &>"/dev/null" || exit 1
