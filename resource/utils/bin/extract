@@ -15,7 +15,7 @@ if [[ "$#" -eq 0 ]];then
 fi
 is_installed() {
     local pkg="$1"
-    dpkg-query -W -f='${Status}' "$pkg"\
+    dpkg-query -W -f='${Status}' "$pkg" 2>"/dev/null"\
         | grep -q "install ok installed"\
         && return 0
     echo -e "$pkg needed, install ?"
