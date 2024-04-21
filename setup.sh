@@ -170,17 +170,18 @@ ft_script() {
     echo -e "$GRAY============READING: .script$NC"
     while read dir;do
         while read file;do
-            echo -ne "${BLUE}Running$NC $file..."
+            echo -e "${BLUE}Running$NC $file..."
             bash "$file" 1>"/dev/null"
-            if [[ "$?" -eq -1 ]];then
-                if [[ ! "$NO_BACKUP" ]];then
-                    local dir="$(dirname "$file")"
-                    mkdir -p "$BACKUP/$dir"
-                    [[ -e "$dir/remove.sh" ]]\
-                        && cp -r "$dir/remove.sh" "$BACKUP/$dir"
-                fi
-            elif [[ "$?" -ne 0 ]];then continue; fi
+            local ret="$?"
+            [[ "$ret" -ne 0 && "$ret" -ne -1 ]] && continue
             echo -e "[$GREEN OK $NC]\n"
+            [[ "$ret" -eq -1 || "$NO_BACKUP" ]] && continue
+
+            local dir="$(dirname "$file")"
+            mkdir -p "$BACKUP/$dir"
+            [[ -e "$dir/remove.sh" ]]\
+                && cp -r "$dir/remove.sh" "$BACKUP/$dir"
+
         done< <(find "$dir" -type f -name "install.sh")
         cd "$ROOT"
     done< <(find . "${EXCLUDES[@]}" -type d -name ".script")

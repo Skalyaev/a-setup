@@ -97,7 +97,7 @@ if [[ -e "$DST/$NAME" ]];then
 fi
 mv "$NAME" "$DST/$NAME" || bye 1
 
-SRC="$HOME/.local/share/setup/gui/grub/grub"
+SRC="$HOME/.local/share/setup/resource/gui/grub/grub"
 DST="/etc/default/grub"
 if [[ -e "$DST" ]];then
     diff "$SRC" "$DST" && bye 0
