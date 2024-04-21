@@ -38,7 +38,7 @@ make clean
 CONFIG="$HOME/.config/nvim"
 [[ ! -e "$CONFIG" ]] && ! mkdir "$CONFIG" && exit 1
 
-URL="https://raw.githubusercontent.com/Skalyaeve/a-neovim-theme"
+URL="https://github.com/Skalyaeve/a-nvim-theme.git"
 SRC="$HOME/.local/src/a-neovim-theme"
 [[ ! -e "$SRC" ]] && ! git clone "$URL" "$SRC" && exit 1
 
