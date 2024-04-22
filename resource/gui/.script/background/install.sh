@@ -71,25 +71,7 @@ nodiff=0
 curl -kL "$URL" -o "$NAME" || exit 1
 doit "$NAME" "${FILES[@]}"
 [[ "$?" -eq 255 ]] && ((nodiff++))
-if [[ "$?" -eq 0 || "$?" -eq 255 ]];then
-    NAME="background.xml"
-    FILES=(
-        "desktop-background.xml"
-        "desktop-lockscreen.xml"
-    )
-    P1="https://raw.githubusercontent.com/Skalyaeve"
-    P2="/images/main/background/$NAME"
-    URL="$P1$P2"
-    curl -k "$URL" > "$NAME" || exit 1
-    doit "$NAME" "${FILES[@]}"
-    [[ "$?" -eq 255 ]] && ((nodiff++))
-fi
-
 #======================= GRUB BACKGROUND
-bye() {
-    rm -rf "$TMP"
-    exit "$1"
-}
 NAME="black.png"
 P1="https://raw.githubusercontent.com/Skalyaeve"
 P2="/images/main/background/$NAME"
@@ -98,19 +80,19 @@ curl -kL "$URL" -o "$NAME"
 DST="/boot/grub"
 if [[ -e "$DST/$NAME" ]];then
     if diff "$NAME" "$DST/$NAME";then
-        [[ "$nodiff" -eq 2 ]] && bye -1
-        bye 0
+        [[ "$nodiff" -eq 2 ]] && exit -1
+        exit 0
     fi
-    mv "$DST/$NAME" "$DST/$NAME.ft.bak" || bye 1
+    mv "$DST/$NAME" "$DST/$NAME.ft.bak" || exit 1
 fi
-mv "$NAME" "$DST/$NAME" || bye 1
+mv "$NAME" "$DST/$NAME" || exit 1
 
 SRC="$HOME/.local/share/setup/resource/gui/grub/grub"
 DST="/etc/default/grub"
 if [[ -e "$DST" ]];then
-    diff "$SRC" "$DST" && bye 0
-    mv "$DST" "$DST.ft.bak" || bye 1
+    diff "$SRC" "$DST" && exit 0
+    mv "$DST" "$DST.ft.bak" || exit 1
 fi
-cp "$SRC" "$DST" || bye 1
+cp "$SRC" "$DST" || exit 1
 update-grub &>"/dev/null"
-bye 0
+exit 0
