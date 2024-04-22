@@ -65,6 +65,22 @@ if [[ ! -e "$TO/$NAME" ]];then
 else
     ((nodiff++))
 fi
+
+NAME="ft_background.xml"
+nodiff=0
+if [[ ! -e "$TO/$NAME" ]];then
+    FILES=(
+        "desktop-background.xml"
+        "desktop-lockscreen.xml"
+    )
+    P1="https://github.com/Skalyaeve"
+    P2="/images/blob/main/background/background.xml"
+    URL="$P1$P2"
+    curl -kL "$URL" -o "$NAME" || exit 1
+    doit "$NAME" "${FILES[@]}"
+else
+    ((nodiff++))
+fi
 #======================= GRUB BACKGROUND
 NAME="ft_black.png"
 DST="/boot/grub"
@@ -82,10 +98,10 @@ SRC="$HOME/.local/share/setup/resource/gui/grub/grub"
 DST="/etc/default/grub"
 if [[ -e "$DST" ]];then
     if diff "$SRC" "$DST"; then
-        [[ "$nodiff" -eq 2 ]] && exit -1
+        [[ "$nodiff" -eq 3 ]] && exit -1
     fi
     mv "$DST" "$DST.ft.bak" || exit 1
 fi
 cp "$SRC" "$DST" || exit 1
-update-grub &>"/dev/null"
+sudo update-grub &>"/dev/null"
 exit 0

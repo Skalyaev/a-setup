@@ -48,7 +48,7 @@ SRC="$HOME/.local/src/a-nvim-theme"
 [[ ! -e "$SRC" ]] && ! git clone "$URL" "$SRC" && exit 1
 mkdir -p "$CONFIG/colors" || exit 1
 [[ -e "$CONFIG/colors/neon" ]]\
-    || ln -s "$SRC/colors/neon" "$CONFIG/colors/neon"
+    || ln -s "$SRC/colors/neon.lua" "$CONFIG/colors/neon.lua"
 chown -R "$USER:$USER" "$CONFIG"
 chown -R "$USER:$USER" "$SRC"
 exit 0
