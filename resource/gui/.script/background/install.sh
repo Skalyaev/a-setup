@@ -13,15 +13,6 @@ cd "$TMP" || exit 1
 doit() {
     local target="$1"
     local files=("${@:2}")
-    for file in "${files[@]}";do
-        [[ -e "$FROM/$file" ]] || continue
-        if ! diff "$FROM/$file" "$target";then
-            local dontstop=1
-            break
-        fi
-    done
-    [[ "$dontstop" ]] || return -1
-
     if [[ ! -w "$FROM" ]]; then
         echo "Permission denied: $FROM" 1>&2
         return 1
@@ -57,40 +48,42 @@ doit() {
     return 0
 }
 
-NAME="background.jpg"
-FILES=(
-    "default"
-    "desktop-background"
-    "desktop-grub.png"
-    "login-background.svg"
-)
-P1="https://github.com/Skalyaeve"
-P2="/images/blob/main/background/$NAME"
-URL="$P1$P2"
+NAME="ft_background.jpg"
 nodiff=0
-curl -kL "$URL" -o "$NAME" || exit 1
-doit "$NAME" "${FILES[@]}"
-[[ "$?" -eq 255 ]] && ((nodiff++))
-#======================= GRUB BACKGROUND
-NAME="black.png"
-P1="https://raw.githubusercontent.com/Skalyaeve"
-P2="/images/main/background/$NAME"
-URL="$P1$P2"
-curl -kL "$URL" -o "$NAME"
-DST="/boot/grub"
-if [[ -e "$DST/$NAME" ]];then
-    if diff "$NAME" "$DST/$NAME";then
-        [[ "$nodiff" -eq 1 ]] && exit -1
-        exit 0
-    fi
-    mv "$DST/$NAME" "$DST/$NAME.ft.bak" || exit 1
+if [[ ! -e "$TO/$NAME" ]];then
+    FILES=(
+        "default"
+        "desktop-background"
+        "desktop-grub.png"
+        "login-background.svg"
+    )
+    P1="https://github.com/Skalyaeve"
+    P2="/images/blob/main/background/background.jpg"
+    URL="$P1$P2"
+    curl -kL "$URL" -o "$NAME" || exit 1
+    doit "$NAME" "${FILES[@]}"
+else
+    ((nodiff++))
 fi
-mv "$NAME" "$DST/$NAME" || exit 1
+#======================= GRUB BACKGROUND
+NAME="ft_black.png"
+DST="/boot/grub"
+if [[ ! -e "$DST/$NAME" ]];then
+    P1="https://raw.githubusercontent.com/Skalyaeve"
+    P2="/images/main/background/$NAME"
+    URL="$P1$P2"
+    curl -kL "$URL" -o "$NAME" || exit 1
+    mv "$NAME" "$DST/$NAME" || exit 1
+else
+    ((nodiff++))
+fi
 
 SRC="$HOME/.local/share/setup/resource/gui/grub/grub"
 DST="/etc/default/grub"
 if [[ -e "$DST" ]];then
-    diff "$SRC" "$DST" && exit 0
+    if diff "$SRC" "$DST"; then
+        [[ "$nodiff" -eq 2 ]] && exit -1
+    fi
     mv "$DST" "$DST.ft.bak" || exit 1
 fi
 cp "$SRC" "$DST" || exit 1

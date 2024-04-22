@@ -1,6 +1,6 @@
 #!/bin/bash
 FILES=(
-    "/usr/share/images/backgrounds/background.jpg"
+    "/usr/share/images/backgrounds/ft_background.jpg"
     "/usr/share/images/desktop-base/default"
     "/usr/share/images/desktop-base/desktop-background"
     "/usr/share/images/desktop-base/desktop-grub.png"
@@ -8,7 +8,7 @@ FILES=(
     "/usr/share/images/backgrounds/background.xml"
     "/usr/share/images/desktop-base/desktop-background.xml"
     "/usr/share/images/desktop-base/desktop-lockscreen.xml"
-    "/boot/grub/black.png"
+    "/boot/grub/ft_black.png"
     "/etc/default/grub"
 )
 for file in "${FILES[@]}";do
