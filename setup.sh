@@ -250,7 +250,7 @@ case "$COMMAND" in
         [[ "$(ls -A "$BACKUP")" ]] || rm -r "$BACKUP"
         exit 0
     fi
-    if [[ "${#DIFF[@]}" -ne 0 ]];then
+    if [[ "${#DIFF[@]}" -ne 0 ]];then
         for line in "${DIFF[@]}";do
             echo "$line"
         done>"$BACKUP/diff"
