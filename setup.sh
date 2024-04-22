@@ -250,9 +250,11 @@ case "$COMMAND" in
         [[ "$(ls -A "$BACKUP")" ]] || rm -r "$BACKUP"
         exit 0
     fi
-    for line in "${DIFF[@]}";do
-        echo "$line"
-    done>"$BACKUP/diff"
+    if [[ "${#DIFF[@]}" -ne 0 ]];then
+        for line in "${DIFF[@]}";do
+            echo "$line"
+        done>"$BACKUP/diff"
+    fi
     chown -R "$USER:$USER" "$BACKUP"
     ;;
 "restore")
