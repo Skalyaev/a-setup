@@ -80,7 +80,7 @@ curl -kL "$URL" -o "$NAME"
 DST="/boot/grub"
 if [[ -e "$DST/$NAME" ]];then
     if diff "$NAME" "$DST/$NAME";then
-        [[ "$nodiff" -eq 2 ]] && exit -1
+        [[ "$nodiff" -eq 1 ]] && exit -1
         exit 0
     fi
     mv "$DST/$NAME" "$DST/$NAME.ft.bak" || exit 1
