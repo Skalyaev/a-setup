@@ -110,5 +110,5 @@ if [[ -e "$DST" ]];then
     mv "$DST" "$DST.ft.bak" || bye 1
 fi
 cp "$SRC" "$DST" || bye 1
-update-grub
+update-grub &>"/dev/null"
 bye 0

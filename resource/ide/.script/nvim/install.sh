@@ -21,8 +21,9 @@ if [[ -e "$DST" ]];then
     cd "$DST" || exit 1
     make distclean
     git checkout "master" || exit 1
-    [[ "$(git pull)" == "Déjà à jour."\
-        || "$(git pull)" == "Already up to date." ]]\
+    ret="$(git pull)"
+    [[ "$ret" == "Déjà à jour."\
+        || "$ret" == "Already up to date." ]]\
         && exit -1
     [[ "$?" -ne 0 ]] && exit 1
 else

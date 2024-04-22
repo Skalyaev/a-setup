@@ -244,7 +244,7 @@ case "$COMMAND" in
     [[ "$NO_SCRIPT" ]] || ft_script
     [[ "$NO_SWAP" ]] || ft_swap
     [[ "$NO_BACKUP" ]] && exit 0
-    if [[ "${#DIFF[@]}" -eq 0 ]];then
+    if [[ "${#DIFF[@]}" -eq 0 && ! "$(ls -A "$BACKUP")" ]];then
         rm -r "$BACKUP"
         BACKUP="$(dirname "$ROOT")/backup"
         [[ "$(ls -A "$BACKUP")" ]] || rm -r "$BACKUP"
