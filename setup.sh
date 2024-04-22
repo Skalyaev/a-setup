@@ -153,7 +153,8 @@ ft_swap() {
                 fi
                 echo -ne "${BLUE}setting${NC} $to..."
                 eval "$cmd $from $to" || continue
-                chown -R "$USER:$USER" "$to"
+                grep -q "$HOME" <<< "$to"\
+                    && chown -R "$USER:$USER" "$to"
                 if [[ ! "$swapped" ]];then
                     [[ "$NO_BACKUP" ]] || DIFF+=("add:$to")
                 else
