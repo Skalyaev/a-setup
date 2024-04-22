@@ -37,4 +37,4 @@ GRUB_CMDLINE_LINUX=""
 
 # Uncomment to get a beep at grub start
 #GRUB_INIT_TUNE="480 440 1"
-GRUB_BACKGROUND="/boot/grub/background.png"
+GRUB_BACKGROUND="/boot/grub/ft_black.png"
