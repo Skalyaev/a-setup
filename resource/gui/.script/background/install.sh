@@ -1,7 +1,7 @@
 #!/bin/bash
 #======================= LIGHTDM BACKGROUNDS
 FROM='/usr/share/images/desktop-base'
-TO="/usr/share/images/backgrounds"
+TO="/usr/local/share/backgrounds"
 if [[ ! -e "$TO" ]]; then
     mkdir "$TO" || exit 1
     [[ "$NO_BACKUP" ]] || DIFF+=("add:$TO")
@@ -58,7 +58,7 @@ if [[ ! -e "$TO/$NAME" ]];then
         "login-background.svg"
     )
     P1="https://github.com/Skalyaeve"
-    P2="/images/blob/main/background/background.jpg"
+    P2="/images-1/blob/main/background/background.jpg?raw=true"
     URL="$P1$P2"
     curl -kL "$URL" -o "$NAME" || exit 1
     doit "$NAME" "${FILES[@]}"
@@ -72,20 +72,22 @@ if [[ ! -e "$TO/$NAME" ]];then
         "desktop-background.xml"
         "desktop-lockscreen.xml"
     )
-    P1="https://github.com/Skalyaeve"
-    P2="/images/blob/main/background/background.xml"
+    P1="https://raw.githubusercontent.com/Skalyaeve"
+    P2="/images-1/main/background/background.xml"
     URL="$P1$P2"
     curl -kL "$URL" -o "$NAME" || exit 1
     doit "$NAME" "${FILES[@]}"
 else
     ((nodiff++))
 fi
+
+
 #======================= GRUB BACKGROUND
 NAME="ft_black.png"
 DST="/boot/grub"
 if [[ ! -e "$DST/$NAME" ]];then
-    P1="https://raw.githubusercontent.com/Skalyaeve"
-    P2="/images/main/background/$NAME"
+    P1="https://github.com/Skalyaeve"
+    P2="/images-1/blob/main/background/black.png?raw=true"
     URL="$P1$P2"
     curl -kL "$URL" -o "$NAME" || exit 1
     mv "$NAME" "$DST/$NAME" || exit 1
