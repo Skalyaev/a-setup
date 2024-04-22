@@ -51,3 +51,4 @@ mkdir -p "$CONFIG/colors" || exit 1
     || ln -s "$SRC/colors/neon" "$CONFIG/colors/neon"
 chown -R "$USER:$USER" "$CONFIG"
 chown -R "$USER:$USER" "$SRC"
+exit 0
