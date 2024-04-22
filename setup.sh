@@ -172,7 +172,7 @@ ft_script() {
         while read file;do
             echo -e "${BLUE}Running$NC $file..."
             bash "$file" 1>"/dev/null"
-            if [[ "$?" -eq -1 ]];then
+            if [[ "$?" -eq 255 ]];then
                 echo -e "[$GREEN OK $NC]\n"
                 continue
             fi

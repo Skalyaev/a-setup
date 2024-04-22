@@ -69,7 +69,7 @@ P2="/images/blob/main/background/$NAME"
 URL="$P1$P2"
 nodiff=0
 curl -kL "$URL" -o "$NAME" && doit "$NAME" "${FILES[@]}"
-[[ "$?" -eq -1 ]] && ((nodiff++))
+[[ "$?" -eq 255 ]] && ((nodiff++))
 if [[ "$?" -eq 0 ]];then
     NAME="background.xml"
     FILES=(
@@ -80,7 +80,7 @@ if [[ "$?" -eq 0 ]];then
     P2="/images/main/background/$NAME"
     URL="$P1$P2"
     curl -k "$URL" > "$NAME" && doit "$NAME" "${FILES[@]}"
-    [[ "$?" -eq -1 ]] && ((nodiff++))
+    [[ "$?" -eq 255 ]] && ((nodiff++))
 fi
 
 #======================= GRUB BACKGROUND
