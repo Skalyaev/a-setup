@@ -13,7 +13,7 @@
 # A script
 - To quickly setup any Debian `home`/system
 - To keep updated git/web resources
-- To regroup your different tools and configurations
+- To group your different tools and configurations
 
 ### Usage
 ```sh
