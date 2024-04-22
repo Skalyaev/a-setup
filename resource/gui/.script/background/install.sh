@@ -67,7 +67,6 @@ else
 fi
 
 NAME="ft_background.xml"
-nodiff=0
 if [[ ! -e "$TO/$NAME" ]];then
     FILES=(
         "desktop-background.xml"
