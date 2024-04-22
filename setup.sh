@@ -176,7 +176,7 @@ ft_script() {
                 echo -e "[$GREEN OK $NC]\n"
                 continue
             fi
-            [[ "$?" -eq 0 ]] && echo -e "[$RED OK $NC]\n"
+            [[ "$?" -eq 0 ]] && echo -e "[$GREEN OK $NC]\n"
 
             local dir="$(dirname "$file")"
             mkdir -p "$BACKUP/$dir"

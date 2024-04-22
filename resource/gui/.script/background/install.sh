@@ -35,7 +35,7 @@ doit() {
         return 1
     fi
     for file in "${files[@]}";do
-        if [[ -e "$FROM/$file" ]]\
+        if [[ -e "$FROM/$file" ]]\
             && ! mv "$FROM/$file" "$FROM/$file.ft.bak"
         then
             for old in "${files[@]}";do

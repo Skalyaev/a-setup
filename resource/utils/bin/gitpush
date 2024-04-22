@@ -194,7 +194,7 @@ rm_it() {
     local dir="$(basename "$(dirname "$file")")"
     for target in "${targets[@]}";do
         if [[ "$target" == "$dir" ]];then
-            rm "$file" || return 1
+            rm "$file" || return 1
             return 0
         fi
     done
