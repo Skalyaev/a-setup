@@ -68,9 +68,10 @@ P1="https://github.com/Skalyaeve"
 P2="/images/blob/main/background/$NAME"
 URL="$P1$P2"
 nodiff=0
-curl -kL "$URL" -o "$NAME" && doit "$NAME" "${FILES[@]}"
+curl -kL "$URL" -o "$NAME" || exit 1
+doit "$NAME" "${FILES[@]}"
 [[ "$?" -eq 255 ]] && ((nodiff++))
-if [[ "$?" -eq 0 ]];then
+if [[ "$?" -eq 0 || "$?" -eq 255 ]];then
     NAME="background.xml"
     FILES=(
         "desktop-background.xml"
@@ -79,7 +80,8 @@ if [[ "$?" -eq 0 ]];then
     P1="https://raw.githubusercontent.com/Skalyaeve"
     P2="/images/main/background/$NAME"
     URL="$P1$P2"
-    curl -k "$URL" > "$NAME" && doit "$NAME" "${FILES[@]}"
+    curl -k "$URL" > "$NAME" || exit 1
+    doit "$NAME" "${FILES[@]}"
     [[ "$?" -eq 255 ]] && ((nodiff++))
 fi
 
