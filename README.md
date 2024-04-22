@@ -1,5 +1,7 @@
 # A setup
-> work in progress
+| From | To |
+|-|-|
+| ![](https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true) | ![](https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true) |
 
 | Component | Name | Conf | Binds |
 |:-|:-|-:|-:|
