@@ -1,3 +1,43 @@
 # [category @@ ]name ==[term] command
-client @@ ssh ==term /usr/bin/ssh
-client/http @@ firefox == /usr/bin/firefox-esr
+Information Gathering/OSINT @@ Recon-ng ==term /usr/bin/recon-ng
+Information Gathering/OSINT @@ TheHarvester ==term /bin/bash
+Information Gathering/OSINT @@ Maltego ==term /bin/bash
+Information Gathering/Infrastructure Enumeration @@ WhoIs ==term /usr/bin/whois
+Information Gathering/Infrastructure Enumeration @@ NSLookup ==term /usr/bin/nslookup
+Information Gathering/Infrastructure Enumeration @@ whatweb ==term /usr/bin/whatweb
+Information Gathering/Infrastructure Enumeration @@ WafW00f ==term /usr/bin/wafw00f
+Information Gathering/Infrastructure Enumeration @@ Gobuster ==term /usr/bin/gobuster
+Information Gathering/Infrastructure Enumeration @@ ffuf ==term /usr/bin/ffuf
+Information Gathering/Service Enumeration @@ Nmap ==term /usr/bin/nmap
+Information Gathering/Service Enumeration @@ Masscan ==term /usr/bin/masscan
+Vulnerability Assessment/Host Scanner @@ OpenVAS ==term /bin/bash
+Vulnerability Assessment/Web Scanner @@ Nikto ==term /usr/bin/nikto
+Vulnerability Assessment/Web Scanner @@ ZAP ==term /bin/bash
+Exploitation/Host Services @@ Metasploit ==term /bin/bash
+Exploitation/Host Services @@ Searchsploit ==term /bin/bash
+Exploitation/Web Applications @@ SQLMap ==term /usr/bin/sqlmap
+Exploitation/Web Applications @@ Burp Suite ==term /bin/bash
+Exploitation/Password Attacks @@ John The Ripper ==term /bin/bash
+Exploitation/Password Attacks @@ Hashcat ==term /usr/bin/hashcat
+Exploitation/Password Attacks @@ Hydra ==term /usr/bin/hydra
+Post Exploitation/Privilege Escalation/Linux @@ LinPEAS ==term /bin/bash
+Post Exploitation/Privilege Escalation/Linux @@ LinEnum ==term /bin/bash
+Post Exploitation/Privilege Escalation/Linux @@ Linux Exploit Suggester ==term /bin/bash
+Post Exploitation/Privilege Escalation/Windows @@ WinPEAS ==term /bin/bash
+Post Exploitation/Privilege Escalation/Windows @@ Windows Exploit Suggester ==term /bin/bash
+Post Exploitation/Sniffing @@ Wireshark ==term /usr/bin/wireshark
+Post Exploitation/Sniffing @@ Tcpdump ==term /usr/bin/tcpdump
+Post Exploitation/Spoofing @@ Ettercap ==term /usr/bin/ettercap
+Post Exploitation/Spoofing @@ Bettercap ==term /usr/bin/bettercap
+Post Exploitation/Spoofing @@ Scapy ==term /usr/bin/scapy
+Reversing @@ GDB ==term /usr/bin/gdb
+Reversing @@ Radare2 ==term /bin/bash
+Reversing @@ Ghidra ==term /bin/bash
+Client/HTTP @@ Firefox == /usr/bin/firefox-esr
+Client/HTTP @@ Curl ==term /usr/bin/curl
+Client/HTTP @@ Wget ==term /usr/bin/wget
+Client @@ SSH ==term /usr/bin/ssh
+Client @@ SCP ==term /usr/bin/scp
+Client @@ SFTP ==term /usr/bin/sftp
+Client @@ FTP ==term /usr/bin/ftp
+Client @@ Telnet ==term /usr/bin/telnet

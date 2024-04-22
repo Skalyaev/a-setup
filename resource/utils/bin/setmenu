@@ -77,7 +77,7 @@ while read line;do
     [[ "${line:0:1}" == "#" ]] && continue
 
     if ! grep -q "==" <<< "$line";then
-        echo -e "[$RED ERR $NV] applications.list: $line"
+        echo -e "[$RED ERR $NC] applications.list: $line"
         continue
     fi
     if grep -q "@@" <<< "$line";then
@@ -103,7 +103,7 @@ while read line;do
     [[ "${line:0:1}" == "#" ]] && continue
 
     if ! grep -q "==" <<< "$line";then
-        echo -e "[$RED ERR $NV] links.list: $line"
+        echo -e "[$RED ERR $NC] links.list: $line"
         continue
     fi
     if grep -q "@@" <<< "$line";then

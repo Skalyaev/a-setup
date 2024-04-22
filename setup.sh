@@ -109,7 +109,7 @@ ft_apt() {
         [[ "$NO_BACKUP" ]] || DIFF+=("apt:$pkg")
         echo -e "[$GREEN OK $NC]"
     done< <(find . "${EXCLUDES[@]}" -type f -name ".apt"\
-        | xargs cat | cut -d: -f1 | sort | uniq)
+        | xargs cat | sort | uniq)
     return 0
 }
 

@@ -1,2 +1,10 @@
 # [category @@ ]name == url
-url @@ github == https://github.com/Skalyaeve
+Information Gathering/Infrastructure Enumeration @@ Shodan == https://shodan.io
+Misc/URL @@ Github == https://github.com
+Misc/URL @@ LinkedIn == https://linkedin.com
+Misc/URL @@ HTB Academy == https://academy.hackthebox.com/dashboard
+Misc/URL @@ HTB Labs == https://app.hackthebox.com/home
+Misc/URL @@ Soundcloud == https://soundcloud.com
+Misc/URL @@ Youtube == https://youtube.com
+Misc/URL @@ Gmail == https://mail.google.com
+Misc/URL @@ 42 == https://profile.intra.42.fr/

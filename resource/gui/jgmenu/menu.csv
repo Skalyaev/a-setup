@@ -1,17 +1,141 @@
 #===========================ROOT
-client, ^checkout(client)
-url, ^checkout(url)
+Information Gathering, ^checkout(Information-Gathering)
+Vulnerability Assessment, ^checkout(Vulnerability-Assessment)
+Exploitation, ^checkout(Exploitation)
+Post Exploitation, ^checkout(Post-Exploitation)
+Reversing, ^checkout(Reversing)
+Client, ^checkout(Client)
+Misc, ^checkout(Misc)
+
+#===========================SUB - INFORMATION-GATHERING
+^tag(Information-Gathering)
+OSINT, ^checkout(OSINT)
+Infrastructure Enumeration, ^checkout(Infrastructure-Enumeration)
+Service Enumeration, ^checkout(Service-Enumeration)
+
+#===========================SUB - VULNERABILITY-ASSESSMENT
+^tag(Vulnerability-Assessment)
+Host Scanner, ^checkout(Host-Scanner)
+Web Scanner, ^checkout(Web-Scanner)
+
+#===========================SUB - EXPLOITATION
+^tag(Exploitation)
+Host Services, ^checkout(Host-Services)
+Web Applications, ^checkout(Web-Applications)
+Password Attacks, ^checkout(Password-Attacks)
+
+#===========================SUB - POST-EXPLOITATION
+^tag(Post-Exploitation)
+Privilege Escalation, ^checkout(Privilege-Escalation)
+Sniffing, ^checkout(Sniffing)
+Spoofing, ^checkout(Spoofing)
+
+#===========================SUB - POST-EXPLOITATION/PRIVILEGE-ESCALATION
+^tag(Privilege-Escalation)
+Linux, ^checkout(Linux)
+Windows, ^checkout(Windows)
 
 #===========================SUB - CLIENT
-^tag(client)
-http, ^checkout(http)
-ssh, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
+^tag(Client)
+HTTP, ^checkout(HTTP)
+SSH, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
+SCP, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/scp; exec /usr/bin/bash"
+SFTP, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/sftp; exec /usr/bin/bash"
+FTP, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ftp; exec /usr/bin/bash"
+Telnet, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/telnet; exec /usr/bin/bash"
+
+#===========================SUB - MISC
+^tag(Misc)
+URL, ^checkout(URL)
+
+#===========================SUB - INFORMATION-GATHERING/OSINT
+^tag(OSINT)
+Recon-ng, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/recon-ng; exec /usr/bin/bash"
+TheHarvester, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+Maltego, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - INFORMATION-GATHERING/INFRASTRUCTURE-ENUMERATION
+^tag(Infrastructure-Enumeration)
+WhoIs, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/whois; exec /usr/bin/bash"
+NSLookup, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nslookup; exec /usr/bin/bash"
+whatweb, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/whatweb; exec /usr/bin/bash"
+WafW00f, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/wafw00f; exec /usr/bin/bash"
+Gobuster, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/gobuster; exec /usr/bin/bash"
+ffuf, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ffuf; exec /usr/bin/bash"
+ Shodan, /usr/bin/firefox-esr -new-tab https://shodan.io
+
+#===========================SUB - INFORMATION-GATHERING/SERVICE-ENUMERATION
+^tag(Service-Enumeration)
+Nmap, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nmap; exec /usr/bin/bash"
+Masscan, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/masscan; exec /usr/bin/bash"
+
+#===========================SUB - VULNERABILITY-ASSESSMENT/HOST-SCANNER
+^tag(Host-Scanner)
+OpenVAS, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - VULNERABILITY-ASSESSMENT/WEB-SCANNER
+^tag(Web-Scanner)
+Nikto, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nikto; exec /usr/bin/bash"
+ZAP, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - EXPLOITATION/HOST-SERVICES
+^tag(Host-Services)
+Metasploit, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+Searchsploit, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - EXPLOITATION/WEB-APPLICATIONS
+^tag(Web-Applications)
+SQLMap, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/sqlmap; exec /usr/bin/bash"
+Burp Suite, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - EXPLOITATION/PASSWORD-ATTACKS
+^tag(Password-Attacks)
+John The Ripper, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+Hashcat, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/hashcat; exec /usr/bin/bash"
+Hydra, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/hydra; exec /usr/bin/bash"
+
+#===========================SUB - POST-EXPLOITATION/PRIVILEGE-ESCALATION/LINUX
+^tag(Linux)
+LinPEAS, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+LinEnum, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+Linux Exploit Suggester, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - POST-EXPLOITATION/PRIVILEGE-ESCALATION/WINDOWS
+^tag(Windows)
+WinPEAS, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+Windows Exploit Suggester, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+
+#===========================SUB - POST-EXPLOITATION/SNIFFING
+^tag(Sniffing)
+Wireshark, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/wireshark; exec /usr/bin/bash"
+Tcpdump, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/tcpdump; exec /usr/bin/bash"
+
+#===========================SUB - POST-EXPLOITATION/SPOOFING
+^tag(Spoofing)
+Ettercap, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ettercap; exec /usr/bin/bash"
+Bettercap, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/bettercap; exec /usr/bin/bash"
+Scapy, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/scapy; exec /usr/bin/bash"
+
+#===========================SUB - REVERSING
+^tag(Reversing)
+GDB, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/gdb; exec /usr/bin/bash"
+Radare2, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
+Ghidra, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
 
 #===========================SUB - CLIENT/HTTP
-^tag(http)
-firefox, /usr/bin/firefox-esr
+^tag(HTTP)
+Firefox, /usr/bin/firefox-esr
+Curl, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/curl; exec /usr/bin/bash"
+Wget, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/wget; exec /usr/bin/bash"
 
-#===========================SUB - URL
-^tag(url)
-github, /usr/bin/firefox-esr -new-tab https://github.com/Skalyaeve
+#===========================SUB - MISC/URL
+^tag(URL)
+Github, /usr/bin/firefox-esr -new-tab https://github.com
+LinkedIn, /usr/bin/firefox-esr -new-tab https://linkedin.com
+HTB Academy, /usr/bin/firefox-esr -new-tab https://academy.hackthebox.com/dashboard
+HTB Labs, /usr/bin/firefox-esr -new-tab https://app.hackthebox.com/home
+Soundcloud, /usr/bin/firefox-esr -new-tab https://soundcloud.com
+Youtube, /usr/bin/firefox-esr -new-tab https://youtube.com
+Gmail, /usr/bin/firefox-esr -new-tab https://mail.google.com
+42, /usr/bin/firefox-esr -new-tab https://profile.intra.42.fr/
 
