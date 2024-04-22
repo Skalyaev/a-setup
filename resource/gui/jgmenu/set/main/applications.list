@@ -41,3 +41,4 @@ Client @@ SCP ==term /usr/bin/scp
 Client @@ SFTP ==term /usr/bin/sftp
 Client @@ FTP ==term /usr/bin/ftp
 Client @@ Telnet ==term /usr/bin/telnet
+Misc @@ Vim ==term /usr/bin/nvim

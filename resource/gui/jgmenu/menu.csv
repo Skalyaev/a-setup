@@ -47,6 +47,7 @@ Telnet, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/telnet; exec /usr/bin/b
 #===========================SUB - MISC
 ^tag(Misc)
 URL, ^checkout(URL)
+Vim, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nvim; exec /usr/bin/bash"
 
 #===========================SUB - INFORMATION-GATHERING/OSINT
 ^tag(OSINT)
@@ -62,7 +63,7 @@ whatweb, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/whatweb; exec /usr/bin
 WafW00f, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/wafw00f; exec /usr/bin/bash"
 Gobuster, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/gobuster; exec /usr/bin/bash"
 ffuf, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ffuf; exec /usr/bin/bash"
- Shodan, /usr/bin/firefox-esr -new-tab https://shodan.io
+Shodan, /usr/bin/firefox-esr -new-tab https://shodan.io
 
 #===========================SUB - INFORMATION-GATHERING/SERVICE-ENUMERATION
 ^tag(Service-Enumeration)
