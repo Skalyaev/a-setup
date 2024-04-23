@@ -55,14 +55,14 @@ setup <command> [options]
     * When `install`, do not create backup
 
 #### .apt files:
-- `<package_name> : [description]`
+- `<package_name>`
 - 1 package per line
 
 #### .script dirs:
 - Per subdirectory:
-    * 1 `install.sh` bash script
+    * 1 `install.sh` bash scrip
+        - `exit -1` = Up to date
     * 1 optional `remove.sh` bash script
-    * exit -1 = Do not copy `remove.sh` to backup
 
 #### .swap files:
 - Swap files/directories from `$(dirname .swap)`
