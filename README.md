@@ -72,13 +72,12 @@ setup <command> [options]
 
 ## Install
 ```sh
-dst=~/.local/src
-mkdir -p $dst
+mkdir -p ~/.config
+mkdir -p ~/.local/src
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/share/setup
-mkdir -p ~/.config
-git clone https://github.com/Skalyaeve/a-setup.git $dst/setup
-cd $dst/setup
+git clone https://github.com/Skalyaeve/a-setup.git setup
+cd setup
 ln -s $PWD/setup.sh ~/.local/bin/setup
 ln -s $PWD/resource ~/.local/share/setup/resource
 ```
