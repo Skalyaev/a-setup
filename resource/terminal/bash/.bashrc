@@ -26,10 +26,6 @@ fi
 [[ -e "$HOME/.bash_env" ]] && . "$HOME/.bash_env"
 [[ -e "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-eval "$(perl -I"$HOME/perl5/lib/perl5" -M"local::lib")"
-
 if [[ -z "${debian_chroot:-}" ]] && [[ -r "/etc/debian_chroot" ]]
 then
     debian_chroot="$(cat "/etc/debian_chroot")"

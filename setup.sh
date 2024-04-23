@@ -95,6 +95,8 @@ ft_apt() {
     echo -e "[$GREEN OK $NC]"
     echo -e "$GRAY============READING: .apt$NC"
     while read pkg;do
+        [[ "$pkg" ]] || continue
+
         if dpkg-query -W -f='${Status}' "$pkg" 2>"/dev/null"\
             | grep -q "install ok installed"
         then
@@ -174,10 +176,10 @@ ft_script() {
             echo -e "${BLUE}Running$NC $file..."
             bash "$file" 1>"/dev/null"
             if [[ "$?" -eq 255 ]];then
-                echo -e "[$GREEN OK $NC]\n"
+                echo -e "[$GREEN OK $NC]"
                 continue
             fi
-            [[ "$?" -eq 0 ]] && echo -e "[$GREEN OK $NC]\n"
+            [[ "$?" -eq 0 ]] && echo -e "[$GREEN OK $NC]"
 
             local dir="$(dirname "$file")"
             mkdir -p "$BACKUP/$dir"
@@ -199,13 +201,13 @@ ft_restore() {
                 local pkg="${line#*:}"
                 echo -ne "${BLUE}removing$NC $pkg..."
                 apt remove -y "$pkg" 1>"/dev/null" || continue
-                echo -e "[$GREEN OK $NC]\n"
+                echo -e "[$GREEN OK $NC]"
                 ;;
             "swap")
                 local target="${line#*:}"
                 echo -ne "${BLUE}restoring$NC $target..."
                 mv "$(basename "$target")" "$target" || continue
-                echo -e "[$GREEN OK $NC]\n"
+                echo -e "[$GREEN OK $NC]"
                 ;;
             "add")
                 local target="${line#*:}"
@@ -215,7 +217,7 @@ ft_restore() {
                 else
                     rm "$target" || continue
                 fi
-                echo -e "[$GREEN OK $NC]\n"
+                echo -e "[$GREEN OK $NC]"
                 ;;
             esac
         done<"diff"
@@ -223,7 +225,7 @@ ft_restore() {
     while read file;do
         echo -ne "${BLUE}Running$NC $file..."
         bash "$file" 1>"/dev/null" || continue
-        echo -e "[$GREEN OK $NC]\n"
+        echo -e "[$GREEN OK $NC]"
     done< <(find . -type f -name "remove.sh")
     return 0
 }
@@ -237,8 +239,11 @@ case "$COMMAND" in
     ROOT+="/resource"
     [[ -e "$ROOT" ]] || err "resource not found: $ROOT"
     if [[ ! "$NO_BACKUP" ]];then
-        BACKUP="$(dirname "$ROOT")/backup/$(date +%s)"
-        mkdir -p "$BACKUP" || exit 1
+        BACKUP="$(dirname "$ROOT")/backup"
+        mkdir "$BACKUP" || exit 1
+        chown "$USER:$USER" "$BACKUP"
+        BACKUP+="/$(date +%s)"
+        mkdir "$BACKUP" || exit 1
     fi
     cd "$ROOT"
     [[ "$NO_APT" ]] || ft_apt

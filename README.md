@@ -89,7 +89,7 @@ setup install
 ```
 or
 ```sh
-sudo ln -s ~/.local/bin/setup /bin/setup
+sudo ln -s ~/.local/bin/setup /usr/local/bin/setup
 sudo setup install -u $USER
 ```
 
