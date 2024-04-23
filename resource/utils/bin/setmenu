@@ -111,7 +111,7 @@ while read line;do
         line="${line#*@@}"
     fi
     name="$(xargs <<< "${line%==*}")"
-    url="$(xargs <<< "${line#*==}")"
+    url="\"$(xargs <<< "${line#*==}")\""
 
     ENTRIES+=("$parent$name, $BROWSER $url")
     unset parent

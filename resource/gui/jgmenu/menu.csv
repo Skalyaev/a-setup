@@ -63,7 +63,7 @@ whatweb, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/whatweb; exec /usr/bin
 WafW00f, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/wafw00f; exec /usr/bin/bash"
 Gobuster, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/gobuster; exec /usr/bin/bash"
 ffuf, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ffuf; exec /usr/bin/bash"
-Shodan, /usr/bin/firefox-esr -new-tab https://shodan.io
+Shodan, /usr/bin/firefox-esr -new-tab "https://shodan.io"
 
 #===========================SUB - INFORMATION-GATHERING/SERVICE-ENUMERATION
 ^tag(Service-Enumeration)
@@ -131,12 +131,14 @@ Wget, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/wget; exec /usr/bin/bash"
 
 #===========================SUB - MISC/URL
 ^tag(URL)
-Github, /usr/bin/firefox-esr -new-tab https://github.com
-LinkedIn, /usr/bin/firefox-esr -new-tab https://linkedin.com
-HTB Academy, /usr/bin/firefox-esr -new-tab https://academy.hackthebox.com/dashboard
-HTB Labs, /usr/bin/firefox-esr -new-tab https://app.hackthebox.com/home
-Soundcloud, /usr/bin/firefox-esr -new-tab https://soundcloud.com
-Youtube, /usr/bin/firefox-esr -new-tab https://youtube.com
-Gmail, /usr/bin/firefox-esr -new-tab https://mail.google.com
-42, /usr/bin/firefox-esr -new-tab https://profile.intra.42.fr/
+42, /usr/bin/firefox-esr -new-tab "https://profile.intra.42.fr/"
+Github, /usr/bin/firefox-esr -new-tab "https://github.com"
+LinkedIn, /usr/bin/firefox-esr -new-tab "https://linkedin.com"
+HTB Academy, /usr/bin/firefox-esr -new-tab "https://academy.hackthebox.com/dashboard"
+HTB Labs, /usr/bin/firefox-esr -new-tab "https://app.hackthebox.com/home"
+Soundcloud, /usr/bin/firefox-esr -new-tab "https://soundcloud.com"
+Youtube, /usr/bin/firefox-esr -new-tab "https://youtube.com"
+Gmail, /usr/bin/firefox-esr -new-tab "https://mail.google.com"
+Traduction, /usr/bin/firefox-esr -new-tab "https://www.google.com/search?client=firefox-b-e&q=traductions"
+Hex2Dec, /usr/bin/firefox-esr -new-tab "https://www.rapidtables.com/convert/number/hex-to-decimal.html"
 

@@ -1,5 +1,6 @@
 # [category @@ ]name == url
 Information Gathering/Infrastructure Enumeration @@ Shodan == https://shodan.io
+Misc/URL @@ 42 == https://profile.intra.42.fr/
 Misc/URL @@ Github == https://github.com
 Misc/URL @@ LinkedIn == https://linkedin.com
 Misc/URL @@ HTB Academy == https://academy.hackthebox.com/dashboard
@@ -7,4 +8,5 @@ Misc/URL @@ HTB Labs == https://app.hackthebox.com/home
 Misc/URL @@ Soundcloud == https://soundcloud.com
 Misc/URL @@ Youtube == https://youtube.com
 Misc/URL @@ Gmail == https://mail.google.com
-Misc/URL @@ 42 == https://profile.intra.42.fr/
+Misc/URL @@ Traduction == https://www.google.com/search?client=firefox-b-e&q=traductions
+Misc/URL @@ Hex2Dec == https://www.rapidtables.com/convert/number/hex-to-decimal.html
