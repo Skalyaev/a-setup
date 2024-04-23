@@ -38,12 +38,12 @@ setup <command> [options]
     * Restore local resources via `diff` file
 
 #### Options:
-- `-u/--user <user>`:
+- `-u`/`--user` `<user>`:
     * `install`/`restore` for specified `<user>`
-- `-p/--path <path>`:
+- `-p`/`--path` `<path>`:
     * Specify a path to `resource`/`backup` directory
     * Default: `~/.local/share/setup`
-- `-e/--exclude <dir1> [dir2]...`:
+- `-e`/`--exclude` `<dir1> [dir2]`...:
     * When `install`, exclude the specified directories
 - `--no-apt`:
     * When `install`, do not read `.apt` files
