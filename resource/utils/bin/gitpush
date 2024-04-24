@@ -119,6 +119,10 @@ do_it() {
         local ordered=()
         while [[ "${#targets[@]}" -gt 0 ]];do
             local next="$(head -n1 <<< "$order")"
+            if [[ ! -e "$next" ]];then
+                echo -e "[$RED ERR $NC] $cwd/$next not found"
+                return 1
+            fi
 
             for target in "${targets[@]}";do
                 local name="$(basename "$target")"

@@ -48,6 +48,7 @@ Telnet, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/telnet; exec /usr/bin/b
 ^tag(Misc)
 URL, ^checkout(URL)
 Vim, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nvim; exec /usr/bin/bash"
+Gimp, /usr/bin/gimp
 
 #===========================SUB - INFORMATION-GATHERING/OSINT
 ^tag(OSINT)

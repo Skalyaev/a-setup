@@ -180,8 +180,13 @@ ft_script() {
                 continue
             fi
             [[ "$?" -eq 0 ]] && echo -e "[$GREEN OK $NC]"
+            [[ "$NO_BACKUP" ]] && continue
 
-            local dir="$(dirname "$file")"
+            local dir="$(basename "$(dirname "$file")")"
+            for (( x=0; x>-1; x++ ));do
+                [[ -e "$BACKUP/$dir" ]] || break
+                dir="$dir-$x"
+            done
             mkdir -p "$BACKUP/$dir"
             [[ -e "$dir/remove.sh" ]]\
                 && cp -r "$dir/remove.sh" "$BACKUP/$dir"
@@ -240,7 +245,7 @@ case "$COMMAND" in
     [[ -e "$ROOT" ]] || err "resource not found: $ROOT"
     if [[ ! "$NO_BACKUP" ]];then
         BACKUP="$(dirname "$ROOT")/backup"
-        mkdir "$BACKUP" || exit 1
+        [[ ! -e "$BACKUP" ]] && ! mkdir "$BACKUP" && exit 1
         chown "$USER:$USER" "$BACKUP"
         BACKUP+="/$(date +%s)"
         mkdir "$BACKUP" || exit 1
