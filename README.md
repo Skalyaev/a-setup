@@ -54,17 +54,17 @@ setup <command> [options]
 - `--no-backup`:
     * When `install`, do not create backup
 
-#### .apt files:
+#### `.apt` files:
 - `<package_name>`
 - 1 package per line
 
-#### .script dirs:
+#### `.script` dirs:
 - Per subdirectory:
     * 1 `install.sh` bash scrip
         - `exit -1` = Up to date
     * 1 optional `remove.sh` bash script
 
-#### .swap files:
+#### `.swap` files:
 - Swap files/directories from `$(dirname .swap)`
 - To `cp` src instead of `ln -s`, add `no-link `
 - `[no-link ]<path from .swap file> @ <target DIRECTORY>`
@@ -72,9 +72,7 @@ setup <command> [options]
 
 ## Install
 ```sh
-mkdir -p ~/.config
-mkdir -p ~/.local/src
-mkdir -p ~/.local/bin
+# new $HOME ?-> ./init.sh
 mkdir -p ~/.local/share/setup
 git clone https://github.com/Skalyaeve/a-setup.git setup
 cd setup

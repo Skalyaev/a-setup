@@ -23,6 +23,8 @@ if ! shopt -oq "posix"; then
         . "/etc/bash_completion"
     fi
 fi
+[[ -e "$HOME/.local/share/pyenv" ]]\
+    && . "$HOME/.local/share/pyenv/bin/activate"
 [[ -e "$HOME/.bash_env" ]] && . "$HOME/.bash_env"
 [[ -e "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
 
