@@ -1,8 +1,8 @@
 # <p align="center">A setup</p>
-### From
+### <p align="center">◯── From ──◯</p>
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true"></img>
 
-### To
+### <p align="center">◯─── To ───◯</p>
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
 
 <table align="center">
