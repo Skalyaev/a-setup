@@ -111,10 +111,10 @@ setup <command> [options]
 
 ## Install
 ```sh
-# new $HOME ?-> ./init.sh
 mkdir -p ~/.local/share/setup
 git clone https://github.com/Skalyaeve/a-setup.git setup
 cd setup
+# new $HOME ?-> ./init.sh
 ln -s $PWD/setup.sh ~/.local/bin/setup
 ln -s $PWD/resource ~/.local/share/setup/resource
 ```
