@@ -104,8 +104,7 @@ setup <command> [options]
 
 #### `.swap` files:
 - Swap files/folders from `$(dirname .swap)`
-- To `cp` src instead of `ln -s`, add `no-link `
-- `[no-link ]<path from .swap file> @ <target DIRECTORY>`
+- `<path from .swap file> @ <target DIRECTORY>`
 - 1 line per swap
 
 ## Install
