@@ -61,7 +61,7 @@
 setup <command> [options]
 ```
 
-#### Commands
+### Commands
 - `install`:
     * Running from a `resource` directory
     * Install apt packages via `.apt` files
@@ -73,7 +73,7 @@ setup <command> [options]
     * Running from a `backup` directory
     * Perform backup using latest backup directory
 
-#### Options:
+### Options:
 - `-u`/`--user` `<user>`:
     * `install`/`restore` for specified `<user>`
 - `-p`/`--path` `<path>`:
@@ -92,17 +92,17 @@ setup <command> [options]
 - `--no-backup`:
     * When `install`, do not create backup
 
-#### `.apt` & `.pip` files:
+### `.apt` & `.pip` files:
 - `<package_name>`
 - 1 package per line
 
-#### `.script` dirs:
+### `.script` dirs:
 - Per subdirectory:
     * 1 `install.sh` bash scrip
     * 1 `update.sh` bash scrip
     * 1 `remove.sh` bash script
 
-#### `.swap` files:
+### `.swap` files:
 - Swap files/folders from `$(dirname .swap)`
 - `<path from .swap file> @ <target DIRECTORY>`
 - 1 line per swap
