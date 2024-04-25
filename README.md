@@ -132,11 +132,13 @@ sudo setup install -u $USER
 ## Backup
 ```sh
 count=$(ls ~/.local/share/setup/backup)
-for _ in $count; do
-    setup restore
-    # or
-    # sudo setup restore -u $USER
-done
+```
+```sh
+for _ in $count; do setup restore; done
+```
+or
+```sh
+for _ in $count; do sudo setup restore -u $USER; done
 ```
 
 ## Uninstall
