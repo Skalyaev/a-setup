@@ -1,4 +1,4 @@
-# A setup
+# <p align="center">A setup</p>
 ### From
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true"></img>
 
