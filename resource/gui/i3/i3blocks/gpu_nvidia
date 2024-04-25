@@ -1,7 +1,9 @@
 #!/bin/bash
 GPU_USAGE=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)
 
-if [ -z "$GPU_USAGE" ]; then
+if [ -z "$GPU_USAGE" -o "$GPU_USAGE" -lt 0 ]\
+    || grep -q "[a-zA-Z]" <<< "$GPU_USAGE"
+then
     echo "N/A"
     echo "N/A"
     echo "#FF0000"

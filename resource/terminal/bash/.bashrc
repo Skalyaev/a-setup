@@ -16,6 +16,8 @@ HISTCONTROL="erasedups"
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
 if ! shopt -oq "posix"; then
     if [[ -e "/usr/share/bash-completion/bash_completion" ]]; then
         . "/usr/share/bash-completion/bash_completion"

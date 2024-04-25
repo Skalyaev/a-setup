@@ -1,5 +1,5 @@
 #!/bin/bash
-# crontab -e => 0 20 * * * ~/.local/bin/gitpush ~/.local/share/git
+# crontab -e => 0 22 * * * ~/.local/bin/gitpush ~/.local/share/git
 RED="\033[0;31m"
 GREEN="\033[0;32m"
 YELLOW="\033[0;33m"

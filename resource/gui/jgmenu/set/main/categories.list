@@ -16,7 +16,7 @@ Post Exploitation/Spoofing
 Post Exploitation/Privilege Escalation/Linux
 Post Exploitation/Privilege Escalation/Windows
 Reversing
-Client
-Client/HTTP
 Misc
 Misc/URL
+Misc/Client
+Misc/Client/HTTP

@@ -4,7 +4,6 @@ Vulnerability Assessment, ^checkout(Vulnerability-Assessment)
 Exploitation, ^checkout(Exploitation)
 Post Exploitation, ^checkout(Post-Exploitation)
 Reversing, ^checkout(Reversing)
-Client, ^checkout(Client)
 Misc, ^checkout(Misc)
 
 #===========================SUB - INFORMATION-GATHERING
@@ -35,7 +34,14 @@ Spoofing, ^checkout(Spoofing)
 Linux, ^checkout(Linux)
 Windows, ^checkout(Windows)
 
-#===========================SUB - CLIENT
+#===========================SUB - MISC
+^tag(Misc)
+URL, ^checkout(URL)
+Client, ^checkout(Client)
+Vim, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nvim; exec /usr/bin/bash"
+Gimp, /usr/bin/gimp
+
+#===========================SUB - MISC/CLIENT
 ^tag(Client)
 HTTP, ^checkout(HTTP)
 SSH, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ssh; exec /usr/bin/bash"
@@ -43,12 +49,6 @@ SCP, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/scp; exec /usr/bin/bash"
 SFTP, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/sftp; exec /usr/bin/bash"
 FTP, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/ftp; exec /usr/bin/bash"
 Telnet, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/telnet; exec /usr/bin/bash"
-
-#===========================SUB - MISC
-^tag(Misc)
-URL, ^checkout(URL)
-Vim, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/nvim; exec /usr/bin/bash"
-Gimp, /usr/bin/gimp
 
 #===========================SUB - INFORMATION-GATHERING/OSINT
 ^tag(OSINT)
@@ -124,7 +124,7 @@ GDB, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/gdb; exec /usr/bin/bash"
 Radare2, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
 Ghidra, /usr/bin/alacritty -e /usr/bin/bash -c "/bin/bash; exec /usr/bin/bash"
 
-#===========================SUB - CLIENT/HTTP
+#===========================SUB - MISC/CLIENT/HTTP
 ^tag(HTTP)
 Firefox, /usr/bin/firefox-esr
 Curl, /usr/bin/alacritty -e /usr/bin/bash -c "/usr/bin/curl; exec /usr/bin/bash"
