@@ -100,8 +100,8 @@ setup <command> [options]
 
 ### `.script` dirs:
 - Per subdirectory:
-    * 1 `install.sh` bash scrip
-    * 1 `update.sh` bash scrip
+    * 1 `install.sh` bash script
+    * 1 `update.sh` bash script
     * 1 `remove.sh` bash script
 
 ### `.swap` files:
