@@ -67,7 +67,7 @@ setup <command> [options]
     * Install apt packages via `.apt` files
     * Install pip packages via `.pip` files
     * Install web resources via `.web` folders
-    * Install local resources via `.swap` files
+    * Install local resources via `.local` files
 
 - `restore`
     * Running from a `backup` directory
@@ -88,7 +88,7 @@ setup <command> [options]
 - `--no-web`
     * When `install`, do not read `.web` folders
 - `--no-local`
-    * When `install`, do not read `.swap` files
+    * When `install`, do not read `.local` files
 - `--no-backup`
     * When `install`, do not create backup
 
@@ -104,9 +104,9 @@ setup <command> [options]
     * 1 `update.sh` bash script
     * 1 `remove.sh` bash script
 
-### `.swap` files
-- Swap files/folders from `$(dirname .swap)`
-- `<path from .swap file> @ <target DIRECTORY>`
+### `.local` files
+- Swap files/folders from `$(dirname .local)`
+- `<path from .local file> @ <target DIRECTORY>`
 - 1 line per swap
 
 ## Install

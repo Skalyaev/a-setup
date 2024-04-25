@@ -16,7 +16,7 @@ from a resource directory:
     $RED*$NC install apt packages via .apt files
     $RED*$NC install pip packages via .pip files
     $RED*$NC install web resources via .web folders
-    $RED*$NC install local resources via .swap files
+    $RED*$NC install local resources via .local files
 $BLUE<restore>$NC:
 from a backup directory:
     $RED*$NC perform backup using latest backup directory
@@ -35,8 +35,8 @@ $GREEN--no-pip$NC
     $RED*$NC when install, do not read .pip files
 $GREEN--no-web$NC
     $RED*$NC when install, do not read .web folders
-$GREEN--no-swap$NC
-    $RED*$NC when install, do not read .swap files
+$GREEN--no-local$NC
+    $RED*$NC when install, do not read .local files
 $GREEN--no-backup$NC
     $RED*$NC when install, do not create backup
 "
@@ -81,7 +81,7 @@ while [[ "$#" -gt 0 ]];do
     "--no-apt") NO_APT=1; shift;;
     "--no-pip") NO_PIP=1; shift;;
     "--no-web") NO_WEB=1; shift;;
-    "--no-swap") NO_SWAP=1; shift;;
+    "--no-local") NO_LOCAL=1; shift;;
     "--no-backup") NO_BACKUP=1; shift;;
     *) err "unknown option: $1";;
     esac
@@ -181,8 +181,8 @@ ft_web() {
     return 0
 }
 
-ft_swap() {
-    echo -e "$GRAY============READING: .swap$NC"
+ft_local() {
+    echo -e "$GRAY============READING: .local$NC"
     while read file;do
         local dir="$(dirname "$file")"
         while read -r line;do
@@ -231,7 +231,7 @@ ft_swap() {
                 echo -e "[$GREEN OK $NC]"
             done
         done<"$file"
-    done< <(find . "${EXCLUDES[@]}" -type f -name ".swap")
+    done< <(find . "${EXCLUDES[@]}" -type f -name ".local")
     return 0
 }
 
@@ -298,7 +298,7 @@ case "$COMMAND" in
     [[ "$NO_APT" ]] || ft_apt
     [[ "$NO_PIP" ]] || ft_pip
     [[ "$NO_WEB" ]] || ft_web
-    [[ "$NO_SWAP" ]] || ft_swap
+    [[ "$NO_LOCAL" ]] || ft_local
     [[ "$NO_BACKUP" ]] && exit 0
     if [[ "${#DIFF[@]}" -eq 0 ]];then
         if [[ ! "$(ls -A "$BACKUP")" ]];then
