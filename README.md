@@ -142,9 +142,3 @@ rm -rf ~/.local/share/setup
 rm -rf ~/.local/src/setup
 rm ~/.local/bin/setup
 ```
-
-# Some tools
-- [extract](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Extract archives
-- [setmenu](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/setmenu): Set a [jgmenu csv](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/menu.csv) from a [directory](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/jgmenu/set/main)
-- [gitpush](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/extract): Commit and push repositories from a directory
-- [codecount](https://github.com/Skalyaeve/a-setup/blob/main/resource/utils/bin/codecount): Count % of bytes for each file type in a directory
