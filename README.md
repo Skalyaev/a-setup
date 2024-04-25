@@ -62,34 +62,34 @@ setup <command> [options]
 ```
 
 ### Commands
-- `install`:
+- `install`
     * Running from a `resource` directory
     * Install apt packages via `.apt` files
     * Install pip packages via `.pip` files
     * Install web resources via `.web` folders
     * Install local resources via `.swap` files
 
-- `restore`:
+- `restore`
     * Running from a `backup` directory
     * Perform backup using latest backup directory
 
 ### Options
-- `-u`/`--user` `<user>`:
+- `-u`/`--user` `<user>`
     * `install`/`restore` for specified `<user>`
-- `-p`/`--path` `<path>`:
+- `-p`/`--path` `<path>`
     * Specify a path to `resource`/`backup` directory
     * Default: `~/.local/share/setup`
-- `-e`/`--exclude` `<dir1> [dir2]`...:
+- `-e`/`--exclude` `<dir1> [dir2]`...
     * When `install`, exclude the specified directories
-- `--no-apt`:
+- `--no-apt`
     * When `install`, do not read `.apt` files
-- `--no-pip`:
+- `--no-pip`
     * When `install`, do not read `.pip` files
-- `--no-web`:
+- `--no-web`
     * When `install`, do not read `.web` folders
-- `--no-local`:
+- `--no-local`
     * When `install`, do not read `.swap` files
-- `--no-backup`:
+- `--no-backup`
     * When `install`, do not create backup
 
 #
