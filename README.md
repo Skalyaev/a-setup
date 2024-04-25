@@ -1,18 +1,54 @@
 # A setup
 ### From
-![](https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true)
+<img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true"></img>
 
 ### To
-![](https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true)
+<img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
 
-| Component | Name | Conf | Binds |
-|:-|:-|-:|-:|
-| OS | Debian 12 | ---- | ---- |
-| DE | ---- | ---- | ---- |
-| WM | i3 | [config](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config) | [binds.conf](https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf) |
-| Shell | Bash | [.bashrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc) | [.bash_aliases](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases) |
-| Terminal | Alacritty | [alacritty.yml](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml) | [.inputrc](https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc)
-| IDE | Neovim | [init.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/init.lua) | [binds.lua](https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/lua/binds.lua) |
+<table align="center">
+  <tr>
+    <th>Component</th>
+    <th>Name</th>
+    <th>Conf</th>
+    <th>Binds</th>
+  </tr>
+  <tr>
+    <td>OS</td>
+    <td>Debian 12</td>
+    <td>----</td>
+    <td>----</td>
+  </tr>
+  <tr>
+    <td>DE</td>
+    <td>----</td>
+    <td>----</td>
+    <td>----</td>
+  </tr>
+  <tr>
+    <td>WM</td>
+    <td>i3</td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config">config</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf">binds.conf</a></td>
+  </tr>
+  <tr>
+    <td>Shell</td>
+    <td>Bash</td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc">.bashrc</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases">.bash_aliases</a></td>
+  </tr>
+  <tr>
+    <td>Terminal</td>
+    <td>Alacritty</td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml">alacritty.yml</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc">.inputrc</a></td>
+  </tr>
+  <tr>
+    <td>IDE</td>
+    <td>Neovim</td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/init.lua">init.lua</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/lua/binds.lua">binds.lua</a></td>
+  </tr>
+</table>
 
 # A script
 - To quickly setup any Debian `home`/system
