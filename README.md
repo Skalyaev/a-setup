@@ -73,7 +73,7 @@ setup <command> [options]
     * Running from a `backup` directory
     * Perform backup using latest backup directory
 
-### Options:
+### Options
 - `-u`/`--user` `<user>`:
     * `install`/`restore` for specified `<user>`
 - `-p`/`--path` `<path>`:
@@ -94,17 +94,17 @@ setup <command> [options]
 
 #
 
-### `.apt` & `.pip` files:
+### `.apt` & `.pip` files
 - `<package_name>`
 - 1 package per line
 
-### `.web` dirs:
+### `.web` dirs
 - Per subdirectory:
     * 1 `install.sh` bash script
     * 1 `update.sh` bash script
     * 1 `remove.sh` bash script
 
-### `.swap` files:
+### `.swap` files
 - Swap files/folders from `$(dirname .swap)`
 - `<path from .swap file> @ <target DIRECTORY>`
 - 1 line per swap
