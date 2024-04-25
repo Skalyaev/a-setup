@@ -12,32 +12,33 @@ USAGE="$GRAY==================USAGE$NC
 $YELLOW$(basename "$0") $BLUE<command> $GREEN[options]$NC
 
 $BLUE<install>$NC:
-From a resource directory:
-    $RED*$NC Install apt packages via .apt files
-    $RED*$NC Run install.sh scripts from .script dirs
-    $RED*$NC Install local resources via .swap files
+from a resource directory:
+    $RED*$NC install apt packages via .apt files
+    $RED*$NC install pip packages via .pip files
+    $RED*$NC install web resources via .web folders
+    $RED*$NC install local resources via .swap files
 $BLUE<restore>$NC:
-From a backup directory:
-    $RED*$NC Uninstall apt packages via diff file
-    $RED*$NC Run remove.sh scripts
-    $RED*$NC Uninstall local resources via diff file
+from a backup directory:
+    $RED*$NC perform backup using latest backup directory
 
 $GREEN[options]$NC:
 $GREEN-u, --user <user>$NC
-    $RED*$NC Install/Backup for the specified user
+    $RED*$NC install/backup for the specified user
 $GREEN-p, --path <dir>$NC
-    $RED*$NC Specify a path to the resource/backup directory
-    $RED*$NC Default: $HOME/.local/share/setup
+    $RED*$NC specify a path to the resource/backup directory
+    $RED*$NC default: $HOME/.local/share/setup
 $GREEN-e, --exclude <dir1> [dir2]...$NC
-    $RED*$NC When install, exclude the specified directories
+    $RED*$NC when install, exclude the specified directories
 $GREEN--no-apt$NC
-    $RED*$NC When install, do not read .apt files
-$GREEN--no-script$NC
-    $RED*$NC When install, do not read .script dirs
+    $RED*$NC when install, do not read .apt files
+$GREEN--no-pip$NC
+    $RED*$NC when install, do not read .pip files
+$GREEN--no-web$NC
+    $RED*$NC when install, do not read .web folders
 $GREEN--no-swap$NC
-    $RED*$NC When install, do not read .swap files
+    $RED*$NC when install, do not read .swap files
 $GREEN--no-backup$NC
-    $RED*$NC When install, do not create backup
+    $RED*$NC when install, do not create backup
 "
 if [[ "$#" -lt 1 ]];then
     echo -e "$USAGE"
@@ -78,7 +79,8 @@ while [[ "$#" -gt 0 ]];do
         done
         ;;
     "--no-apt") NO_APT=1; shift;;
-    "--no-script") NO_SCRIPT=1; shift;;
+    "--no-pip") NO_PIP=1; shift;;
+    "--no-web") NO_WEB=1; shift;;
     "--no-swap") NO_SWAP=1; shift;;
     "--no-backup") NO_BACKUP=1; shift;;
     *) err "unknown option: $1";;
@@ -89,7 +91,7 @@ done
 ft_apt() {
     echo -ne "${BLUE}updating$NC apt..."
     if ! apt update -y &>"/dev/null";then
-        echo -e "[$RED ERR $NC] Non-zero from apt, try as sudo"
+        echo -e "[$RED ERR $NC] non-zero from apt, try as sudo"
         return 1
     fi
     echo -e "[$GREEN OK $NC]"
@@ -105,13 +107,77 @@ ft_apt() {
         fi
         echo -ne "${BLUE}installing$NC $pkg..."
         if ! apt install -y "$pkg" &>"/dev/null";then
-            echo -e "[$RED ERR $NC] Non-zero from apt"
+            echo -e "[$RED ERR $NC] non-zero from apt"
             continue
         fi
         [[ "$NO_BACKUP" ]] || DIFF+=("apt:$pkg")
         echo -e "[$GREEN OK $NC]"
     done< <(find . "${EXCLUDES[@]}" -type f -name ".apt"\
         | xargs cat | sort | uniq)
+    return 0
+}
+
+ft_pip() {
+    if ! pip show "pip-review" &>"/dev/null";then
+        echo -ne "${BLUE}installing$NC pip-review..."
+        if ! pip install "pip-review" &>"/dev/null";then
+            echo -e "[$RED ERR $NC] non-zero from pip"
+            return 1
+        fi
+        echo -e "[$GREEN OK $NC]"
+    fi
+    echo -ne "${BLUE}updating$NC pip..."
+    if ! pip-review --auto &>"/dev/null";then
+        echo -e "[$RED ERR $NC] non-zero from pip"
+        return 1
+    fi
+    echo -e "[$GREEN OK $NC]"
+    echo -e "$GRAY============READING: .pip$NC"
+    while read pkg;do
+        [[ "$pkg" ]] || continue
+
+        if pip show "$pkg" &>"/dev/null";then
+            echo -e "$pkg [$GREEN OK $NC]"
+            continue
+        fi
+        echo -ne "${BLUE}installing$NC $pkg..."
+        if ! pip install "$pkg" &>"/dev/null";then
+            echo -e "[$RED ERR $NC] non-zero from pip"
+            continue
+        fi
+        [[ "$NO_BACKUP" ]] || DIFF+=("pip:$pkg")
+        echo -e "[$GREEN OK $NC]"
+    done< <(find . "${EXCLUDES[@]}" -type f -name ".pip"\
+        | xargs cat | sort | uniq)
+}
+
+ft_web() {
+    echo -e "$GRAY============READING: .web$NC"
+    local ref="$(dirname "$ROOT")/.web"
+    [[ ! -e "$ref" ]] && ! mkdir "$ref" && return 1
+    while read dir;do
+        while read pkg;do
+            [[ "$pkg" ]] || continue
+            cd "$dir/$pkg" || continue
+
+            if ls "$ref" | grep -q "$pkg";then
+                echo -ne "$pkg "
+                bash "update.sh" && echo -e "[$GREEN OK $NC]"
+            else
+                if ! mkdir "$ref/$pkg";then
+                    cd "$ROOT"
+                    continue
+                fi
+                echo -ne "${BLUE}installing$NC $pkg..."
+                bash "install.sh" && echo -e "[$GREEN OK $NC]"
+
+                [[ ! "$NO_BACKUP" && -e "remove.sh" ]]\
+                    && mkdir "$BACKUP/$pkg"\
+                    && cp "remove.sh" "$BACKUP/$pkg"
+            fi
+            cd "$ROOT"
+        done< <(ls "$dir")
+    done< <(find . "${EXCLUDES[@]}" -type d -name ".web")
     return 0
 }
 
@@ -169,34 +235,6 @@ ft_swap() {
     return 0
 }
 
-ft_script() {
-    echo -e "$GRAY============READING: .script$NC"
-    while read dir;do
-        while read file;do
-            echo -e "${BLUE}Running$NC $file..."
-            bash "$file" 1>"/dev/null"
-            if [[ "$?" -eq 255 ]];then
-                echo -e "[$GREEN OK $NC]"
-                continue
-            fi
-            [[ "$?" -eq 0 ]] && echo -e "[$GREEN OK $NC]"
-            [[ "$NO_BACKUP" ]] && continue
-
-            local dir="$(basename "$(dirname "$file")")"
-            for (( x=0; x>-1; x++ ));do
-                [[ -e "$BACKUP/$dir" ]] || break
-                dir="$dir-$x"
-            done
-            mkdir -p "$BACKUP/$dir"
-            [[ -e "$dir/remove.sh" ]]\
-                && cp -r "$dir/remove.sh" "$BACKUP/$dir"
-
-        done< <(find "$dir" -type f -name "install.sh")
-        cd "$ROOT"
-    done< <(find . "${EXCLUDES[@]}" -type d -name ".script")
-    return 0
-}
-
 ft_restore() {
     if [[ -e "diff" ]];then
         echo -e "$GRAY============READING: diff$NC"
@@ -206,6 +244,12 @@ ft_restore() {
                 local pkg="${line#*:}"
                 echo -ne "${BLUE}removing$NC $pkg..."
                 apt remove -y "$pkg" 1>"/dev/null" || continue
+                echo -e "[$GREEN OK $NC]"
+                ;;
+            "pip")
+                local pkg="${line#*:}"
+                echo -ne "${BLUE}removing$NC $pkg..."
+                pip uninstall -y "$pkg" 1>"/dev/null" || continue
                 echo -e "[$GREEN OK $NC]"
                 ;;
             "swap")
@@ -228,7 +272,7 @@ ft_restore() {
         done<"diff"
     fi
     while read file;do
-        echo -ne "${BLUE}Running$NC $file..."
+        echo -ne "${BLUE}removing$NC $file..."
         bash "$file" 1>"/dev/null" || continue
         echo -e "[$GREEN OK $NC]"
     done< <(find . -type f -name "remove.sh")
@@ -238,7 +282,7 @@ ft_restore() {
 if [ "$EUID" -eq 0 -a "$USER" != "root" ];then
     is_sudo="(sudo) "
 fi
-echo -e "$GRAY============Running as $is_sudo$USER$NC"
+echo -e "$GRAY============RUNNING AS: $is_sudo$USER$NC"
 case "$COMMAND" in
 "install")
     ROOT+="/resource"
@@ -252,7 +296,8 @@ case "$COMMAND" in
     fi
     cd "$ROOT"
     [[ "$NO_APT" ]] || ft_apt
-    [[ "$NO_SCRIPT" ]] || ft_script
+    [[ "$NO_PIP" ]] || ft_pip
+    [[ "$NO_WEB" ]] || ft_web
     [[ "$NO_SWAP" ]] || ft_swap
     [[ "$NO_BACKUP" ]] && exit 0
     if [[ "${#DIFF[@]}" -eq 0 ]];then
