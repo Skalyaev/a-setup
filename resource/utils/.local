@@ -1,8 +1,1 @@
-scrot
-feh
-ffmpeg
-mpv
-bc
-tree
-ncdu
-gimp
+bin/* @ ~/.local/bin

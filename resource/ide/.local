@@ -1,8 +1,1 @@
-make
-xclip
-python3-full
-nodejs
-npm
-jq
-ripgrep
-fd-find
+nvim/* @ ~/.config/nvim

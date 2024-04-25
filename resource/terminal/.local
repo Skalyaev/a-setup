@@ -1,3 +1,2 @@
-alacritty
-bash-completion
-most
+bash/* @ ~
+alacritty @ ~/.config
