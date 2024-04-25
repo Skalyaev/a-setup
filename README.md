@@ -133,6 +133,7 @@ sudo setup install -u $USER
 ```sh
 count=$(ls ~/.local/share/setup/backup)
 ```
+then
 ```sh
 for _ in $count; do setup restore; done
 ```
