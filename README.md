@@ -1,9 +1,4 @@
 # <p align="center">A setup</p>
-### <p align="center">From</p>
-<img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true"></img>
-
-### <p align="center">To</p>
-<img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
 
 <table align="center">
   <tr>
@@ -50,10 +45,16 @@
   </tr>
 </table>
 
+## <p align="center">From</p>
+<img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true"></img>
+
+## <p align="center">To</p>
+<img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
+
 # A script
 - To quickly setup any Debian `home`/system
 - To keep updated git/web resources
-- To group your different tools and configurations
+- To group your different tools & configurations
 
 ### Usage
 ```sh
@@ -64,14 +65,13 @@ setup <command> [options]
 - `install`:
     * Running from a `resource` directory
     * Install apt packages via `.apt` files
-    * Run `install.sh` scripts from `.script` dirs
+    * Install pip packages via `.pip` files
+    * Install web resources via `.web` folders
     * Install local resources via `.swap` files
 
 - `restore`:
     * Running from a `backup` directory
-    * Uninstall apt packages via `diff` file
-    * Run `remove.sh` scripts
-    * Restore local resources via `diff` file
+    * Perform backup using latest backup directory
 
 #### Options:
 - `-u`/`--user` `<user>`:
@@ -83,25 +83,27 @@ setup <command> [options]
     * When `install`, exclude the specified directories
 - `--no-apt`:
     * When `install`, do not read `.apt` files
-- `--no-script`:
-    * When `install`, do not read `.script` files
-- `--no-swap`:
+- `--no-pip`:
+    * When `install`, do not read `.pip` files
+- `--no-web`:
+    * When `install`, do not read `.web` folders
+- `--no-local`:
     * When `install`, do not read `.swap` files
 - `--no-backup`:
     * When `install`, do not create backup
 
-#### `.apt` files:
+#### `.apt` & `.pip` files:
 - `<package_name>`
 - 1 package per line
 
 #### `.script` dirs:
 - Per subdirectory:
     * 1 `install.sh` bash scrip
-        - `exit -1` = Up to date
-    * 1 optional `remove.sh` bash script
+    * 1 `update.sh` bash scrip
+    * 1 `remove.sh` bash script
 
 #### `.swap` files:
-- Swap files/directories from `$(dirname .swap)`
+- Swap files/folders from `$(dirname .swap)`
 - To `cp` src instead of `ln -s`, add `no-link `
 - `[no-link ]<path from .swap file> @ <target DIRECTORY>`
 - 1 line per swap
