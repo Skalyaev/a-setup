@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt install -y python3
 mkdir -p ~/.config
 mkdir -p ~/.local/src
 mkdir -p ~/.local/bin
