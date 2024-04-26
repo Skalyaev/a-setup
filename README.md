@@ -98,7 +98,7 @@ setup <command> [options]
 - `<package_name>`
 - 1 package per line
 
-### `.web` dirs
+### `.web` folders
 - Per subdirectory:
     * 1 `install.sh` bash script
     * 1 `update.sh` bash script
