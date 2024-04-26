@@ -14,7 +14,7 @@ if [[ "$?" -ne 0 ]];then
     exit 1
 fi
 if grep -q "Votre branche est à jour" <<< "$ret"\
-    | grep -q "Your branch is up to date" <<< "$ret"
+    || grep -q "Your branch is up to date" <<< "$ret"
 then
     git checkout "stable"
     exit 0
