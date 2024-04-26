@@ -41,4 +41,3 @@ chown -R "$USER:$USER" "$SRC"
 [[ -e "$CONFIG/colors/neon" ]]\
     || ln -s "$SRC/colors/neon.lua" "$CONFIG/colors/neon.lua"\
     && chown "$USER:$USER" "$CONFIG/colors/neon.lua"
-exit 0

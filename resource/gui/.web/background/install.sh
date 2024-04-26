@@ -49,60 +49,40 @@ doit() {
 }
 
 NAME="ft_background.jpg"
-nodiff=0
-if [[ ! -e "$TO/$NAME" ]];then
-    FILES=(
-        "default"
-        "desktop-background"
-        "desktop-grub.png"
-        "login-background.svg"
-    )
-    P1="https://github.com/Skalyaeve"
-    P2="/images-1/blob/main/background/background.jpg?raw=true"
-    URL="$P1$P2"
-    curl -kL "$URL" -o "$NAME" || exit 1
-    doit "$NAME" "${FILES[@]}"
-else
-    ((nodiff++))
-fi
+FILES=(
+    "default"
+    "desktop-background"
+    "desktop-grub.png"
+    "login-background.svg"
+)
+P1="https://github.com/Skalyaeve"
+P2="/images-1/blob/main/background/background.jpg?raw=true"
+URL="$P1$P2"
+curl -kL "$URL" -o "$NAME" || exit 1
+doit "$NAME" "${FILES[@]}"
 
 NAME="ft_background.xml"
-if [[ ! -e "$TO/$NAME" ]];then
-    FILES=(
-        "desktop-background.xml"
-        "desktop-lockscreen.xml"
-    )
-    P1="https://raw.githubusercontent.com/Skalyaeve"
-    P2="/images-1/main/background/background.xml"
-    URL="$P1$P2"
-    curl -kL "$URL" -o "$NAME" || exit 1
-    doit "$NAME" "${FILES[@]}"
-else
-    ((nodiff++))
-fi
-
+FILES=(
+    "desktop-background.xml"
+    "desktop-lockscreen.xml"
+)
+P1="https://raw.githubusercontent.com/Skalyaeve"
+P2="/images-1/main/background/background.xml"
+URL="$P1$P2"
+curl -kL "$URL" -o "$NAME" || exit 1
+doit "$NAME" "${FILES[@]}"
 
 #======================= GRUB BACKGROUND
 NAME="ft_black.png"
 DST="/boot/grub"
-if [[ ! -e "$DST/$NAME" ]];then
-    P1="https://github.com/Skalyaeve"
-    P2="/images-1/blob/main/background/black.png?raw=true"
-    URL="$P1$P2"
-    curl -kL "$URL" -o "$NAME" || exit 1
-    mv "$NAME" "$DST/$NAME" || exit 1
-else
-    ((nodiff++))
-fi
+P1="https://github.com/Skalyaeve"
+P2="/images-1/blob/main/background/black.png?raw=true"
+URL="$P1$P2"
+curl -kL "$URL" -o "$NAME" || exit 1
+mv "$NAME" "$DST/$NAME" || exit 1
 
 SRC="$HOME/.local/share/setup/resource/gui/grub/grub"
 DST="/etc/default/grub"
-if [[ -e "$DST" ]];then
-    if diff "$SRC" "$DST"; then
-        [[ "$nodiff" -eq 3 ]] && exit -1
-    fi
-    mv "$DST" "$DST.ft.bak" || exit 1
-fi
+mv "$DST" "$DST.ft.bak" || exit 1
 cp "$SRC" "$DST" || exit 1
 sudo update-grub &>"/dev/null"
-exit 0

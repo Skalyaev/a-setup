@@ -8,4 +8,3 @@ rm -rf "$HOME/state/nvim"
 rm -rf "$HOME/lib/nvim"
 rm -rf "$HOME/share/nvim"
 rm -rf "$HOME/.local/src/a-neovim-theme"
-exit 0

@@ -162,6 +162,10 @@ ft_web() {
 
             if ls "$ref" | grep -q "$pkg";then
                 echo -ne "$pkg "
+                if [[ ! -e "update.sh" ]];then
+                    echo -e "[$GREEN OK $NC]"
+                    continue
+                fi
                 bash "update.sh" && echo -e "[$GREEN OK $NC]"
             else
                 if ! mkdir "$ref/$pkg";then
