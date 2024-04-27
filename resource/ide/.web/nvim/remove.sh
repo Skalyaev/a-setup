@@ -1,7 +1,7 @@
 #!/bin/bash
 DST="$HOME/.local/src/neovim"
 cd "$DST" || exit 1
-cmake --build "build/" --target "uninstall"
+cmake --build "build/" --target "uninstall" >"/dev/null"
 rm -rf "$DST"
 rm -rf "$HOME/.config/nvim"
 rm -rf "$HOME/state/nvim"

@@ -116,7 +116,11 @@ git clone https://github.com/Skalyaeve/a-setup.git setup
 cd setup
 ```
 ```sh
-# new $HOME ?-> ./init.sh
+./init.sh
+python3 -m venv ~/.local/share/pyenv
+source ~/.local/share/pyenv/bin/activate
+```
+```sh
 ln -s $PWD/setup.sh ~/.local/bin/setup
 ln -s $PWD/resource ~/.local/share/setup/resource
 ```

@@ -118,6 +118,11 @@ ft_apt() {
 }
 
 ft_pip() {
+    if [[ ! -e "$HOME/.local/share/pyenv/bin/activate" ]];then
+        echo -e "[$RED ERR $NC] Can not find pyenv"
+        return 1
+    fi
+    source "$HOME/.local/share/pyenv/bin/activate"
     if ! pip show "pip-review" &>"/dev/null";then
         echo -ne "${BLUE}installing$NC pip-review..."
         if ! pip install "pip-review" &>"/dev/null";then
@@ -164,6 +169,7 @@ ft_web() {
                 echo -ne "$pkg "
                 if [[ ! -e "update.sh" ]];then
                     echo -e "[$GREEN OK $NC]"
+                    cd "$ROOT"
                     continue
                 fi
                 bash "update.sh" && echo -e "[$GREEN OK $NC]"
