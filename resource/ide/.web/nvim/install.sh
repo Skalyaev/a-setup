@@ -21,9 +21,9 @@ git clone "$URL" "$DST" && cd "$DST" || exit 1
 git checkout "stable" || exit 1
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
-    || exit 1
-make install
-make clean
+    >"/dev/null" || exit 1
+make install >"/dev/null"
+make clean >"/dev/null"
 chown -R "$USER:$USER" "$HOME/.cache"
 chown -R "$USER:$USER" "$HOME/.local"
 
