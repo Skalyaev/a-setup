@@ -48,6 +48,12 @@ doit() {
     return 0
 }
 
+bye(){
+    chown -r "$user:$user" "$home/.cache"
+    chown -r "$user:$user" "$home/.wget-hsts"
+    exit "$1"
+}
+
 NAME="ft_background.jpg"
 FILES=(
     "default"
@@ -58,7 +64,7 @@ FILES=(
 P1="https://github.com/Skalyaeve"
 P2="/images-1/blob/main/background/background.jpg?raw=true"
 URL="$P1$P2"
-curl -kL "$URL" -o "$NAME" || exit 1
+curl -kL "$URL" -o "$NAME" || bye 1
 doit "$NAME" "${FILES[@]}"
 
 NAME="ft_background.xml"
@@ -69,7 +75,7 @@ FILES=(
 P1="https://raw.githubusercontent.com/Skalyaeve"
 P2="/images-1/main/background/background.xml"
 URL="$P1$P2"
-curl -kL "$URL" -o "$NAME" || exit 1
+curl -kL "$URL" -o "$NAME" || bye 1
 doit "$NAME" "${FILES[@]}"
 
 #======================= GRUB BACKGROUND
@@ -78,11 +84,12 @@ DST="/boot/grub"
 P1="https://github.com/Skalyaeve"
 P2="/images-1/blob/main/background/black.png?raw=true"
 URL="$P1$P2"
-curl -kL "$URL" -o "$NAME" || exit 1
-mv "$NAME" "$DST/$NAME" || exit 1
+curl -kL "$URL" -o "$NAME" || bye 1
+mv "$NAME" "$DST/$NAME" || bye 1
 
 SRC="$HOME/.local/share/setup/resource/gui/grub/grub"
 DST="/etc/default/grub"
-mv "$DST" "$DST.ft.bak" || exit 1
-cp "$SRC" "$DST" || exit 1
+mv "$DST" "$DST.ft.bak" || bye 1
+cp "$SRC" "$DST" || bye 1
 sudo update-grub &>"/dev/null"
+bye 0

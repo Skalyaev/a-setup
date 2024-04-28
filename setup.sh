@@ -178,6 +178,7 @@ ft_web() {
                     cd "$ROOT"
                     continue
                 fi
+                chown "$USER:$USER" "$ref/$pkg"
                 echo -ne "${BLUE}installing$NC $pkg..."
                 bash "install.sh" && echo -e "[$GREEN OK $NC]"
 

@@ -18,6 +18,7 @@ URL="https://github.com/neovim/neovim"
 DST="$HOME/.local/src/nvim"
 
 git clone "$URL" "$DST" && cd "$DST" || exit 1
+chown -R "$USER:$USER" "$DST"
 git checkout "stable" || exit 1
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
@@ -38,6 +39,6 @@ SRC="$HOME/.local/src/a-nvim-theme"
 [[ ! -e "$SRC" ]] && ! git clone "$URL" "$SRC" && exit 1
 chown -R "$USER:$USER" "$SRC"
 
-[[ -e "$CONFIG/colors/neon" ]]\
-    || ln -s "$SRC/colors/neon.lua" "$CONFIG/colors/neon.lua"\
+[[ ! -e "$CONFIG/colors/neon" ]]\
+    && ln -s "$SRC/colors/neon.lua" "$CONFIG/colors/neon.lua"\
     && chown "$USER:$USER" "$CONFIG/colors/neon.lua"

@@ -22,6 +22,7 @@ fi
 echo -e "\r${BLUE}updating$NC $pkg..."
 make distclean >"/dev/null"
 git pull
+chown -R "$USER:$USER" "."
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
     >"/dev/null" || exit 1
