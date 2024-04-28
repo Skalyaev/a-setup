@@ -229,6 +229,12 @@ ft_local() {
                         DIFF+=("swap:$to")
                         local swapped=1
                     fi
+                else
+                    local todir="$(dirname "$to")"
+                    if [[ ! -e "$todir" ]];then
+                        mkdir "$todir" || continue
+                        [[ "$NO_BACKUP" ]] || DIFF+=("add:$todir")
+                    fi
                 fi
                 echo -ne "${BLUE}setting${NC} $to..."
                 eval "$cmd $from $to" || continue
@@ -252,6 +258,15 @@ ft_local() {
 }
 
 ft_restore() {
+    while read file;do
+        local pkg="$(basename "$(dirname "$file")")"
+        rm -r "$BASE/.web/$pkg"
+
+        echo -ne "${BLUE}removing$NC $file..."
+        bash "$file" 1>"/dev/null" || continue
+        echo -e "[$GREEN OK $NC]"
+    done< <(find . -type f -name "remove.sh")
+
     if [[ -e "diff" ]];then
         echo -e "$GRAY============READING: diff$NC"
         while read line;do
@@ -264,7 +279,8 @@ ft_restore() {
                 ;;
             "pip")
                 local pkg="${line#*:}"
-                if [[ ! -e "$HOME/.local/share/pyenv/bin/activate" ]];then
+                if [[ ! -e "$HOME/.local/share/pyenv/bin/activate" ]]
+                then
                     echo -e "[$RED ERR $NC] Can not find pyenv"
                     continue
                 fi
@@ -292,14 +308,6 @@ ft_restore() {
             esac
         done<"diff"
     fi
-    while read file;do
-        local pkg="$(basename "$(dirname "$file")")"
-        rm -r "$BASE/.web/$pkg"
-
-        echo -ne "${BLUE}removing$NC $file..."
-        bash "$file" 1>"/dev/null" || continue
-        echo -e "[$GREEN OK $NC]"
-    done< <(find . -type f -name "remove.sh")
     return 0
 }
 
@@ -321,8 +329,8 @@ case "$COMMAND" in
     cd "$ROOT"
     [[ "$NO_APT" ]] || ft_apt
     [[ "$NO_PIP" ]] || ft_pip
-    [[ "$NO_WEB" ]] || ft_web
     [[ "$NO_LOCAL" ]] || ft_local
+    [[ "$NO_WEB" ]] || ft_web
     [[ "$NO_BACKUP" ]] && exit 0
     if [[ "${#DIFF[@]}" -eq 0 ]];then
         if [[ ! "$(ls -A "$BACKUP")" ]];then

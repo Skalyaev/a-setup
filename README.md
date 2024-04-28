@@ -111,12 +111,21 @@ setup <command> [options]
 
 ## Install
 ```sh
+mkdir -p ~/.config
+mkdir -p ~/.local/src
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/share
+sudo apt update -y
+sudo apt install -y python3
+sudo apt install -y python3-venv
+```
+```sh
 mkdir -p ~/.local/share/setup
 git clone https://github.com/Skalyaeve/a-setup.git setup
 cd setup
 ```
 ```sh
-# new $HOME ?-> ./init.sh
+python3 -m venv ~/.local/share/pyenv
 ln -s $PWD/setup.sh ~/.local/bin/setup
 ln -s $PWD/resource ~/.local/share/setup/resource
 ```

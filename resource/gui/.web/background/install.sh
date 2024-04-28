@@ -51,6 +51,7 @@ doit() {
 bye(){
     chown -r "$user:$user" "$home/.cache"
     chown -r "$user:$user" "$home/.wget-hsts"
+    rm -rf "$TMP"
     exit "$1"
 }
 
