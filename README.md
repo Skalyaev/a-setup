@@ -120,12 +120,13 @@ sudo apt install -y python3
 sudo apt install -y python3-venv
 ```
 ```sh
-mkdir -p ~/.local/share/setup
+cd ~/.local/src
 git clone https://github.com/Skalyaeve/a-setup.git setup
 cd setup
 ```
 ```sh
 python3 -m venv ~/.local/share/pyenv
+mkdir -p ~/.local/share/setup
 ln -s $PWD/setup.sh ~/.local/bin/setup
 ln -s $PWD/resource ~/.local/share/setup/resource
 ```
