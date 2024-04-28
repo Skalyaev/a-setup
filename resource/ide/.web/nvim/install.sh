@@ -29,7 +29,7 @@ chown -R "$USER:$USER" "$DST"
 chown -R "$USER:$USER" "$HOME/.cache"
 chown -R "$USER:$USER" "$HOME/.local"
 
-if [[ ! "NO_BACKUP" ]]; then
+if [[ ! "$NO_BACKUP" ]]; then
     [[ ! -e "$HOME/.local/state" ]]\
         && DIFF+=("add:$HOME/.local/state")
     [[ ! -e "$HOME/.local/lib" ]]\

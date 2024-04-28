@@ -311,9 +311,7 @@ ft_restore() {
     return 0
 }
 
-if [ "$EUID" -eq 0 -a "$USER" != "root" ];then
-    is_sudo="(sudo) "
-fi
+[[ "$EUID" -eq 0 && "$USER" != "root" ]] && is_sudo="(sudo) "
 echo -e "$GRAY============RUNNING AS: $is_sudo$USER$NC"
 case "$COMMAND" in
 "install")
