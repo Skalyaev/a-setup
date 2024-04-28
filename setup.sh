@@ -232,8 +232,13 @@ ft_local() {
                 fi
                 echo -ne "${BLUE}setting${NC} $to..."
                 eval "$cmd $from $to" || continue
-                grep -q "$HOME" <<< "$to"\
-                    && chown -R "$USER:$USER" "$to"
+                if grep -q "$HOME" <<< "$to";then
+                    if [[ -l "$to" ]];then
+                        chown -h "$USER:$USER" "$to"
+                    else
+                        chown -R "$USER:$USER" "$to"
+                    fi
+                fi
                 if [[ ! "$swapped" ]];then
                     [[ "$NO_BACKUP" ]] || DIFF+=("add:$to")
                 else
