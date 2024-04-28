@@ -259,11 +259,16 @@ ft_restore() {
             "apt")
                 local pkg="${line#*:}"
                 echo -ne "${BLUE}removing$NC $pkg..."
-                apt remove -y "$pkg" 1>"/dev/null" || continue
+                apt remove -y "$pkg" &>"/dev/null" || continue
                 echo -e "[$GREEN OK $NC]"
                 ;;
             "pip")
                 local pkg="${line#*:}"
+                if [[ ! -e "$HOME/.local/share/pyenv/bin/activate" ]];then
+                    echo -e "[$RED ERR $NC] Can not find pyenv"
+                    continue
+                fi
+                source "$HOME/.local/share/pyenv/bin/activate"
                 echo -ne "${BLUE}removing$NC $pkg..."
                 pip uninstall -y "$pkg" 1>"/dev/null" || continue
                 echo -e "[$GREEN OK $NC]"
