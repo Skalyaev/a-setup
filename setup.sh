@@ -283,6 +283,9 @@ ft_restore() {
         done<"diff"
     fi
     while read file;do
+        local pkg="$(basename "$(dirname "$file")")"
+        rm -r "$BASE/.web/$pkg"
+
         echo -ne "${BLUE}removing$NC $file..."
         bash "$file" 1>"/dev/null" || continue
         echo -e "[$GREEN OK $NC]"
@@ -327,6 +330,7 @@ case "$COMMAND" in
     chown -R "$USER:$USER" "$BACKUP"
     ;;
 "restore")
+    BASE="$ROOT"
     ROOT+="/backup"
     [[ -e "$ROOT" ]] || err "backup not found: $ROOT"
     backup="$(ls -t "$ROOT" | head -n1)"

@@ -1,5 +1,5 @@
 #!/bin/bash
-DST="$HOME/.local/src/neovim"
+DST="$HOME/.local/src/nvim"
 cd "$DST" || exit 1
 cmake --build "build/" --target "uninstall" >"/dev/null"
 rm -rf "$DST"
