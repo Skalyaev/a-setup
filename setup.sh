@@ -233,7 +233,7 @@ ft_local() {
                 echo -ne "${BLUE}setting${NC} $to..."
                 eval "$cmd $from $to" || continue
                 if grep -q "$HOME" <<< "$to";then
-                    if [[ -l "$to" ]];then
+                    if [[ -L "$to" ]];then
                         chown -h "$USER:$USER" "$to"
                     else
                         chown -R "$USER:$USER" "$to"
