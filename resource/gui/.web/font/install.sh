@@ -17,7 +17,7 @@ curl -kL "$URL" -o "$NAME.zip" || bye 1
 unzip "$NAME.zip" >"/dev/null" || bye 1
 rm -rf "$NAME.zip"
 
-DST="/usr/share/fonts/$NAME"
+DST="/usr/local/share/fonts/$NAME"
 mkdir "$DST" || bye 1
 mv * "$DST" || bye 1
 fc-cache -f -v >"/dev/null"

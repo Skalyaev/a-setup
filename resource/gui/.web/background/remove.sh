@@ -1,7 +1,7 @@
 #!/bin/bash
 FILES=(
-    "/usr/share/images/backgrounds/ft_background.jpg"
-    "/usr/share/images/backgrounds/background.xml"
+    "/usr/local/share/images/backgrounds/ft_background.jpg"
+    "/usr/local/share/images/backgrounds/background.xml"
     "/usr/share/images/desktop-base/default"
     "/usr/share/images/desktop-base/desktop-background"
     "/usr/share/images/desktop-base/desktop-grub.png"
