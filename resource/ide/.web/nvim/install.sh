@@ -12,7 +12,7 @@ for dep in "${DEPS[@]}";do
         | grep -q "install ok installed"\
         && continue
     apt install -y "$dep" &>"/dev/null" || exit 1
-    [[ "$NO_BACKUP" ]] || DIFF+=("apt:$dep")
+    [[ "$NO_BACKUP" ]] || echo "add:$dep" >> "$BACKUP/diff"
 done
 URL="https://github.com/neovim/neovim"
 DST="$HOME/.local/src/nvim"
@@ -31,17 +31,18 @@ chown -R "$USER:$USER" "$HOME/.local"
 
 if [[ ! "$NO_BACKUP" ]]; then
     [[ ! -e "$HOME/.local/state" ]]\
-        && DIFF+=("add:$HOME/.local/state")
+        && echo "add:$HOME/.local/state" >> "$BACKUP/diff"
     [[ ! -e "$HOME/.local/lib" ]]\
-        && DIFF+=("add:$HOME/.local/lib")
+        && echo "add:$HOME/.local/lib" >> "$BACKUP/diff"
     [[ ! -e "$HOME/.local/share/applications" ]]\
-        && DIFF+=("add:$HOME/.local/share/applications")
+        && echo "add:$HOME/.local/share/applications"\
+        >> "$BACKUP/diff"
     [[ ! -e "$HOME/.local/share/icons" ]]\
-        && DIFF+=("add:$HOME/.local/share/icons")
+        && echo "add:$HOME/.local/share/icons" >> "$BACKUP/diff"
     [[ ! -e "$HOME/.local/share/man" ]]\
-        && DIFF+=("add:$HOME/.local/share/man")
+        && echo "add:$HOME/.local/share/man" >> "$BACKUP/diff"
     [[ ! -e "$HOME/.local/share/locale" ]]\
-        && DIFF+=("add:$HOME/.local/share/locale")
+        && echo "add:$HOME/.local/share/locale" >> "$BACKUP/diff"
 fi
 
 CONFIG="$HOME/.config/nvim"

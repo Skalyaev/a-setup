@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if ! dpkg-query -W -f='${Status}' "unzip" 2>"/dev/null"\
+    | grep -q "install ok installed"
+then
+    apt install -y "unzip" &>"/dev/null" || exit 1
+    [[ "$NO_BACKUP" ]] || echo "apt:unzip" >> "$BACKUP/diff"
+fi
 bye(){
     chown -R "$USER:$USER" "$HOME/.cache"
     chown -R "$USER:$USER" "$HOME/.wget-hsts"
@@ -14,6 +21,7 @@ P1="https://github.com/ryanoasis"
 P2="/nerd-fonts/releases/download/v3.1.1/$NAME.zip"
 URL="$P1$P2"
 curl -kL "$URL" -o "$NAME.zip" || bye 1
+
 unzip "$NAME.zip" >"/dev/null" || bye 1
 rm -rf "$NAME.zip"
 

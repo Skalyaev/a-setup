@@ -4,7 +4,7 @@ FROM='/usr/share/images/desktop-base'
 TO="/usr/local/share/backgrounds"
 if [[ ! -e "$TO" ]]; then
     mkdir "$TO" || exit 1
-    [[ "$NO_BACKUP" ]] || DIFF+=("add:$TO")
+    [[ "$NO_BACKUP" ]] || echo "add:$TO" >> "$BACKUP/diff"
 fi
 
 TMP="$(mktemp -d)" || exit 1
