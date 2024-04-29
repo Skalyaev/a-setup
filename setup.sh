@@ -343,7 +343,7 @@ case "$COMMAND" in
     if [[ "${#DIFF[@]}" -ne 0 ]];then
         for line in "${DIFF[@]}";do
             echo "$line"
-        done>"$BACKUP/diff"
+        done>>"$BACKUP/diff"
     fi
     chown -R "$USER:$USER" "$BACKUP"
     ;;
