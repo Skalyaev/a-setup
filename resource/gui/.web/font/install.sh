@@ -1,7 +1,7 @@
 #!/bin/bash
 bye(){
-    chown -R "$user:$user" "$home/.cache"
-    chown -R "$user:$user" "$home/.wget-hsts"
+    chown -R "$USER:$USER" "$HOME/.cache"
+    chown -R "$USER:$USER" "$HOME/.wget-hsts"
     rm -rf "$TMP"
     exit "$1"
 }

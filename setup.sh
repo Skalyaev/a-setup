@@ -233,6 +233,7 @@ ft_local() {
                     local todir="$(dirname "$to")"
                     if [[ ! -e "$todir" ]];then
                         mkdir "$todir" || continue
+                        chown "$USER:$USER" "$todir"
                         [[ "$NO_BACKUP" ]] || DIFF+=("add:$todir")
                     fi
                 fi
