@@ -263,7 +263,8 @@ ft_restore() {
         local pkg="$(basename "$(dirname "$file")")"
         rm -r "$BASE/.web/$pkg"
 
-        echo -ne "${BLUE}removing$NC $file..."
+        echo -ne "${BLUE}removing$NC\
+            $(basename "$(dirname "$file")")..."
         bash "$file" 1>"/dev/null" || continue
         echo -e "[$GREEN OK $NC]"
     done< <(find . -type f -name "remove.sh")
