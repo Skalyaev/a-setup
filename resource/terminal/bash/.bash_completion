@@ -1,0 +1,13 @@
+#!/bin/bash
+
+_note()
+{
+    local path="$HOME/.local/share/notes"
+    [[ -r "$path" ]] || return
+
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    cur="$(sed "s=$path/==" <<< "$cur")"
+    COMPREPLY=($(compgen -f "$path/$cur"))
+}
+complete -o nospace -o filenames -F _note note
+

@@ -29,6 +29,7 @@ fi
     && . "$HOME/.local/share/pyenv/bin/activate"
 [[ -e "$HOME/.bash_env" ]] && . "$HOME/.bash_env"
 [[ -e "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
+[[ -e "$HOME/.bash_completion" ]] && . "$HOME/.bash_completion"
 
 if [[ -z "${debian_chroot:-}" ]] && [[ -r "/etc/debian_chroot" ]]
 then
