@@ -52,11 +52,11 @@
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
 
 # A script
-- To quickly setup any Debian `home`/system
-- To keep updated git/web resources
-- To group your different tools & configurations
+> - To quickly setup any Debian `home`/system
+> - To keep updated git/web resources
+> - To group your different tools & configurations
 
-### Usage
+## Usage
 ```sh
 setup <command> [options]
 ```
