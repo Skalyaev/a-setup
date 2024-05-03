@@ -64,9 +64,9 @@ setup <command> [options]
 ### Commands
 - `install`
     * Running from a `resource` directory
-    * Install apt packages via `.apt` files
-    * Install pip packages via `.pip` files
-    * Install web resources via `.web` folders
+    * Install/Update apt packages via `.apt` files
+    * Install/Update pip packages via `.pip` files
+    * Install/Update web resources via `.web` folders
     * Install local resources via `.local` files
 
 - `restore`
