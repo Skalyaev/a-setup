@@ -1,7 +1,6 @@
 #!/bin/bash
 
-_note()
-{
+_note(){
     local path="$HOME/.local/share/notes"
     [[ -r "$path" ]] || return
 
