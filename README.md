@@ -54,7 +54,7 @@
 # A script
 > - To quickly setup any Debian `$HOME`/system
 > - To keep updated git/web resources
-> - To group your different tools & configurations
+> - To group tools & configurations
 
 ## Usage
 ```sh
