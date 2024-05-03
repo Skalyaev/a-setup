@@ -6,7 +6,7 @@ _note()
     [[ -r "$path" ]] || return
 
     local cur="${COMP_WORDS[COMP_CWORD]}"
-    cur="$(sed "s=$path/==" <<< "$cur")"
+    cur="${cur//$path\//}"
     COMPREPLY=($(compgen -f "$path/$cur"))
 }
 complete -o nospace -o filenames -F _note note
