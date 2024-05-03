@@ -8,5 +8,6 @@ _note(){
     cur="${cur//$path\//}"
     COMPREPLY=($(compgen -f "$path/$cur"))
 }
+complete -o nospace -o filenames -F _note n
 complete -o nospace -o filenames -F _note note
 
