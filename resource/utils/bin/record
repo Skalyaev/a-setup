@@ -18,6 +18,6 @@ fi
 BASE='ffmpeg -f x11grab'
 POS='-i :0.0'
 [[ "$#" -gt 1 ]] && SIZE="-s $2"
-[[ "$#" -gt 2 ]] && POS="+$3"
+[[ "$#" -gt 2 ]] && POS="-i :0.0+$3"
 
-eval "$BASE $SIZE $POS $1"
+eval "$BASE $SIZE $POS -y $1"
