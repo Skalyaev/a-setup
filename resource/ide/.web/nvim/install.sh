@@ -12,7 +12,7 @@ for dep in "${DEPS[@]}";do
         | grep -q "install ok installed"\
         && continue
     apt install -y "$dep" &>"/dev/null" || exit 1
-    [[ "$NO_BACKUP" ]] || echo "add:$dep" >> "$BACKUP/diff"
+    [[ "$NO_BACKUP" ]] || echo "apt:$dep" >> "$BACKUP/diff"
 done
 URL="https://github.com/neovim/neovim"
 DST="$HOME/.local/src/nvim"
@@ -20,14 +20,6 @@ DST="$HOME/.local/src/nvim"
 git clone "$URL" "$DST" && cd "$DST" || exit 1
 chown -R "$USER:$USER" "$DST"
 git checkout "stable" || exit 1
-make CMAKE_BUILD_TYPE="RelWithDebInfo"\
-    CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
-    >"/dev/null" || exit 1
-make install >"/dev/null"
-make clean >"/dev/null"
-chown -R "$USER:$USER" "$DST"
-chown -R "$USER:$USER" "$HOME/.cache"
-chown -R "$USER:$USER" "$HOME/.local"
 
 if [[ ! "$NO_BACKUP" ]]; then
     [[ ! -e "$HOME/.local/state" ]]\
@@ -44,6 +36,15 @@ if [[ ! "$NO_BACKUP" ]]; then
     [[ ! -e "$HOME/.local/share/locale" ]]\
         && echo "add:$HOME/.local/share/locale" >> "$BACKUP/diff"
 fi
+
+make CMAKE_BUILD_TYPE="RelWithDebInfo"\
+    CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
+    >"/dev/null" || exit 1
+make install >"/dev/null"
+make clean >"/dev/null"
+chown -R "$USER:$USER" "$DST"
+chown -R "$USER:$USER" "$HOME/.cache"
+chown -R "$USER:$USER" "$HOME/.local"
 
 CONFIG="$HOME/.config/nvim"
 if [[ ! -e "$CONFIG" ]]; then
