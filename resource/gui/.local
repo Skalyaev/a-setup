@@ -6,4 +6,4 @@ qt5ct @ ~/.config
 user-dirs/* @ ~/.config
 no-link lightdm/lightdm-gtk-greeter.conf @ /etc/lightdm
 no-link lightdm/lightdm.conf @ /etc/lightdm
-no-link lightdm/xstart @ /usr/local/bin
+no-link lightdm/xstart.sh @ /usr/local/bin

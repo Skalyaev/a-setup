@@ -2,43 +2,43 @@ separator_block_width=0
 markup=none
 
 [cpu_0]
-full_text=CPU-[ 
+full_text=CPU-[
 color=#a0a0a0
 
 [cpu]
-command=~/.config/i3/i3blocks/cpu 2>'/dev/null'
+command=~/.config/i3/i3blocks/cpu.sh 2>'/dev/null'
 interval=2
 
 [cpu_1]
-full_text= ]  
+full_text= ]
 color=#a0a0a0
 
 [ram_0]
-full_text=RAM-[ 
+full_text=RAM-[
 color=#a0a0a0
 
 [ram]
-command=~/.config/i3/i3blocks/ram 2>'/dev/null'
+command=~/.config/i3/i3blocks/ram.sh 2>'/dev/null'
 interval=2
 
 [ram_1]
-full_text= ]  
+full_text= ]
 color=#a0a0a0
 
 [gpu_0]
-full_text=GPU-[ 
+full_text=GPU-[
 color=#a0a0a0
 
 [gpu_intel]
-command=~/.config/i3/i3blocks/gpu_intel 2>'/dev/null'
+command=~/.config/i3/i3blocks/gpu_intel.sh 2>'/dev/null'
 interval=2
 
 [gpu_1]
-full_text= - 
+full_text= -
 color=#a0a0a0
 
 [gpu_nvidia]
-command=~/.config/i3/i3blocks/gpu_nvidia 2>'/dev/null'
+command=~/.config/i3/i3blocks/gpu_nvidia.sh 2>'/dev/null'
 interval=2
 
 [gpu_2]
@@ -56,5 +56,5 @@ command=date '+%H:%M'
 interval=1
 
 [time_1]
-full_text= ] 
+full_text= ]
 color=#a0a0a0
