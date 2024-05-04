@@ -263,8 +263,8 @@ ft_restore() {
         local pkg="$(basename "$(dirname "$file")")"
         rm -r "$BASE/.web/$pkg"
 
-        echo -ne "${BLUE}removing$NC\
-            $(basename "$(dirname "$file")")..."
+        echo -ne "${BLUE}removing$NC $(basename\
+            "$(dirname "$file")")..."
         bash "$file" 1>"/dev/null" || continue
         echo -e "[$GREEN OK $NC]"
     done< <(find . -type f -name "remove.sh")
@@ -325,6 +325,8 @@ case "$COMMAND" in
         chown "$USER:$USER" "$BACKUP"
         BACKUP+="/$(date +%s)"
         mkdir "$BACKUP" || exit 1
+        export BACKUP
+        export NO_BACKUP
     fi
     cd "$ROOT"
     [[ "$NO_APT" ]] || ft_apt
