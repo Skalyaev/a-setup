@@ -68,6 +68,7 @@ alias v='vim'
 alias n='note'
 alias py='python3'
 alias pyc='python3 -c'
+alias msf='msfconsole'
 
 alias gits='git status'
 alias gita='git add'
