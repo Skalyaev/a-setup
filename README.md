@@ -74,37 +74,37 @@ From a `resource` directory:
 ### Options
 
 - `-u`/`--user` `<user>`
-    * Install for the specified `<user>`
+    * Install for specified `<user>`
 - `-p`/`--path` `<path>`
-    * Specify a path to the `resource` directory
+    * Specify a path to `resource` directory
     * Default: `~/.local/share/setup`
 - `-e`/`--exclude` `<dir1> [dir2]`...
-    * Exclude the specified directories
+    * Exclude specified directories
 - `--no-apt`
     * Do not read `.apt` files
 - `--no-pip`
     * Do not read `.pip` files
-- `--no-run`
-    * Do not read `.run` folders
 - `--no-local`
     * Do not read `.local` files
+- `--no-run`
+    * Do not read `.run` folders
 
 ### `.apt` & `.pip` files
 
 - `<package_name>`
 - 1 package per line
 
-### `.run` folders
-
-- Per subdirectory:
-    * 1 `install.sh` bash script
-    * 1 `update.sh` bash script (opt)
-
 ### `.local` files
 
 - Swap files/folders from `$(dirname .local)`
 - `<path from .local file> @ <target DIRECTORY>`
 - 1 line per swap
+
+### `.run` folders
+
+- Per subdirectory:
+    * 1 `install.sh` bash script
+    * 1 `update.sh` bash script (opt)
 
 ## Install
 
