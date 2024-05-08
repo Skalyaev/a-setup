@@ -1,5 +1,3 @@
-# <p align="center">A setup</p>
-
 <table align="center">
   <tr>
     <th>Component</th>
