@@ -1,7 +1,8 @@
 #!/bin/bash
 DST="$HOME/.local/src/nvim"
 if [[ ! -e "$DST" ]];then
-    echo -e "\r[$RED WRN $NC] $DST not found,$BLUE installing$NC..."
+    echo -e\
+        "\r[$YELLOW WRN $NC] $DST not found,$BLUE installing$NC..."
     bash "install.sh"
     exit 0
 fi
