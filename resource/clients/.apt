@@ -1,6 +1,10 @@
 firefox-esr
 curl
 wget
-ftp
+nc
 ssh
+ftp
 telnet
+smbclient
+rpcclient
+mariadb-client

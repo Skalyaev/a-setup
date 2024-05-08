@@ -15,8 +15,8 @@ $BLUE<install>$NC:
 from a resource directory:
     $RED*$NC install apt packages via .apt files
     $RED*$NC install pip packages via .pip files
-    $RED*$NC install web resources via .web folders
     $RED*$NC install local resources via .local files
+    $RED*$NC run scripts from .run folders
 $BLUE<restore>$NC:
 from a backup directory:
     $RED*$NC perform backup using latest backup directory
@@ -33,8 +33,8 @@ $GREEN--no-apt$NC
     $RED*$NC when install, do not read .apt files
 $GREEN--no-pip$NC
     $RED*$NC when install, do not read .pip files
-$GREEN--no-web$NC
-    $RED*$NC when install, do not read .web folders
+$GREEN--no-run$NC
+    $RED*$NC when install, do not read .run folders
 $GREEN--no-local$NC
     $RED*$NC when install, do not read .local files
 $GREEN--no-backup$NC
@@ -80,7 +80,7 @@ while [[ "$#" -gt 0 ]];do
         ;;
     "--no-apt") NO_APT=1; shift;;
     "--no-pip") NO_PIP=1; shift;;
-    "--no-web") NO_WEB=1; shift;;
+    "--no-run") NO_RUN=1; shift;;
     "--no-local") NO_LOCAL=1; shift;;
     "--no-backup") NO_BACKUP=1; shift;;
     *) err "unknown option: $1";;
@@ -156,9 +156,9 @@ ft_pip() {
         | xargs cat | sort | uniq)
 }
 
-ft_web() {
-    echo -e "$GRAY============READING: .web$NC"
-    local ref="$(dirname "$ROOT")/.web"
+ft_run() {
+    echo -e "$GRAY============READING: .run$NC"
+    local ref="$(dirname "$ROOT")/.run"
     [[ ! -e "$ref" ]] && ! mkdir "$ref" && return 1
     while read dir;do
         while read pkg;do
@@ -188,7 +188,7 @@ ft_web() {
             fi
             cd "$ROOT"
         done< <(ls "$dir")
-    done< <(find . "${EXCLUDES[@]}" -type d -name ".web")
+    done< <(find . "${EXCLUDES[@]}" -type d -name ".run")
     return 0
 }
 
@@ -261,7 +261,7 @@ ft_local() {
 ft_restore() {
     while read file;do
         local pkg="$(basename "$(dirname "$file")")"
-        rm -r "$BASE/.web/$pkg"
+        rm -r "$BASE/.run/$pkg"
 
         echo -ne "${BLUE}removing$NC $(basename\
             "$(dirname "$file")")..."
@@ -276,7 +276,7 @@ ft_restore() {
             "apt")
                 local pkg="${line#*:}"
                 echo -ne "${BLUE}removing$NC $pkg..."
-                apt remove -y "$pkg" &>"/dev/null" || continue
+                apt purge -y "$pkg" &>"/dev/null" || continue
                 echo -e "[$GREEN OK $NC]"
                 ;;
             "pip")
@@ -299,6 +299,7 @@ ft_restore() {
                 ;;
             "add")
                 local target="${line#*:}"
+                [[ ! -e "$target" ]] && continue
                 echo -ne "${BLUE}removing$NC $target..."
                 if [[ -d "$target" ]];then
                     rm -r "$target" || continue
@@ -311,7 +312,6 @@ ft_restore() {
         done<"diff"
     fi
     apt autoremove -y &>"/dev/null"
-    apt autoclean &>"/dev/null"
     apt clean &>"/dev/null"
     return 0
 }
@@ -335,7 +335,7 @@ case "$COMMAND" in
     [[ "$NO_APT" ]] || ft_apt
     [[ "$NO_PIP" ]] || ft_pip
     [[ "$NO_LOCAL" ]] || ft_local
-    [[ "$NO_WEB" ]] || ft_web
+    [[ "$NO_RUN" ]] || ft_run
     [[ "$NO_BACKUP" ]] && exit 0
     if [[ "${#DIFF[@]}" -eq 0 ]];then
         if [[ ! "$(ls -A "$BACKUP")" ]];then

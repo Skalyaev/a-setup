@@ -66,8 +66,8 @@ setup <command> [options]
     * Running from a `resource` directory
     * Install/Update apt packages via `.apt` files
     * Install/Update pip packages via `.pip` files
-    * Install/Update web resources via `.web` folders
     * Install local resources via `.local` files
+    * Run scripts from `.run`folders
 
 - `restore`
     * Running from a `backup` directory
@@ -85,8 +85,8 @@ setup <command> [options]
     * When `install`, do not read `.apt` files
 - `--no-pip`
     * When `install`, do not read `.pip` files
-- `--no-web`
-    * When `install`, do not read `.web` folders
+- `--no-run`
+    * When `install`, do not read `.run` folders
 - `--no-local`
     * When `install`, do not read `.local` files
 - `--no-backup`
@@ -98,7 +98,7 @@ setup <command> [options]
 - `<package_name>`
 - 1 package per line
 
-### `.web` folders
+### `.run` folders
 - Per subdirectory:
     * 1 `install.sh` bash script
     * 1 `update.sh` bash script
