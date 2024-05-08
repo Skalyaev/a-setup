@@ -1,4 +1,6 @@
 xorg
+pulseaudio
+pulseaudio-module-bluetooth
 i3
 i3blocks
 redshift

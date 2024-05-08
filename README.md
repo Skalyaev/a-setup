@@ -46,70 +46,68 @@
 </table>
 
 ## <p align="center">From</p>
+
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-from.png?raw=true"></img>
 
 ## <p align="center">To</p>
+
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
 
 # A script
+
 > - To quickly setup any Debian `$HOME`/system
 > - To keep updated git/web resources
 > - To group tools & configurations
 
 ## Usage
+
 ```sh
-setup <command> [options]
+setup [options]
 ```
 
-### Commands
-- `install`
-    * Running from a `resource` directory
-    * Install/Update apt packages via `.apt` files
-    * Install/Update pip packages via `.pip` files
-    * Install local resources via `.local` files
-    * Run scripts from `.run`folders
-
-- `restore`
-    * Running from a `backup` directory
-    * Perform backup using latest backup directory
+From a `resource` directory:
+* Install/Update apt packages via `.apt` files
+* Install/Update pip packages via `.pip` files
+* Install local resources via `.local` files
+* Run scripts from `.run` folders
 
 ### Options
+
 - `-u`/`--user` `<user>`
-    * `install`/`restore` for specified `<user>`
+    * Install for the specified `<user>`
 - `-p`/`--path` `<path>`
-    * Specify a path to `resource`/`backup` directory
+    * Specify a path to the `resource` directory
     * Default: `~/.local/share/setup`
 - `-e`/`--exclude` `<dir1> [dir2]`...
-    * When `install`, exclude the specified directories
+    * Exclude the specified directories
 - `--no-apt`
-    * When `install`, do not read `.apt` files
+    * Do not read `.apt` files
 - `--no-pip`
-    * When `install`, do not read `.pip` files
+    * Do not read `.pip` files
 - `--no-run`
-    * When `install`, do not read `.run` folders
+    * Do not read `.run` folders
 - `--no-local`
-    * When `install`, do not read `.local` files
-- `--no-backup`
-    * When `install`, do not create backup
-
-#
+    * Do not read `.local` files
 
 ### `.apt` & `.pip` files
+
 - `<package_name>`
 - 1 package per line
 
 ### `.run` folders
+
 - Per subdirectory:
     * 1 `install.sh` bash script
-    * 1 `update.sh` bash script
-    * 1 `remove.sh` bash script
+    * 1 `update.sh` bash script (opt)
 
 ### `.local` files
+
 - Swap files/folders from `$(dirname .local)`
 - `<path from .local file> @ <target DIRECTORY>`
 - 1 line per swap
 
 ## Install
+
 ```sh
 mkdir -p ~/.config
 mkdir -p ~/.local/src
@@ -119,43 +117,31 @@ sudo apt update -y
 sudo apt install -y python3
 sudo apt install -y python3-venv
 ```
+
 ```sh
-git clone https://github.com/Skalyaeve/a-setup.git ~/.local/src/setup
-cd ~/.local/src/setup
+dst=~/.local/src/setup
+git clone https://github.com/Skalyaeve/a-setup.git $dst
+cd $dst
 ```
+
 ```sh
-python3 -m venv ~/.local/share/pyenv
-mkdir -p ~/.local/share/setup
+dst=~/.local/share/setup
+mkdir -p $dst
+ln -s $PWD/resource $dst/resource
 ln -s $PWD/setup.sh ~/.local/bin/setup
-ln -s $PWD/resource ~/.local/share/setup/resource
+python3 -m venv ~/.local/share/pyenv
 ```
+
 Edit `resource` directory to your needs, then:
+
 ```sh
 export PATH=$HOME/.local/bin:$PATH
-setup install
+setup
 ```
+
 or
+
 ```sh
 sudo ln -s ~/.local/bin/setup /usr/local/bin/setup
-sudo setup install -u $USER
-```
-
-## Backup
-```sh
-count=$(ls ~/.local/share/setup/backup)
-```
-then
-```sh
-for _ in $count; do setup restore; done
-```
-or
-```sh
-for _ in $count; do sudo setup restore -u $USER; done
-```
-
-## Uninstall
-```sh
-rm -rf ~/.local/share/setup
-rm -rf ~/.local/src/setup
-rm ~/.local/bin/setup
+sudo setup -u $USER
 ```

@@ -1,31 +1,17 @@
 #!/bin/bash
-if ! dpkg-query -W -f='${Status}' "unzip" 2>"/dev/null"\
-    | grep -q "install ok installed"
-then
-    apt install -y "unzip" &>"/dev/null" || exit 1
-    [[ "$NO_BACKUP" ]] || echo "apt:unzip" >> "$BACKUP/diff"
-fi
-bye(){
-    chown -R "$USER:$USER" "$HOME/.cache"
-    chown -R "$USER:$USER" "$HOME/.wget-hsts"
-    rm -rf "$TMP"
-    exit "$1"
-}
-NAME="Terminus"
-TMP="$(mktemp -d)" || bye 1
-cd "$TMP" || bye 1
-mkdir "$NAME" && cd "$NAME"
+cd "$(mktemp -d)" || exit 1
+apt install -y "unzip" &>"/dev/null" || exit 1
 
-P1="https://github.com/ryanoasis"
-P2="/nerd-fonts/releases/download/v3.1.1/$NAME.zip"
-URL="$P1$P2"
-curl -kL "$URL" -o "$NAME.zip" || bye 1
+name="Terminus"
+mkdir "$name" && cd "$name"
 
-unzip "$NAME.zip" >"/dev/null" || bye 1
-rm -rf "$NAME.zip"
+p1="https://github.com/ryanoasis"
+p2="/nerd-fonts/releases/download/v3.1.1/$name.zip"
+url="$p1$p2"
+curl -kL "$url" -o "$name.zip" || exit 1
+unzip "$name.zip" >"/dev/null" || exit 1
 
-DST="/usr/local/share/fonts/$NAME"
-mkdir "$DST" || bye 1
-mv * "$DST" || bye 1
-fc-cache -f -v >"/dev/null"
-bye 0
+dst="/usr/local/share/fonts/$name"
+mkdir -p "$dst" || exit 1
+mv *".ttf" "$dst" || exit 1
+fc-cache -fv >"/dev/null"

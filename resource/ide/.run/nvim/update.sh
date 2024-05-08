@@ -1,12 +1,11 @@
 #!/bin/bash
-DST="$HOME/.local/src/nvim"
-if [[ ! -e "$DST" ]];then
-    echo -e\
-        "\r[$YELLOW WRN $NC] $DST not found,$BLUE installing$NC..."
+dst="$HOME/.local/src/nvim"
+if [[ ! -e "$dst" ]];then
+    echo -e "\r[$YELLOW WRN $NC] $dst not found,$BLUE installing$NC..."
     bash "install.sh"
     exit 0
 fi
-cd "$DST" || exit 1
+cd "$dst" || exit 1
 
 git checkout "master" >"/dev/null" || exit 1
 ret="$(git status)"
@@ -17,17 +16,17 @@ fi
 if grep -q "Votre branche est à jour" <<< "$ret"\
     || grep -q "Your branch is up to date" <<< "$ret"
 then
-    git checkout "stable" >"/dev/null"
+    git checkout "stable" >"/dev/null" || exit 1
     exit 0
 fi
 echo -e "\r${BLUE}updating$NC $pkg..."
-make distclean >"/dev/null"
-git pull
-chown -R "$USER:$USER" "."
+
+make distclean >"/dev/null" || exit 1
+git pull || exit 1
+git checkout "stable" >"/dev/null"
+
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
     >"/dev/null" || exit 1
 make install >"/dev/null"
 make clean >"/dev/null"
-chown -R "$USER:$USER" "$HOME/.cache"
-chown -R "$USER:$USER" "$HOME/.local"

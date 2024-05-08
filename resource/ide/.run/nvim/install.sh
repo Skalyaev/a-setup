@@ -1,5 +1,5 @@
 #!/bin/bash
-DEPS=(
+deps=(
     "ninja-build"
     "gettext"
     "cmake"
@@ -7,61 +7,26 @@ DEPS=(
     "curl"
     "build-essential"
 )
-for dep in "${DEPS[@]}";do
-    dpkg-query -W -f='${Status}' "$dep" 2>"/dev/null"\
-        | grep -q "install ok installed"\
-        && continue
+for dep in "${deps[@]}";do
     apt install -y "$dep" &>"/dev/null" || exit 1
-    [[ "$NO_BACKUP" ]] || echo "apt:$dep" >> "$BACKUP/diff"
 done
-URL="https://github.com/neovim/neovim"
-DST="$HOME/.local/src/nvim"
+url="https://github.com/neovim/neovim"
+dst="$HOME/.local/src/nvim"
 
-git clone "$URL" "$DST" && cd "$DST" || exit 1
-chown -R "$USER:$USER" "$DST"
+git clone "$url" "$dst" && cd "$dst" || exit 1
 git checkout "stable" || exit 1
-
-if [[ ! "$NO_BACKUP" ]]; then
-    [[ ! -e "$HOME/.local/state" ]]\
-        && echo "add:$HOME/.local/state" >> "$BACKUP/diff"
-    [[ ! -e "$HOME/.local/lib" ]]\
-        && echo "add:$HOME/.local/lib" >> "$BACKUP/diff"
-    [[ ! -e "$HOME/.local/share/applications" ]]\
-        && echo "add:$HOME/.local/share/applications"\
-        >> "$BACKUP/diff"
-    [[ ! -e "$HOME/.local/share/icons" ]]\
-        && echo "add:$HOME/.local/share/icons" >> "$BACKUP/diff"
-    [[ ! -e "$HOME/.local/share/man" ]]\
-        && echo "add:$HOME/.local/share/man" >> "$BACKUP/diff"
-    [[ ! -e "$HOME/.local/share/locale" ]]\
-        && echo "add:$HOME/.local/share/locale" >> "$BACKUP/diff"
-fi
 
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
     >"/dev/null" || exit 1
-make install >"/dev/null"
+make install >"/dev/null" || exit 1
 make clean >"/dev/null"
-chown -R "$USER:$USER" "$DST"
-chown -R "$USER:$USER" "$HOME/.cache"
-chown -R "$USER:$USER" "$HOME/.local"
 
-CONFIG="$HOME/.config/nvim"
-if [[ ! -e "$CONFIG" ]]; then
-    ! mkdir "$CONFIG" && exit 1
-    chown "$USER:$USER" "$CONFIG"
-fi
-if [[ ! -e "$CONFIG/colors" ]]; then
-    ! mkdir "$CONFIG/colors" && exit 1
-    chown "$USER:$USER" "$CONFIG/colors"
-fi
+dir="$HOME/.config/nvim/colors"
+[[ -e "$dir/neon.lua" ]] && exit 0
+[[ -e "$dir" ]] || mkdir -p "$dir" || exit 1
 
-URL="https://github.com/Skalyaeve/a-nvim-theme.git"
-SRC="$HOME/.local/src/a-nvim-theme"
-if [[ ! -e "$SRC" ]]; then
-    ! git clone "$URL" "$SRC" && exit 1
-    chown -R "$USER:$USER" "$SRC"
-fi
-[[ ! -e "$CONFIG/colors/neon" ]]\
-    && ln -s "$SRC/colors/neon.lua" "$CONFIG/colors/neon.lua"\
-    && chown -h "$USER:$USER" "$CONFIG/colors/neon.lua"
+url="https://github.com/Skalyaeve/a-nvim-theme.git"
+src="$HOME/.local/src/a-nvim-theme"
+[[ -e "$src" ]] || git clone "$url" "$src" && exit 1
+ln -s "$src/colors/neon.lua" "$dir/neon.lua"
