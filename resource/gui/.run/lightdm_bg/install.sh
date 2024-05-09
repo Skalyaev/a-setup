@@ -10,7 +10,7 @@ name="background.jpg"
 p1="https://github.com/Skalyaeve"
 p2="/images-1/blob/main/background/background.jpg?raw=true"
 url="$p1$p2"
-curl -kL "$url" -o "$name" || exit 1
+curl -kL "$url" -o "$name" &>"/dev/null" || exit 1
 mv "$name" "$to/$name" || exit 1
 
 files=(
@@ -29,7 +29,7 @@ name="background.xml"
 p1="https://raw.githubusercontent.com/Skalyaeve"
 p2="/images-1/main/background/background.xml"
 url="$p1$p2"
-curl -kL "$url" -o "$name" || exit 1
+curl -kL "$url" -o "$name" &>"/dev/null" || exit 1
 mv "$name" "$to/$name" || exit 1
 
 files=(

@@ -6,8 +6,9 @@ BLUE="\033[0;34m"
 GRAY="\033[0;37m"
 NC="\033[0m"
 
-PYENV="$HOME/.local/share/pyenv/bin/activate"
-D_ROOT="$HOME/.local/share/setup"
+# From $HOME
+PYENV=".local/share/pyenv/bin/activate"
+D_ROOT=".local/share/setup"
 
 USAGE="$GRAY==================USAGE$NC
 $YELLOW$(basename "$0") $GREEN[options]$NC
@@ -72,7 +73,8 @@ while [[ "$#" -gt 0 ]];do
     *) err "unknown option: $1";;
     esac
 done
-[[ "$ROOT" ]] || ROOT="$D_ROOT"
+[[ "$ROOT" ]] || ROOT="$HOME/$D_ROOT"
+PYENV="$HOME/$PYENV"
 
 ft_apt(){
     echo -ne "${BLUE}updating$NC apt..."

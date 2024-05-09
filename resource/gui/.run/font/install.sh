@@ -8,7 +8,7 @@ mkdir "$name" && cd "$name"
 p1="https://github.com/ryanoasis"
 p2="/nerd-fonts/releases/download/v3.1.1/$name.zip"
 url="$p1$p2"
-curl -kL "$url" -o "$name.zip" || exit 1
+curl -kL "$url" -o "$name.zip" &>"/dev/null" || exit 1
 unzip "$name.zip" >"/dev/null" || exit 1
 
 dst="/usr/local/share/fonts/$name"

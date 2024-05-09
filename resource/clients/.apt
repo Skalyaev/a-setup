@@ -1,10 +1,9 @@
 firefox-esr
 curl
 wget
-nc
+netcat-traditional
 ssh
 ftp
 telnet
 smbclient
-rpcclient
 mariadb-client
