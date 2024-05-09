@@ -1,14 +1,13 @@
 #!/bin/bash
-cd "$(mktemp -d)" || exit 1
 apt install -y "unzip" &>"/dev/null" || exit 1
+cd "$(mktemp -d)" || exit 1
 
 name="Terminus"
 mkdir "$name" && cd "$name"
 
 p1="https://github.com/ryanoasis"
 p2="/nerd-fonts/releases/download/v3.1.1/$name.zip"
-url="$p1$p2"
-curl -kL "$url" -o "$name.zip" &>"/dev/null" || exit 1
+curl -kL "$p1$p2" -o "$name.zip" &>"/dev/null" || exit 1
 unzip "$name.zip" >"/dev/null" || exit 1
 
 dst="/usr/local/share/fonts/$name"

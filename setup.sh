@@ -178,10 +178,11 @@ ft_local(){
                         echo -e "$to [$GREEN OK $NC]"
                         continue
                     fi
-		    rm -rf "$to"
+                    rm -rf "$to"
                 else
                     local todir="$(dirname "$to")"
-                    [[ -e "$todir" ]] || mkdir -p "$todir" || continue
+                    [[ -e "$todir" ]]\
+                        || mkdir -p "$todir" || continue
                 fi
                 echo -ne "${BLUE}setting${NC} $to..."
                 eval "$cmd $from $to" || continue

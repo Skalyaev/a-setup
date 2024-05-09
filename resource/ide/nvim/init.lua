@@ -1,7 +1,7 @@
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
-vim.g.python3_host_prog = "/home/skalya/.local/share/pyenv/bin/python"
+vim.g.python3_host_prog = "~/.local/share/pyenv/bin/python"
 vim.g.mapleader = " "
 
 vim.opt.termguicolors = true

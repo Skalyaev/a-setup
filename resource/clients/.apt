@@ -1,7 +1,8 @@
 firefox-esr
+netcat-traditional
 curl
 wget
-netcat-traditional
+
 ssh
 ftp
 telnet

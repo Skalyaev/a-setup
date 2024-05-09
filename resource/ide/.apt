@@ -1,9 +1,10 @@
-make
-xclip
 python3-full
+xclip
+ripgrep
+fd-find
 nodejs
 npm
 jq
-ripgrep
-fd-find
+
+make
 nasm

@@ -12,10 +12,10 @@ for dep in "${deps[@]}";do
 done
 url="https://github.com/neovim/neovim"
 dst="$HOME/.local/src/nvim"
+git clone "$url" "$dst"
+cd "$dst" || exit 1
 
-git clone "$url" "$dst" && cd "$dst" || exit 1
 git checkout "stable" || exit 1
-
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
     >"/dev/null" || exit 1
