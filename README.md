@@ -4,15 +4,18 @@
     <th>Name</th>
     <th>Conf</th>
     <th>Binds</th>
+    <th>Theme</th>
   </tr>
   <tr>
     <td>OS</td>
     <td>Debian 12</td>
     <td>----</td>
     <td>----</td>
+    <td><a href="https://github.com/Skalyaeve/a-linux-theme">a-linux-theme</a></td>
   </tr>
   <tr>
     <td>DE</td>
+    <td>----</td>
     <td>----</td>
     <td>----</td>
     <td>----</td>
@@ -22,24 +25,35 @@
     <td>i3</td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/config">config</a></td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/gui/i3/binds.conf">binds.conf</a></td>
+    <td>----</td>
   </tr>
   <tr>
     <td>Shell</td>
     <td>Bash</td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bashrc">.bashrc</a></td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.bash_aliases">.bash_aliases</a></td>
+    <td>----</td>
   </tr>
   <tr>
     <td>Terminal</td>
     <td>Alacritty</td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml">alacritty.yml</a></td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/bash/.inputrc">.inputrc</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/terminal/alacritty/alacritty.yml">alacritty.yml</a></td>
   </tr>
   <tr>
     <td>IDE</td>
     <td>Neovim</td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/init.lua">init.lua</a></td>
     <td><a href="https://github.com/Skalyaeve/a-setup/blob/main/resource/ide/nvim/lua/binds.lua">binds.lua</a></td>
+    <td><a href="https://github.com/Skalyaeve/a-nvim-theme">a-nvim-theme</a></td>
+  </tr>
+  <tr>
+    <td>Browser</td>
+    <td>Firefox</td>
+    <td>----</td>
+    <td>----</td>
+    <td><a href="https://github.com/Skalyaeve/a-firefox-theme">a-firefox-theme</a></td>
   </tr>
 </table>
 

@@ -1,10 +1,4 @@
 #!/bin/bash
 export MANPAGER="most"
 export EDITOR="vim"
-
-export VERSION="$(uname -r)"
-export SHORT_VERSION="$(uname -r | cut -d . -f 1-2)"
-export MODULES_DIR="/lib/modules/$VERSION"
-export KBUILD_DIR="/usr/lib/linux-kbuild-$SHORT_VERSION"
-
 export PATH="$HOME/.local/bin:$PATH"
