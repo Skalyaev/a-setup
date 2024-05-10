@@ -6,4 +6,4 @@ dst="/usr/share/themes"
 name="a-linux-theme"
 git clone "https://github.com/Skalyaeve/$name" "$dst/$name"
 cd "$dst/$name" || exit 1
-unzip theme.zip || exit 1
+unzip theme.zip &>"/dev/null" || exit 1

@@ -5,6 +5,7 @@ YELLOW="\033[0;33m"
 BLUE="\033[0;34m"
 GRAY="\033[0;37m"
 NC="\033[0m"
+export RED GREEN YELLOW BLUE GRAY NC
 
 # From $HOME
 PYENV=".local/share/pyenv/bin/activate"
@@ -202,6 +203,7 @@ ft_run(){
         while read pkg;do
             [[ "$pkg" ]] || continue
             cd "$dir/$pkg" || continue
+            export pkg
 
             if ls "$ref" | grep -q "$pkg";then
                 echo -ne "$pkg "
@@ -210,7 +212,8 @@ ft_run(){
                     cd "$ROOT"
                     continue
                 fi
-                bash "update.sh" && echo -e "[$GREEN OK $NC]"
+                bash "update.sh"\
+                    && echo -e "[$GREEN OK $NC]                    "
             else
                 if ! mkdir -p "$ref/$pkg";then
                     cd "$ROOT"

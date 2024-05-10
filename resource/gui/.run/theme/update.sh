@@ -7,15 +7,20 @@ if [[ ! -e "$dst" ]];then
     exit 0
 fi
 cd "$dst" || exit 1
+echo -ne "\r${BLUE}updating$NC $pkg..."
 
-ret="$(git status)"
-[[ "$?" -ne 0 ]] && exit 1
-if grep -q "Votre branche est à jour" <<< "$ret"\
-    || grep -q "Your branch is up to date" <<< "$ret"
+rm -rf *
+ret="$(git pull)"
+if [[ "$?" -ne 0 ]];then
+    git restore *
+    exit 1
+fi
+if grep -q "Already up to date" <<< "$ret"\
+    || grep -q "Déjà à jour" <<< "$ret"
 then
+    git restore *
+    unzip "theme.zip" || exit 1
+    echo -ne "\r$pkg "
     exit 0
 fi
-echo -e "\r${BLUE}updating$NC $pkg..."
-rm -rf "$dst/*"
-git pull || exit 1
-unzip theme.zip || exit 1
+unzip "theme.zip" || exit 1
