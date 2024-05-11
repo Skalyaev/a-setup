@@ -13,7 +13,7 @@ if [[ "$#" -eq 0 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-is_installed() {
+is_installed(){
     local pkg="$1"
     dpkg-query -W -f='${Status}' "$pkg" 2>"/dev/null"\
         | grep -q "install ok installed"\
@@ -25,7 +25,7 @@ is_installed() {
     sudo apt install -y "$pkg" || return 1
     return 0
 }
-do_extract() {
+do_extract(){
     local app="$1"
     local cmd="$2"
     is_installed "$app" || return 1
@@ -38,7 +38,7 @@ while [[ "$#" -gt 0 ]];do
     FILE="$1"
     shift
     if [[ ! -e "$FILE" ]];then
-        echo -e "[$YELLOW ERR $NC] not found: $FILE"
+        echo -e "[$RED ERR $NC] not found: $FILE"
         continue
     fi
     case "$FILE" in
@@ -52,6 +52,6 @@ while [[ "$#" -gt 0 ]];do
     *'.tar.bz2') do_extract 'tar' "tar xjf $FILE";;
     *'.gz') do_extract 'gzip' "gunzip $FILE";;
     *'.tgz') do_extract 'tar' "tar xzf $FILE";;
-    *) echo -e "[$YELLOW ERR $NC] unknown type: $FILE";;
+    *) echo -e "[$RED ERR $NC] unknown type: $FILE";;
     esac
 done

@@ -34,7 +34,7 @@ if [[ "$#" -lt 1 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-ft_echo() {
+ft_echo(){
     [[ "$SILENT" ]] || echo -ne "$@"
     return 0
 }
@@ -43,7 +43,7 @@ shift
 TO_ADD=("*")
 MESSAGE="update"
 
-err() {
+err(){
     ft_echo "[$RED ERR $NC] $1\n"
     exit 1
 }
@@ -91,7 +91,7 @@ while [[ "$#" -gt 0 ]];do
         [[ "${#RM_MSG[@]}" -eq 0 ]] && RM_MSG=("*")
         ;;
     "-s" | "--silent")
-        shift;
+        shift
         SILENT=1
         ;;
     *) err "Unknown option $GREEN$1$NC";;
@@ -107,7 +107,7 @@ for target in "${EXCLUDE[@]}";do
     [[ "$repo" ]] || err "$target is not a git repository"
 done
 
-do_it() {
+do_it(){
     local cwd="$(pwd)"
     local targets=($(find "$cwd" -mindepth 1 -maxdepth 1 -type d))
 
@@ -189,7 +189,7 @@ do_it() {
     [[ "$(git status -s)" ]]\
         && ft_echo "[$YELLOW WARN $NC] $cwd: Uncommitted changes\n"
 }
-rm_it() {
+rm_it(){
     local targets=("${@:1:$#-1}")
     local file="${@: -1}"
     local count="${#targets[@]}"

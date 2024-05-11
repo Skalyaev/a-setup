@@ -21,7 +21,7 @@ make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     >"/dev/null" || exit 1
 make install >"/dev/null" || exit 1
 make clean >"/dev/null"
-ln -s "$HOME/.local/bin/nvim" "/usr/local/bin/vim"
+ln -s "$HOME/.local/bin/nvim" "/usr/local/bin/vim" || exit 1
 
 dir="$HOME/.config/nvim/colors"
 [[ -e "$dir/neon.lua" ]] && exit 0
@@ -30,4 +30,4 @@ dir="$HOME/.config/nvim/colors"
 url="https://github.com/Skalyaeve/a-nvim-theme.git"
 src="$HOME/.local/src/a-nvim-theme"
 [[ -e "$src" ]] || git clone "$url" "$src" || exit 1
-ln -s "$src/colors/neon.lua" "$dir/neon.lua"
+ln -s "$src/colors/neon.lua" "$dir/neon.lua" || exit 1

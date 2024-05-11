@@ -11,7 +11,4 @@ if [[ "$#" -lt 3 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-ffmpeg -i "$1"\
-    -ss "$2"\
-    -to "$3"\
-    "cut_${1%.*}.${1##*.}"
+ffmpeg -i "$1" -ss "$2" -to "$3" "cut_${1%.*}.${1##*.}"

@@ -3,7 +3,7 @@ dst="$HOME/.local/src/nvim"
 if [[ ! -e "$dst" ]];then
     echo -e\
         "\r[$YELLOW WRN $NC] $dst not found,$BLUE installing$NC..."
-    bash "install.sh"
+    bash "install.sh" || exit 1
     exit 0
 fi
 cd "$dst" || exit 1
@@ -27,5 +27,8 @@ make distclean >"/dev/null" || exit 1
 make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.local"\
     >"/dev/null" || exit 1
-make install >"/dev/null"
+make install >"/dev/null" || exit 1
 make clean >"/dev/null"
+
+cd "$HOME/.local/src/a-nvim-theme" || exit 1
+git pull || exit 1

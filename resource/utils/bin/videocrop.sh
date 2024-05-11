@@ -11,6 +11,4 @@ if [[ "$#" -lt 5 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-ffmpeg -i "$1"\
-    -filter:v "crop=$2:$3:$4:$5"\
-    "crop_${1%.*}.${1##*.}"
+ffmpeg -i "$1" -filter:v "crop=$2:$3:$4:$5" "crop_${1%.*}.${1##*.}"

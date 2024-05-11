@@ -3,7 +3,7 @@ dst="/usr/share/themes/a-linux-theme"
 if [[ ! -e "$dst" ]];then
     echo -e\
         "\r[$YELLOW WRN $NC] $dst not found,$BLUE installing$NC..."
-    bash "install.sh"
+    bash "install.sh" || exit 1
     exit 0
 fi
 cd "$dst" || exit 1
@@ -13,14 +13,15 @@ rm -rf *
 ret="$(git pull)"
 if [[ "$?" -ne 0 ]];then
     git restore *
+    unzip "theme.zip" >"/dev/null"
     exit 1
 fi
 if grep -q "Already up to date" <<< "$ret"\
     || grep -q "Déjà à jour" <<< "$ret"
 then
     git restore *
-    unzip "theme.zip" || exit 1
+    unzip "theme.zip" >"/dev/null" || exit 1
     echo -ne "\r$pkg "
     exit 0
 fi
-unzip "theme.zip" || exit 1
+unzip "theme.zip" >"/dev/null" || exit 1

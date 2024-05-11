@@ -215,12 +215,12 @@ ft_run(){
                 bash "update.sh"\
                     && echo -e "[$GREEN OK $NC]                    "
             else
-                if ! mkdir -p "$ref/$pkg";then
+                echo -ne "${BLUE}installing$NC $pkg..."
+                if ! bash "install.sh" || ! mkdir -p "$ref/$pkg";then
                     cd "$ROOT"
                     continue
                 fi
-                echo -ne "${BLUE}installing$NC $pkg..."
-                bash "install.sh" && echo -e "[$GREEN OK $NC]"
+                echo -e "[$GREEN OK $NC]"
             fi
             cd "$ROOT"
         done< <(ls "$dir")

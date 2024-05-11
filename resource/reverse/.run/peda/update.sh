@@ -3,7 +3,7 @@ dst="$HOME/.local/src/peda"
 if [[ ! -e "$dst" ]];then
     echo -e\
         "\r[$YELLOW WRN $NC] $dst not found,$BLUE installing$NC..."
-    bash "install.sh"
+    bash "install.sh" || exit 1
     exit 0
 fi
 cd "$dst" || exit 1

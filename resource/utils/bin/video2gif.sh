@@ -11,7 +11,6 @@ if [[ "$#" -lt 1 ]];then
     echo -e "$USAGE"
     exit 1
 fi
-ffmpeg -i "$1"\
-    -filter_complex\
+ffmpeg -i "$1" -filter_complex\
     "[0]split[a][b]; [a]palettegen[palette]; [b][palette]paletteuse"\
     "${1%.*}.gif"
