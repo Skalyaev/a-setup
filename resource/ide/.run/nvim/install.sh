@@ -22,6 +22,7 @@ make CMAKE_BUILD_TYPE="RelWithDebInfo"\
 make install >"/dev/null" || exit 1
 make clean >"/dev/null"
 ln -s "$HOME/.local/bin/nvim" "/usr/local/bin/vim" || exit 1
+rm "$HOME/.local/share/applications/nvim.desktop"
 
 dir="$HOME/.config/nvim/colors"
 [[ -e "$dir/neon.lua" ]] && exit 0

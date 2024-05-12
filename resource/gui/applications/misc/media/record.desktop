@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=record
+Exec=record.sh
+Terminal=true

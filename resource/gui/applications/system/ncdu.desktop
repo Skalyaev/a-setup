@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=ncdu
+Exec=ncdu
+Terminal=true

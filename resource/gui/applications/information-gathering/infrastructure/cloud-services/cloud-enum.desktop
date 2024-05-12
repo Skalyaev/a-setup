@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=cloud-enum
+Exec=cloud_enum
+Terminal=true

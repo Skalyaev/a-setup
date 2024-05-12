@@ -2,6 +2,7 @@ i3 @ ~/.config
 gtk-3.0 @ ~/.config
 qt5ct @ ~/.config
 user-dirs/* @ ~/.config
+applications/* @ ~/.local/share/applications
 no-link lightdm/lightdm-gtk-greeter.conf @ /etc/lightdm
 no-link lightdm/lightdm.conf @ /etc/lightdm
 no-link lightdm/xstart.sh @ /usr/local/bin

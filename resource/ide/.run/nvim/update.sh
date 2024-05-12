@@ -29,6 +29,4 @@ make CMAKE_BUILD_TYPE="RelWithDebInfo"\
     >"/dev/null" || exit 1
 make install >"/dev/null" || exit 1
 make clean >"/dev/null"
-
-cd "$HOME/.local/src/a-nvim-theme" || exit 1
-git pull || exit 1
+rm "$HOME/.local/share/applications/nvim.desktop"
