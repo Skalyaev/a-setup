@@ -36,6 +36,8 @@ $GREEN--no-run$NC
     $RED*$NC do not read .run folders
 $GREEN--no-local$NC
     $RED*$NC do not read .local files
+$GREEN-h, --help$NC
+    $RED*$NC print this message
 "
 err(){
     echo -e "[$RED ERR $NC] $1"
@@ -71,6 +73,7 @@ while [[ "$#" -gt 0 ]];do
     "--no-pip") NO_PIP=1; shift;;
     "--no-run") NO_RUN=1; shift;;
     "--no-local") NO_LOCAL=1; shift;;
+    "-h" | "--help") echo -e "$USAGE"; exit 0;;
     *) err "unknown option: $1";;
     esac
 done
