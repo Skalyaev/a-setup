@@ -65,6 +65,8 @@
 
 <img align="center" src="https://github.com/Skalyaeve/images-1/blob/main/screenshot/setup-to.png?raw=true"></img>
 
+> Launcher menu: [a-linux-launcher](https://github.com/Skalyaeve/a-linux-launcher)
+
 # A script
 
 > - To quickly setup any Debian `$HOME`/system
