@@ -67,7 +67,7 @@ alias xi='xargs -I {}'
 alias v='vim'
 alias py='python3'
 alias pyc='python3 -c'
-alias msf='msfconsole'
+alias msf='msfconsole -L'
 
 alias gits='git status'
 alias gita='git add'
