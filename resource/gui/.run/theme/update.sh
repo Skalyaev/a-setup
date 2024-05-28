@@ -9,19 +9,18 @@ fi
 cd "$dst" || exit 1
 echo -ne "\r${BLUE}updating$NC $pkg..."
 
-rm -rf *
 ret="$(git pull)"
 if [[ "$?" -ne 0 ]];then
-    git restore *
-    unzip "theme.zip" >"/dev/null"
+    echo -e "\r[$RED ERR $NC] $pkg update failed"
     exit 1
 fi
 if grep -q "Already up to date" <<< "$ret"\
     || grep -q "Déjà à jour" <<< "$ret"
 then
-    git restore *
-    unzip "theme.zip" >"/dev/null" || exit 1
     echo -ne "\r$pkg "
     exit 0
 fi
+mv "theme.zip" ".."
+rm -rf *
+mv "../theme.zip" "."
 unzip "theme.zip" >"/dev/null" || exit 1
