@@ -12,10 +12,10 @@ shopt -s "dirspell"
 shopt -s "autocd"
 shopt -s "cmdhist"
 
-HISTCONTROL="erasedups"
+HISTCONTROL="ignoreboth"
 HISTSIZE=1000
 HISTFILESIZE=2000
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; ${PROMPT_COMMAND}"
 
 [[ -e "$HOME/.local/share/pyenv" ]]\
     && . "$HOME/.local/share/pyenv/bin/activate"
