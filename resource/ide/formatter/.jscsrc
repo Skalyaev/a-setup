@@ -1,0 +1,23 @@
+{
+    "validateQuoteMarks": "'",
+    "validateParameterSeparator": ", ",
+    "validateIndentation": 4,
+    "requireSpacesInsideObjectBrackets": "all",
+    "requireSpacesInsideImportedObjectBraces": true,
+    "requireSpacesInGenerator": { "afterStar": true },
+    "requireSpacesInForStatement": true,
+    "requireSpacesInConditionalExpression": {
+        "afterTest": true,
+        "beforeConsequent": true,
+        "afterConsequent": true,
+        "beforeAlternate": true
+    },
+    "requireSpaceBetweenArguments": true,
+    "requireSpaceBeforeObjectValues": true,
+    "requireSpaceBeforeDestructuredValues": true,
+    "requireSpaceBeforeBinaryOperators": true,
+    "requireSpaceAfterComma": true,
+    "requireSpaceAfterBinaryOperators": true,
+    "requireShorthandArrowFunctions": true,
+    "requireParenthesesAroundArrowParam": true,
+}

@@ -15,9 +15,10 @@ USAGE="$GRAY==================USAGE$NC
 $YELLOW$(basename "$0") $GREEN[options]$NC
 
 from a resource directory:
-    $RED*$NC install apt packages via .apt files
-    $RED*$NC install pip packages via .pip files
-    $RED*$NC install local resources via .local files
+    $RED*$NC install & update apt packages via .apt files
+    $RED*$NC install & update pip packages via .pip files
+    $RED*$NC install & update node packages via .npm files
+    $RED*$NC install & update local resources via .local files
     $RED*$NC run scripts from .run folders
 
 $GREEN[options]$NC:
@@ -32,6 +33,8 @@ $GREEN--no-apt$NC
     $RED*$NC do not read .apt files
 $GREEN--no-pip$NC
     $RED*$NC do not read .pip files
+$GREEN--no-npm$NC
+    $RED*$NC do not read .npm files
 $GREEN--no-run$NC
     $RED*$NC do not read .run folders
 $GREEN--no-local$NC
@@ -43,7 +46,6 @@ err(){
     echo -e "[$RED ERR $NC] $1"
     exit 1
 }
-
 while [[ "$#" -gt 0 ]];do
     case "$1" in
     "-u" | "--user")
@@ -71,6 +73,7 @@ while [[ "$#" -gt 0 ]];do
         ;;
     "--no-apt") NO_APT=1; shift;;
     "--no-pip") NO_PIP=1; shift;;
+    "--no-npm") NO_NPM=1; shift;;
     "--no-run") NO_RUN=1; shift;;
     "--no-local") NO_LOCAL=1; shift;;
     "-h" | "--help") echo -e "$USAGE"; exit 0;;
@@ -81,7 +84,7 @@ done
 PYENV="$HOME/$PYENV"
 
 ft_apt(){
-    echo -ne "${BLUE}updating$NC apt..."
+    echo -ne "\n${BLUE}updating$NC apt..."
     if ! apt update -y &>"/dev/null";then
         echo -e "[$RED ERR $NC] non-zero from apt, try as sudo"
         return 1
@@ -107,7 +110,30 @@ ft_apt(){
         | xargs cat | sort | uniq)
     return 0
 }
+ft_npm(){
+    echo -e "\n${BLUE}updating$NC npm packages..."
+    if ! npm update -g &>"/dev/null";then
+        echo -e "[$RED ERR $NC] non-zero from npm, try as sudo"
+        return 1
+    fi
+    echo -e "[$GREEN OK $NC]"
+    echo -e "$GRAY============READING: .npm$NC"
+    while read pkg;do
+        [[ "$pkg" ]] || continue
 
+        if npm list -g "$pkg" &>"/dev/null";then
+            echo -e "$pkg [$GREEN OK $NC]"
+            continue
+        fi
+        echo -ne "${BLUE}installing$NC $pkg..."
+        if ! npm install -g "$pkg" &>"/dev/null";then
+            echo -e "[$RED ERR $NC] non-zero from npm"
+            continue
+        fi
+        echo -e "[$GREEN OK $NC]"
+    done< <(find . "${EXCLUDES[@]}" -type f -name ".npm"\
+        | xargs cat | sort | uniq)
+}
 ft_pip(){
     if [[ ! -e "$PYENV" ]];then
         echo -e "[$RED ERR $NC] Can not find pyenv"
@@ -123,7 +149,7 @@ ft_pip(){
         fi
         echo -e "[$GREEN OK $NC]"
     fi
-    echo -ne "${BLUE}updating$NC pip packages..."
+    echo -ne "\n${BLUE}updating$NC pip packages..."
     if ! pip-review --auto &>"/dev/null";then
         echo -e "[$RED ERR $NC] non-zero from pip"
         return 1
@@ -146,7 +172,6 @@ ft_pip(){
     done< <(find . "${EXCLUDES[@]}" -type f -name ".pip"\
         | xargs cat | sort | uniq)
 }
-
 ft_local(){
     echo -e "$GRAY============READING: .local$NC"
     while read file;do
@@ -196,7 +221,6 @@ ft_local(){
     done< <(find . "${EXCLUDES[@]}" -type f -name ".local")
     return 0
 }
-
 ft_run(){
     echo -e "$GRAY============READING: .run$NC"
     local ref="$(dirname "$ROOT")/.run"
@@ -238,6 +262,7 @@ cd "$ROOT" || exit 1
 
 [[ "$NO_APT" ]] || ft_apt
 [[ "$NO_PIP" ]] || ft_pip
+[[ "$NO_NPM" ]] || ft_npm
 [[ "$NO_LOCAL" ]] || ft_local
 [[ "$NO_RUN" ]] || ft_run
 chown -R "$USER:$USER" "$HOME"

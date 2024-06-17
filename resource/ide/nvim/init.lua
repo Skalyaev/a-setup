@@ -2,9 +2,8 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.python3_host_prog = "~/.local/share/pyenv/bin/python"
-vim.g.formatters_javascript = {}
+vim.g.formatters_javascript = {"jscs"}
 vim.g.mapleader = " "
-
 
 vim.opt.termguicolors = true
 vim.opt.number = true

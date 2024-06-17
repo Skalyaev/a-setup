@@ -82,6 +82,7 @@ setup [options]
 From a `resource` directory:
 * Install/Update apt packages via `.apt` files
 * Install/Update pip packages via `.pip` files
+* Install/Update node packages via `.npm` files
 * Install local resources via `.local` files
 * Run scripts from `.run` folders
 
@@ -98,12 +99,14 @@ From a `resource` directory:
     * Do not read `.apt` files
 - `--no-pip`
     * Do not read `.pip` files
+- `--no-npm`
+    * Do not read `.npm` files
 - `--no-local`
     * Do not read `.local` files
 - `--no-run`
     * Do not read `.run` folders
 
-### `.apt` & `.pip` files
+### `.apt` & `.pip` & `.npm` files
 
 - `<package_name>`
 - 1 package per line
@@ -130,6 +133,8 @@ mkdir -p ~/.local/share
 sudo apt update -y
 sudo apt install -y python3
 sudo apt install -y python3-venv
+sudo apt install -y nodejs
+sudo apt install -y npm
 ```
 
 ```sh
