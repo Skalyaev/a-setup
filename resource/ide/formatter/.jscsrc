@@ -18,6 +18,33 @@
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceAfterComma": true,
     "requireSpaceAfterBinaryOperators": true,
-    "requireShorthandArrowFunctions": true,
-    "requireParenthesesAroundArrowParam": true,
+    "requireKeywordsOnNewLine": ["else", "catch"],
+    "requireCommaBeforeLineBreak": true,
+    "requireAlignedMultilineParams": "firstParam",
+    "disallowTrailingWhitespace": true,
+    "disallowTabs": true,
+    "disallowSpacesInsideTemplateStringPlaceholders": true,
+    "disallowSpacesInsideBrackets": true,
+    "disallowSpacesInsideArrayBrackets": "all",
+    "disallowSpacesInGenerator": { "beforeStar": true },
+    "disallowSpacesInCallExpression": true,
+    "disallowSpacesInFunction": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSemicolons": true,
+    "disallowSpaceBeforePostfixUnaryOperators": true,
+    "disallowSpaceBeforeComma": true,
+    "disallowSpaceBeforeBlockStatements": true,
+    "disallowSpaceAfterPrefixUnaryOperators": true,
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowSpaceAfterKeywords": true,
+    "disallowQuotedKeysInObjects": true,
+    "disallowOperatorBeforeLineBreak": true,
+    "disallowMultipleLineBreaks": true,
+    "disallowMultipleSpaces": true
 }
