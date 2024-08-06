@@ -5,7 +5,6 @@ vim.g.python3_host_prog = "~/.local/share/pyenv/bin/python"
 vim.g.formatters_javascript = {"jscs"}
 vim.g.mapleader = " "
 
-vim.opt.foldmethod = "indent"
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.expandtab = true
