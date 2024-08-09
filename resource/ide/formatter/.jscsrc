@@ -1,7 +1,30 @@
 {
-    "validateQuoteMarks": "'",
-    "validateParameterSeparator": ", ",
-    "validateIndentation": 4,
+    "disallowSemicolons": true,
+    "disallowSpacesInsideTemplateStringPlaceholders": true,
+    "disallowSpacesInsideBrackets": true,
+    "disallowSpacesInsideArrayBrackets": "all",
+    "disallowSpacesInGenerator": { "beforeStar": true },
+    "disallowSpacesInCallExpression": true,
+    "disallowSpacesInFunction": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowSpaceBeforePostfixUnaryOperators": true,
+    "disallowSpaceBeforeComma": true,
+    "disallowSpaceBeforeBlockStatements": true,
+    "disallowSpaceAfterPrefixUnaryOperators": true,
+    "disallowTabs": true,
+    "disallowTrailingWhitespace": true,
+    "disallowNewlineBeforeBlockStatements": true,
+    "disallowSpaceAfterKeywords": true,
+    "disallowQuotedKeysInObjects": true,
+    "disallowOperatorBeforeLineBreak": true,
+    "disallowMultipleLineBreaks": true,
+    "disallowMultipleSpaces": true,
     "requireSpacesInsideObjectBrackets": "all",
     "requireSpacesInsideImportedObjectBraces": true,
     "requireSpacesInGenerator": { "afterStar": true },
@@ -21,30 +44,7 @@
     "requireKeywordsOnNewLine": ["else", "catch"],
     "requireCommaBeforeLineBreak": true,
     "requireAlignedMultilineParams": "firstParam",
-    "disallowTrailingWhitespace": true,
-    "disallowTabs": true,
-    "disallowSpacesInsideTemplateStringPlaceholders": true,
-    "disallowSpacesInsideBrackets": true,
-    "disallowSpacesInsideArrayBrackets": "all",
-    "disallowSpacesInGenerator": { "beforeStar": true },
-    "disallowSpacesInCallExpression": true,
-    "disallowSpacesInFunction": {
-        "beforeOpeningRoundBrace": true,
-        "beforeOpeningCurlyBrace": true
-    },
-    "disallowSpacesInAnonymousFunctionExpression": {
-        "beforeOpeningRoundBrace": true,
-        "beforeOpeningCurlyBrace": true
-    },
-    "disallowSemicolons": true,
-    "disallowSpaceBeforePostfixUnaryOperators": true,
-    "disallowSpaceBeforeComma": true,
-    "disallowSpaceBeforeBlockStatements": true,
-    "disallowSpaceAfterPrefixUnaryOperators": true,
-    "disallowNewlineBeforeBlockStatements": true,
-    "disallowSpaceAfterKeywords": true,
-    "disallowQuotedKeysInObjects": true,
-    "disallowOperatorBeforeLineBreak": true,
-    "disallowMultipleLineBreaks": true,
-    "disallowMultipleSpaces": true
+    "validateQuoteMarks": '"',
+    "validateParameterSeparator": ", ",
+    "validateIndentation": 4
 }
