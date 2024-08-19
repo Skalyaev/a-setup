@@ -80,3 +80,4 @@ alias fullapt='sudo apt update -y && sudo apt full-upgrade -y && sudo apt autore
 if [[ -x "/usr/bin/dircolors" ]]; then
     alias colors='for i in {0..256};do o=00$i;echo -ne "${o:${#o}-3:3} "$(tput setaf $i;tput setab $i)"   "$(tput sgr0);done; echo'
 fi
+alias tidy='HTML_TIDY=~/.config/tidy/config tidy'
