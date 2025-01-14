@@ -39,3 +39,4 @@ PS1="$p1$p2$p3\n$p4"
 unset gray nc p1 p2 p3 p4
 
 eval "$(~/.local/bin/mise activate bash)"
+. "$HOME/.cargo/env"

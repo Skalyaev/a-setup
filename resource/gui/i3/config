@@ -6,7 +6,7 @@ default_border pixel 2
 exec --no-startup-id /usr/bin/picom
 exec --no-startup-id /usr/bin/dex --autostart --environment i3
 exec --no-startup-id /usr/bin/xss-lock --transfer-sleep-lock -- dm-tool switch-to-greeter
-exec --no-startup-id /usr/bin/i3-sensible-terminal
+exec --no-startup-id /usr/bin/alacritty
 exec --no-startup-id /usr/bin/redshift -PO 4500
 exec --no-startup-id /usr/bin/numlockx on
 exec --no-startup-id /usr/bin/light -S 100
@@ -35,13 +35,16 @@ set $gray_l1 #A1A1A1e8
 set $gray_l2 #BFBFBFe8
 set $gray_l3 #E0E0E0e8
 set $white #FFFFFF
+set $purple #6000C0
+set $purple_l1 #AC57FF
+set $red #C00000
 
 #set $refresh_i3status killall -SIGUSR1 i3status
 bar {
     i3bar_command i3bar --transparency
     #status_command /usr/bin/i3status -c ~/.config/i3/i3status.conf
     status_command /usr/bin/i3blocks -c ~/.config/i3/i3blocks/config
-    padding 2px
+    padding 4px
     position top
     tray_output none
 
@@ -60,8 +63,8 @@ bar {
 }
 
 #----------------------border | background | text | indicator | child_border
-client.focused          $gray_l1 $gray $white $gray_l2 $gray
+client.focused          $gray_l1 $gray $white $gray_l3 $gray_l1
 client.focused_inactive $gray $gray_d1 $white $gray_l1 $gray_d1
 client.unfocused        $gray_d1 $gray_d2 $white $gray $gray_d2
-client.urgent           $gray_l2 $gray_l1 $white $gray_l3 $gray_l1
+client.urgent           $red $gray_l1 $white $gray_l3 $red
 client.placeholder      $gray_d2 $gray_d3 $white $gray_d1 $gray_d3
