@@ -1,0 +1,29 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+PINK='\033[0;35m'
+GRAY='\033[0;37m'
+NC='\033[0m'
+set -e
+
+DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
+
+echo -e "[$PINK 1 $NC] Base system installation"
+echo -e "[$PINK 2 $NC] GUI installation"
+echo -e "[$PINK 3 $NC] Shell installation"
+echo -e "[$PINK 0 $NC] Exit"
+while true; do
+
+    echo -ne "[$GRAY \$ $NC]: "
+    read SELECTION
+    case "$SELECTION" in
+
+    1) "$DIR"/system/run.sh && exit ;;
+    2) "$DIR"/gui/run.sh && exit ;;
+    3) "$DIR"/shell/run.sh && exit ;;
+    0) exit ;;
+    *) echo -e "[$RED - $NC] Invalid selection" ;;
+    esac
+    [[ "$?" -ne 0 ]] && exit "$?"
+done
