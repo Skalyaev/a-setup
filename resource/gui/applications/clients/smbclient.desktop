@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=smbclient
-Exec=smbclient
-Terminal=true

@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=gdb
-Exec=gdb
-Terminal=true

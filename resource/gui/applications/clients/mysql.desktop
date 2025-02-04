@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=mysql
-Exec=mysql --help
-Terminal=true

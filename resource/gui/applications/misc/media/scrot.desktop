@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=scrot
-Exec=cd $HOME/image/screenshot && scrot --help
-Terminal=true

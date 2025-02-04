@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=curl
-Exec=curl --help
-Terminal=true
