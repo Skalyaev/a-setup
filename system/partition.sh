@@ -14,6 +14,8 @@ BOOT_SIZE=512
 SWAP_SIZE=4096
 TMP_SIZE=4096
 
+LVM_NAME="vg0"
+
 mapfile -t DISKS < <(lsblk -d -o "NAME,SIZE" | tail -n +2)
 NAMES=()
 SIZES=()
@@ -40,17 +42,37 @@ while true; do
     echo -ne "[$GRAY \$ $NC] Disk selection: "
     read SELECTION
 
-    if [[ -n "$SELECTION" && "$SELECTION" =~ ^[0-9]+$ && \
-        "$SELECTION" -ge 0 && "$SELECTION" -le "${#NAMES[@]}" ]]; then
+    if [[ -z "$SELECTION" || ! "$SELECTION" =~ ^[0-9]+$ || \
+        "$SELECTION" -lt 0 || "$SELECTION" -gt "${#NAMES[@]}" ]]; then
 
-        [[ "$SELECTION" -eq 0 ]] && exit 1
-        break
+        echo -e "[$RED - $NC] Invalid selection"
+        continue
     fi
-    echo -e "[$RED - $NC] Invalid selection"
-done
-IDX="$((SELECTION - 1))"
+    [[ "$SELECTION" -eq 0 ]] && exit 1
 
-DISK="/dev/${NAMES[$IDX]}"
+    IDX="$((SELECTION - 1))"
+    DISK="/dev/${NAMES[$IDX]}"
+
+    PARTITION_TYPES="$(fdisk "$DISK" <<<$'g\nn\n\n\n\nt\nL\nq\n' 2>"/dev/null")"
+    TO_SED='.*[[:space:]]*([0-9]+)[[:space:]]'
+
+    TYPE_EFI="$(sed -nE "s/$TO_SED+EFI System.*/\1/p" <<<"$PARTITION_TYPES")"
+    TYPE_SWAP="$(sed -nE "s/$TO_SED+Linux swap.*/\1/p" <<<"$PARTITION_TYPES")"
+    TYPE_LVM="$(sed -nE "s/$TO_SED+Linux LVM.*/\1/p" <<<"$PARTITION_TYPES")"
+
+    if [[ -z "$TYPE_EFI" || -z "$TYPE_SWAP" || -z "$TYPE_LVM" ]]; then
+
+        echo -e "[$RED - $NC] Invalid disk: $DISK"
+        continue
+    fi
+    echo -ne "\n[$GRAY \$ $NC] Disk $DISK will be erased, continue? (n/y): "
+    read ANSWER
+    [[ "$ANSWER" == [yY]* ]] && break
+done
+swapoff -a
+vgchange -an
+parted -s "$DISK" mklabel gpt &>"/dev/null"
+
 SIZE="${SIZES[$IDX]}"
 SIZE_LEFT="$((SIZE - BOOT_SIZE * 2 - TMP_SIZE - SWAP_SIZE))"
 
@@ -58,55 +80,51 @@ VAR_SIZE="$((SIZE_LEFT * VAR_SPACE_PERCENTAGE / 100))"
 HOME_SIZE="$((SIZE_LEFT * HOME_SPACE_PERCENTAGE / 100))"
 
 echo -ne "[$YELLOW * $NC] Partitioning..."
-
-PARTITION_TYPES="$(fdisk "$DISK" <<<$'g\nn\n\n\n\nt\nL\nq\n' 2>"/dev/null")"
-TO_SED='.*[[:space:]]*([0-9]+)[[:space:]]'
-
-TYPE_EFI="$(sed -nE "s/$TO_SED+EFI System.*/\1/p" <<<"$PARTITION_TYPES")"
-TYPE_SWAP="$(sed -nE "s/$TO_SED+Linux swap.*/\1/p" <<<"$PARTITION_TYPES")"
-TYPE_LVM="$(sed -nE "s/$TO_SED+Linux LVM.*/\1/p" <<<"$PARTITION_TYPES")"
-
-if [[ -z "$TYPE_EFI" || -z "$TYPE_SWAP" || -z "$TYPE_LVM" ]]; then
-
-    echo -e "[$RED - $NC] Invalid disk, aborted"
-    exit 1
-fi
-fdisk "$DISK" <<EOF >"/dev/null"
+set +e
+fdisk "$DISK" <<EOF &>"/dev/null"
 g
-$(echo -e "n\n\n\n+${BOOT_SIZE}M\nt\n$TYPE_EFI\n")
-$(echo -e "n\n\n\n+${BOOT_SIZE}M\n")
-$(echo -e "n\n\n\n+${SWAP_SIZE}M\nt\n\n$TYPE_SWAP\n")
-$(echo -e "n\n\n\n\nt\n\n$TYPE_LVM\n")
+$(echo -e "n\n\n\n+${BOOT_SIZE}M\nY\nt\n$TYPE_EFI\n")
+$(echo -e "n\n\n\n+${BOOT_SIZE}M\nY\n")
+$(echo -e "n\n\n\n+${SWAP_SIZE}M\nY\nt\n\n$TYPE_SWAP\n")
+$(echo -e "n\n\n\n\nY\nt\n\n$TYPE_LVM\n")
 w
 EOF
+set -e
 
-mkfs.fat -F32 "${DISK}1" &>"/dev/null"
-mkfs.ext4 "${DISK}2" &>"/dev/null"
-mkswap "${DISK}3" &>"/dev/null"
+[[ "$DISK" == "/dev/nvm"* ]] && PREFIX="p"
+
+BOOT_EFI_PARTITION="${DISK}${PREFIX}1"
+BOOT_PARTITION="${DISK}${PREFIX}2"
+SWAP_PARTITION="${DISK}${PREFIX}3"
+LVM_PARTITION="${DISK}${PREFIX}4"
+
+mkswap "$SWAP_PARTITION" &>"/dev/null"
+mkfs.ext4 "$BOOT_PARTITION" &>"/dev/null"
+mkfs.fat -F32 "$BOOT_EFI_PARTITION" &>"/dev/null"
 
 echo -e "\r[$GREEN + $NC] Partitions created"
 
-pvcreate "${DISK}4" >"/dev/null"
-vgcreate "vg0" "${DISK}4" >"/dev/null"
+pvcreate "$LVM_PARTITION" &>"/dev/null"
+vgcreate "$LVM_NAME" "$LVM_PARTITION" &>"/dev/null"
 
-lvcreate -L "${VAR_SIZE}M" "vg0" -n "var" >"/dev/null"
-lvcreate -L "${HOME_SIZE}M" "vg0" -n "home" >"/dev/null"
-lvcreate -L "${TMP_SIZE}M" "vg0" -n "tmp" >"/dev/null"
-lvcreate -l "100%FREE" "vg0" -n "root" >"/dev/null"
+lvcreate -L "${VAR_SIZE}M" "$LVM_NAME" -n "var" &>"/dev/null"
+lvcreate -L "${HOME_SIZE}M" "$LVM_NAME" -n "home" &>"/dev/null"
+lvcreate -L "${TMP_SIZE}M" "$LVM_NAME" -n "tmp" &>"/dev/null"
+lvcreate -l "100%FREE" "$LVM_NAME" -n "root" &>"/dev/null"
 
-mkfs.ext4 "/dev/vg0/root" &>"/dev/null"
-mkfs.ext4 "/dev/vg0/home" &>"/dev/null"
-mkfs.ext4 "/dev/vg0/var" &>"/dev/null"
-mkfs.ext4 "/dev/vg0/tmp" &>"/dev/null"
+mkfs.ext4 "/dev/${LVM_NAME}/root" &>"/dev/null"
+mkfs.ext4 "/dev/${LVM_NAME}/home" &>"/dev/null"
+mkfs.ext4 "/dev/${LVM_NAME}/var" &>"/dev/null"
+mkfs.ext4 "/dev/${LVM_NAME}/tmp" &>"/dev/null"
 
 echo -e "[$GREEN + $NC] LVM set"
 
-mount "/dev/vg0/root" "/mnt" >"/dev/null"
-mount --mkdir "/dev/vg0/var" "/mnt/var" >"/dev/null"
-mount --mkdir "/dev/vg0/home" "/mnt/home" >"/dev/null"
-mount --mkdir "/dev/vg0/tmp" "/mnt/tmp" >"/dev/null"
-mount --mkdir "${DISK}2" "/mnt/boot" >"/dev/null"
-mount --mkdir "${DISK}1" "/mnt/boot/efi" >"/dev/null"
-swapon "${DISK}3" >"/dev/null"
+mount "/dev/${LVM_NAME}/root" "/mnt" &>"/dev/null"
+mount --mkdir "/dev/${LVM_NAME}/var" "/mnt/var" &>"/dev/null"
+mount --mkdir "/dev/${LVM_NAME}/home" "/mnt/home" &>"/dev/null"
+mount --mkdir "/dev/${LVM_NAME}/tmp" "/mnt/tmp" &>"/dev/null"
+mount --mkdir "$BOOT_PARTITION" "/mnt/boot" &>"/dev/null"
+mount --mkdir "$BOOT_EFI_PARTITION" "/mnt/boot/efi" &>"/dev/null"
+swapon "$SWAP_PARTITION" &>"/dev/null"
 
 echo -e "[$GREEN + $NC] Partitions mounted"

@@ -24,12 +24,14 @@ declare -A FIRMWARE_MAP=(
     [qla2xxx]="linux-firmware-qlogic"
 )
 sed -i "s/block filesystems/block lvm2 filesystems/" "/etc/mkinitcpio.conf"
-echo -ne "\n[$YELLOW * $NC] Creating initial ramdisk..."
+sed -i "s/consolefont block/consolefont numlock block/" "/etc/mkinitcpio.conf"
+
+echo -ne "\n[$YELLOW * $NC] Creating initramfs..."
 
 PATTERN="(?<=WARNING: Possibly missing firmware for module: ')[^']+"
 MISSING="$(grep -oP "$PATTERN" <<<"$(mkinitcpio -P 2>&1)")"
 
-echo -e "\r[$GREEN + $NC] Initial ramdisk created    "
+echo -e "\r[$GREEN + $NC] Created initramfs    "
 BUFFER=()
 while read -r MODULE; do
 
@@ -47,6 +49,18 @@ MISSING="$(printf "%s\n" "${BUFFER[@]}" | sort -u)"
 SUDO_NOPASSWD="%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
 SUDO_PASSWD="%wheel ALL=(ALL:ALL) ALL"
 
+aur_install() {
+    local firmware="$1"
+    local dir="${firmware%.git}"
+    sudo -u "$USER" bash -c "
+
+        cd /tmp
+        [[ -e $dir ]] && rm -rf $dir
+        git clone https://aur.archlinux.org/$firmware &> /dev/null
+        cd $dir && makepkg -si --noconfirm &> /dev/null
+    "
+    #TODO: Must be able to keep them updated
+}
 USERS="$(getent group "wheel" | cut -d ":" -f "4")"
 USER="$(cut -d ":" -f "1" <<<"$USERS")"
 
@@ -57,18 +71,17 @@ for firmware in ${MISSING[@]}; do # Do not quote ${MISSING[@]} here
     echo -ne "[$YELLOW * $NC] Installing missing firmware: $firmware..."
     if [[ "$firmware" == *".git" ]]; then
 
-        DIR="${firmware%.git}"
-        sudo -u "$USER" bash -c "
-
-            cd /tmp
-            [[ -e $DIR ]] && rm -rf $DIR
-            git clone https://aur.archlinux.org/$firmware &> /dev/null
-            cd $DIR && makepkg -si --noconfirm &> /dev/null
-        "
-    else pacman -S --noconfirm "$firmware" &>"/dev/null"; fi
+        aur_install "$firmware"
+    else pacman -S --noconfirm --needed "$firmware" &>"/dev/null"; fi
 
     echo -e "\r[$GREEN + $NC] Installed missing firmware: $firmware    "
 done
+
+NUMLOCK_PKG="mkinitcpio-numlock"
+echo -ne "[$YELLOW * $NC] Installing $NUMLOCK_PKG..."
+
+aur_install "$NUMLOCK_PKG"
+echo -e "[$GREEN + $NC] Installed $NUMLOCK_PKG    "
+
 sed -i "s/$SUDO_NOPASSWD/# $SUDO_NOPASSWD/" "/etc/sudoers"
 set -e
-sed -i "s/# $SUDO_PASSWD/$SUDO_PASSWD/" "/etc/sudoers"

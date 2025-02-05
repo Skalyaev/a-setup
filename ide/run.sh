@@ -9,8 +9,6 @@ set -e
 
 DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
-# TODO: Fix VM GUI installation
-
 sudo echo &>/dev/null
 readarray -t PKGS <"$DIR/package.list"
 for pkg in "${PKGS[@]}"; do
@@ -23,9 +21,3 @@ done
 set +e
 cp -r "$DIR/home/"* "$DIR/home/."* "$HOME/." &>"/dev/null"
 set -e
-
-systemctl enable "gdm" &>"/dev/null"
-
-# https://github.com/lahwaacz/Scripts/blob/master/rmshit.py
-# https://aur.archlinux.org/packages/rmlint-git
-# intel-gpu-tools

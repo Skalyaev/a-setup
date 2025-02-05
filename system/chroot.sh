@@ -6,7 +6,6 @@ PINK='\033[0;35m'
 GRAY='\033[0;37m'
 NC='\033[0m'
 set -e
-# TODO: Detect chroot or exit
 
 CHARSET="UTF-8"
 LOCALLANG="fr_FR.$CHARSET"
@@ -14,6 +13,8 @@ LOCALTIME="/usr/share/zoneinfo/Europe/Paris"
 
 KEYMAP="fr-latin1"
 FONT="lat9w-16"
+
+# TODO: Detect chroot or exit
 
 ln -sf "$LOCALTIME" "/etc/localtime"
 hwclock --systohc >"/dev/null"
@@ -59,9 +60,14 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 "$DIR"/ramdisk.sh
 "$DIR"/grub.sh
 
+SUDO_PASSWD="%wheel ALL=(ALL:ALL) ALL"
+sed -i "s/# $SUDO_PASSWD/$SUDO_PASSWD/" "/etc/sudoers"
+
 systemctl enable "NetworkManager" &>"/dev/null"
 systemctl enable "systemd-timesyncd" &>"/dev/null"
-systemctl enable "sshd" &>"/dev/null"
+systemctl enable "paccache.timer" &>"/dev/null"
+
+cp "$DIR/profile.d/*" "/etc/profile.d/."
 
 echo -e "[$GREEN + $NC] Installation complete"
-echo "You can 'umount -R /mnt' and restart the system"
+echo "You can 'umount -R /mnt' -> 'shutdown now' -> Remove the installation media"

@@ -8,15 +8,19 @@ NC='\033[0m'
 set -e
 
 KEYBOARD="fr-latin1"
-PKGS=(
-    "base" "base-devel" "linux" "linux-firmware"
-    "lvm2" "intel-ucode" "grub" "efibootmgr"
-    "git" "networkmanager" "openssh"
-)
-DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
+DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
+readarray -t PKGS <"$DIR/package.list"
+
+if grep -iq "intel" "/proc/cpuinfo"; then
+    PKGS+=("intel-ucode")
+
+elif grep -iq "amd" "/proc/cpuinfo"; then
+    PKGS+=("amd-ucode")
+fi
 loadkeys "$KEYBOARD"
 "$DIR"/partition.sh
+[[ "$?" -ne 0 ]] && exit "$?"
 
 while ! ping -c 1 "archlinux.org" &>"/dev/null"; do
 

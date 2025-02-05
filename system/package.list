@@ -1,0 +1,13 @@
+base
+base-devel
+linux
+linux-firmware
+lvm2
+grub
+efibootmgr
+networkmanager
+openssh
+git
+pacman-contrib
+man-db
+man-pages-fr
