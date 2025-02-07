@@ -1,31 +1,33 @@
 #!/bin/bash
-RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
-PINK='\033[0;35m'
-GRAY='\033[0;37m'
 NC='\033[0m'
 set -e
+set -u
+sudo echo >"/dev/null"
 
 DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
+while read PKG; do
+
+    echo -ne "[$YELLOW * $NC] Installing '$PKG'..."
+
+    sudo pacman -S --noconfirm --needed "$PKG" &>"/dev/null"
+    echo -e "\r[$GREEN + $NC] '$PKG' installed    "
+
+done <"$DIR/pacman.list"
+
+while read SRC; do
+
+    DST="$HOME/$(sed "s=$DIR/home/==" <<<"$SRC")"
+
+    mkdir -p "$(dirname "$DST")"
+    ln -sf "$SRC" "$DST"
+
+done < <(find "$DIR/home" -type "f")
+
 # TODO: Fix VM GUI installation
-
-sudo echo &>/dev/null
-readarray -t PKGS <"$DIR/package.list"
-for pkg in "${PKGS[@]}"; do
-
-    echo -ne "[$YELLOW * $NC] Installing '$pkg'..."
-
-    sudo pacman -S --noconfirm --needed "$pkg" &>"/dev/null"
-    echo -e "\r[$GREEN + $NC] '$pkg' installed    "
-done
-set +e
-cp -r "$DIR/home/"* "$DIR/home/."* "$HOME/." &>"/dev/null"
-set -e
-
-systemctl enable "gdm" &>"/dev/null"
-
+# systemctl enable "gdm" &>"/dev/null"
 # https://github.com/lahwaacz/Scripts/blob/master/rmshit.py
 # https://aur.archlinux.org/packages/rmlint-git
 # intel-gpu-tools

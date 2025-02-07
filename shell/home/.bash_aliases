@@ -1,5 +1,7 @@
 # FILE SYSTEM
 # ===========
+alias ch='chmod '
+
 alias f='find'
 alias fd='find . -type d'
 alias ff='find . -type f'
@@ -26,6 +28,8 @@ else
     alias lla='ls -lA'
     alias lF='ls -F'
 fi
+
+alias mk='mkdir -p'
 alias r='rm'
 alias rr='rm -r'
 alias rf='rm -f'
@@ -33,11 +37,6 @@ alias rrf='rm -rf'
 
 # STRING MANIPULATION
 # ===================
-alias e='echo'
-alias en='echo -n'
-alias ee='echo -e'
-alias ene='echo -ne'
-
 if [[ -x "/usr/bin/dircolors" ]]; then
 
     alias grep='grep --color=auto'
@@ -51,12 +50,14 @@ else
     alias gi='grep -i'
     alias gvi='grep -vi'
 fi
-alias x='xargs'
-alias xi='xargs -I {}'
 
 # MISCELLANEOUS
 # =============
 alias c='clear'
+alias jzero='journalctl --vacuum-size=1'
+
+alias x='xargs'
+alias xi='xargs -I {}'
 
 alias pacs='sudo pacman -S --needed --noconfirm'
 alias pacu='sudo pacman -Syu --noconfirm'
@@ -71,9 +72,4 @@ alias v='nvim'
 alias py='python3'
 alias pyc='python3 -c'
 
-if [[ -x "/usr/bin/dircolors" ]]; then
-
-    alias ip='ip --color=auto'
-    alias diff='diff --color=auto'
-    alias less='less --color=auto'
-fi
+[[ -x "/usr/bin/dircolors" ]] && alias ip='ip -color=auto'

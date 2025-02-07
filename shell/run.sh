@@ -1,26 +1,33 @@
 #!/bin/bash
-RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
-PINK='\033[0;35m'
-GRAY='\033[0;37m'
 NC='\033[0m'
 set -e
+set -u
+sudo echo >"/dev/null"
 
 DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
-sudo echo &>/dev/null
-readarray -t PKGS <"$DIR/package.list"
-for pkg in "${PKGS[@]}"; do
+while read PKG; do
 
-    echo -ne "[$YELLOW * $NC] Installing '$pkg'..."
+    echo -ne "[$YELLOW * $NC] Installing '$PKG'..."
 
-    sudo pacman -S --noconfirm --needed "$pkg" &>"/dev/null"
-    echo -e "\r[$GREEN + $NC] '$pkg' installed    "
-done
-set +e
-cp -r "$DIR/home/"* "$DIR/home/."* "$HOME/." &>"/dev/null"
-set -e
+    sudo pacman -S --noconfirm --needed "$PKG" &>"/dev/null"
+    echo -e "\r[$GREEN + $NC] '$PKG' installed    "
 
-sudo pkgfile -u
+done <"$DIR/pacman.list"
+
+while read SRC; do
+
+    DST="$HOME/$(sed "s=$DIR/home/==" <<<"$SRC")"
+
+    mkdir -p "$(dirname "$DST")"
+    ln -sf "$SRC" "$DST"
+
+done < <(find "$DIR/home" -type "f")
+
 sudo sed -i 's/#Color/Color/g' "/etc/pacman.conf"
+echo -e "[$GREEN + $NC] Updating package database..."
+
+sudo pkgfile -u >"/dev/null"
+echo -e "[$GREEN + $NC] Package database updated    "
