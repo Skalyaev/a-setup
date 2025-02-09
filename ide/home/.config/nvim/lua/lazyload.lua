@@ -20,6 +20,7 @@ require("lazy").setup({
     spec = { { import = "plugins" } },
     install = { colorscheme = { "neon" } },
     checker = { enabled = true },
-    change_detection = { notify = false }
+    change_detection = { notify = false },
+    ui = { border = "single" }
 })
 vim.keymap.set("n", "<leader>l", ":Lazy<CR>")

@@ -5,9 +5,9 @@ return {
     cmd = "NERDTreeToggle",
     init = function()
 
-        vim.g.NERDTreeWinSize = 20
-        vim.g.NERDTreeShowHidden = 1
+        vim.g.NERDTreeWinSize = 24
         vim.g.NERDTreeMinimalUI = 1
+        vim.g.NERDTreeShowHidden = 1
         vim.g.NERDTreeChDirMode = 3
         vim.g.NERDTreeCascadeSingleChildDir = 0
 

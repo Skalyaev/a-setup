@@ -2,21 +2,17 @@ return {
 
     "neovim/nvim-lspconfig",
     dependencies = { "hrsh7th/nvim-cmp" },
-    lazy = true,
-    event = "BufReadPre",
     init = function()
 
         vim.g.markdown_fenced_languages = { "ts=typescript" }
+        --  Required for 'denols' language server
     end,
     config = function()
 
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
-        capabilities.textDocument.foldingRange = {
-
-            dynamicRegistration = false,
-            lineFoldingOnly = true
-        }
         local cnf = require("lspconfig")
+        local cmp = require("cmp_nvim_lsp")
+
+        local capabilities = cmp.default_capabilities()
         cnf.util.default_config = vim.tbl_extend(
 
             "force", cnf.util.default_config,
