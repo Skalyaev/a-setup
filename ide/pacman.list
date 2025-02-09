@@ -10,6 +10,7 @@ perl
 cpanminus
 ripgrep
 fd
+bc
 nerd-fonts
 tree-sitter-cli
 lua-language-server

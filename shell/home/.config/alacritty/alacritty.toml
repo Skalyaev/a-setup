@@ -1,0 +1,42 @@
+[window]
+padding = { x = 16, y = 16 }
+opacity = 0.90
+
+[cursor]
+style = { blinking = "On" }
+blink_interval = 400
+blink_timeout = 0
+
+[colors.primary]
+foreground = "#ffffff"
+background = "#000000"
+
+[colors.normal]
+black = "#404040"
+red = "#cc4040"
+green = "#40cc40"
+yellow = "#cccc40"
+blue = "#4040cc"
+magenta = "#cc40cc"
+cyan = "#40cccc"
+white = "#cccccc"
+
+
+[keyboard]
+bindings = [
+{ key = "Numpad1", chars = "1" },
+{ key = "Numpad2", chars = "2" },
+{ key = "Numpad3", chars = "3" },
+{ key = "Numpad4", chars = "4" },
+{ key = "Numpad5", chars = "5" },
+{ key = "Numpad6", chars = "6" },
+{ key = "Numpad7", chars = "7" },
+{ key = "Numpad8", chars = "8" },
+{ key = "Numpad9", chars = "9" },
+{ key = "Numpad0", chars = "0" },
+{ key = "NumpadAdd", chars = "+" },
+{ key = "NumpadSubtract", chars = "-" },
+{ key = "NumpadMultiply", chars = "*" },
+{ key = "NumpadDivide", chars = "/" },
+{ key = "NumpadDecimal", chars = "." },
+]

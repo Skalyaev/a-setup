@@ -21,6 +21,7 @@ mapfile -t DISKS < <(lsblk -d -o "NAME,SIZE" | tail -n "+2")
 NAMES=()
 SIZES=()
 echo
+
 for disk in "${DISKS[@]}"; do
 
     read NAME SIZE <<<"$disk"

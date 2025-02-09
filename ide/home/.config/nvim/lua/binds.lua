@@ -33,7 +33,8 @@ vim.keymap.set("n", "<M-Q>", "<C-w>H")
 vim.keymap.set("n", "<M-d>", "<C-w>l")
 vim.keymap.set("n", "<M-D>", "<C-w>L")
 
-vim.keymap.set("n", "<leader>i", ":Inspect<CR>")
+--vim.keymap.set("n", "<leader>i", ":Inspect<CR>")
+vim.keymap.set("n", "&", ":Inspect<CR>")
 vim.keymap.set("n", "<leader>,", '/[^\\d0-\\d127]<CR>')
 
 vim.keymap.set("n", "<leader>1", ":e ~/.config/nvim/lua/binds.lua<CR>")

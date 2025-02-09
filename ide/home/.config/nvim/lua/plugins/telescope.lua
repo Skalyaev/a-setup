@@ -18,12 +18,13 @@ return {
                 no_ignore = true,
                 no_ignore_parent = true
             }
-            local pickers = { find_files = find_files }
+            telescope.setup({
 
-            telescope.setup({ pickers = pickers })
+                pickers = { find_files = find_files },
+                defaults = { layout_strategy = "vertical" }
+            })
             telescope.load_extension("fzf")
             telescope.load_extension("media_files")
-
 
             local builtin = require("telescope.builtin")
             vim.keymap.set("n", "<leader>f", builtin.find_files, {})
