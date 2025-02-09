@@ -37,9 +37,7 @@ bindings = [
 { key = "NumpadSubtract", chars = "-" },
 { key = "NumpadMultiply", chars = "*" },
 { key = "NumpadDivide", chars = "/" },
-{ key = "NumpadDecimal", chars = "." },
-{ key = "l", mods = "Control", action = "None" },
-{ key = "x", mods = "Control", chars = "\u000c" },
+{ key = "NumpadDecimal", chars = "." }
 ]
 
 [env]

@@ -26,4 +26,5 @@ while true; do
     0) exit ;;
     *) echo -e "[$RED - $NC] Invalid selection" ;;
     esac
+    [[ "$?" -ne 0 ]] && exit "$?"
 done

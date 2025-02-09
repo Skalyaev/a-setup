@@ -14,7 +14,7 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 while ! ping -c 1 "archlinux.org" &>"/dev/null"; do
 
     echo -e "\n[$RED - $NC] Connection required"
-    echo -e "\n[$YELLOW * $NC] Running 'iwctl'"
+    echo -e "[$YELLOW * $NC] Running 'iwctl'"
     iwctl
 done
 readarray -t PKGS <"$DIR/pacman.list"
@@ -33,7 +33,7 @@ for pkg in "${PKGS[@]}"; do
     pacstrap -K "/mnt" "$pkg" >"/dev/null"
     echo -e "\r[$GREEN + $NC] '$pkg' installed    "
 done
-genfstab -U "/mnt" >>"/mnt/etc/fstab" # TODO: Check for '>' instead of '>>'
+genfstab -U "/mnt" >>"/mnt/etc/fstab"
 cp -r "$DIR/.." "/mnt/root/setup"
 
 echo -e "[$GREEN + $NC] Installation successful, chrooting"

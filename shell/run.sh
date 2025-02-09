@@ -12,7 +12,7 @@ while read PKG; do
 
     echo -ne "[$YELLOW * $NC] Installing '$PKG'..."
 
-    sudo pacman -S --noconfirm --needed "$PKG" &>"/dev/null"
+    sudo pacman -S --noconfirm --needed "$PKG" >"/dev/null"
     echo -e "\r[$GREEN + $NC] '$PKG' installed    "
 
 done <"$DIR/pacman.list"

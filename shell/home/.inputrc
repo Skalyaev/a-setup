@@ -9,3 +9,4 @@ set menu-complete-display-prefix On
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 "\C-h": backward-kill-word
+"\C-x": "\C-l"

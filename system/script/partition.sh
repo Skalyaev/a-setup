@@ -80,7 +80,7 @@ SIZE_LEFT="$((SIZE - BOOT_SIZE * 2 - TMP_SIZE - SWAP_SIZE))"
 VAR_SIZE="$((SIZE_LEFT * VAR_SIZE_PERCENTAGE / 100))"
 HOME_SIZE="$((SIZE_LEFT * HOME_SIZE_PERCENTAGE / 100))"
 
-echo -ne "[$YELLOW * $NC] Partitioning..."
+echo -ne "\n[$YELLOW * $NC] Creating partitions..."
 set +e
 fdisk "$DISK" <<EOF &>"/dev/null"
 g
@@ -90,9 +90,14 @@ $(echo -e "n\n\n\n+${SWAP_SIZE}M\nY\nt\n\n$TYPE_SWAP\n")
 $(echo -e "n\n\n\n\nY\nt\n\n$TYPE_LVM\n")
 w
 EOF
+echo -e "\r[$GREEN + $NC] Partitions created    "
+echo -ne "[$YELLOW * $NC] Setting LVM..."
 
-[[ "$DISK" == "/dev/nvm"* ]] && PREFIX="p"
-
+if [[ "$DISK" == "/dev/nvme"* ]]; then
+    PREFIX="p"
+else
+    PREFIX=""
+fi
 BOOT_EFI_PARTITION="${DISK}${PREFIX}1"
 BOOT_PARTITION="${DISK}${PREFIX}2"
 SWAP_PARTITION="${DISK}${PREFIX}3"
@@ -101,8 +106,6 @@ LVM_PARTITION="${DISK}${PREFIX}4"
 mkswap "$SWAP_PARTITION" >"/dev/null"
 mkfs.ext4 "$BOOT_PARTITION" >"/dev/null"
 mkfs.fat -F32 "$BOOT_EFI_PARTITION" >"/dev/null"
-
-echo -e "\r[$GREEN + $NC] Partitions created"
 
 pvcreate "$LVM_PARTITION" >"/dev/null"
 vgcreate "$LVM_NAME" "$LVM_PARTITION" >"/dev/null"
@@ -117,7 +120,8 @@ mkfs.ext4 "/dev/${LVM_NAME}/home" >"/dev/null"
 mkfs.ext4 "/dev/${LVM_NAME}/var" >"/dev/null"
 mkfs.ext4 "/dev/${LVM_NAME}/tmp" >"/dev/null"
 
-echo -e "[$GREEN + $NC] LVM set"
+echo -e "\r[$GREEN + $NC] LVM set       "
+echo -ne "[$YELLOW * $NC] Mounting partitions..."
 
 mount "/dev/${LVM_NAME}/root" "/mnt" >"/dev/null"
 mount --mkdir "/dev/${LVM_NAME}/var" "/mnt/var" >"/dev/null"
@@ -127,5 +131,5 @@ mount --mkdir "$BOOT_PARTITION" "/mnt/boot" >"/dev/null"
 mount --mkdir "$BOOT_EFI_PARTITION" "/mnt/boot/efi" >"/dev/null"
 swapon "$SWAP_PARTITION" >"/dev/null"
 
-echo -e "[$GREEN + $NC] Partitions mounted"
+echo -e "\r[$GREEN + $NC] Partitions mounted    "
 set -e

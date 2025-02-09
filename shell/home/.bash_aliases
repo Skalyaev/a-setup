@@ -60,8 +60,9 @@ alias x='xargs'
 alias xi='xargs -I {}'
 
 alias pacs='sudo pacman -S --needed --noconfirm'
-alias pacu='sudo pacman -Syu --noconfirm'
 alias pacr='sudo pacman -Rs --noconfirm'
+alias pacu='sudo pacman -Syu --noconfirm'
+alias paclean='sudo pacman -Rns $(pacman -Qdtq) --noconfirm'
 
 alias gits='git status'
 alias gita='git add'

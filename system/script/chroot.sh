@@ -13,7 +13,7 @@ LOCALTIME="/usr/share/zoneinfo/Europe/Paris"
 KEYMAP="fr-latin1"
 FONT="lat9w-16"
 
-# TODO: Detect chroot or exit
+grep -q "chroot" < <(systemctl list-units 2>&1) || exit
 
 ln -sf "$LOCALTIME" "/etc/localtime"
 hwclock --systohc >"/dev/null"
@@ -48,7 +48,7 @@ while true; do
 done
 USERNAME="$ANSWER"
 
-id "$USERNAME" >"/dev/null" ||
+id "$USERNAME" &>"/dev/null" ||
     useradd -m -g "users" -G "wheel" "$USERNAME" >"/dev/null"
 
 echo -e "[$GRAY \$ $NC] User password: "
@@ -59,10 +59,7 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 "$DIR"/initramfs.sh
 "$DIR"/grub.sh
 
-SUDO_PASSWD="%wheel ALL=(ALL:ALL) ALL"
-sed -i "s/# $SUDO_PASSWD/$SUDO_PASSWD/" "/etc/sudoers"
-
-cp "$DIR/profile.d/*" "/etc/profile.d/."
+cp "$DIR/../sudoers.d/"* "/etc/sudoers.d/".
 
 systemctl enable "NetworkManager" >"/dev/null"
 systemctl enable "systemd-timesyncd" >"/dev/null"
@@ -70,4 +67,4 @@ systemctl enable "paccache.timer" >"/dev/null"
 systemctl enable "cronie" >"/dev/null"
 
 echo -e "[$GREEN + $NC] Installation complete"
-echo "You can 'umount -R /mnt' -> 'shutdown now' -> Remove the installation media"
+echo "You can 'umount -R /mnt && shutdown now' and remove the installation media"

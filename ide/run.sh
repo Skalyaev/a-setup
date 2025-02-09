@@ -12,7 +12,7 @@ while read PKG; do
 
     echo -ne "[$YELLOW * $NC] Installing '$PKG'..."
 
-    sudo pacman -S --noconfirm --needed "$PKG" &>"/dev/null"
+    sudo pacman -S --noconfirm --needed "$PKG" >"/dev/null"
     echo -e "\r[$GREEN + $NC] '$PKG' installed    "
 
 done <"$DIR/pacman.list"
@@ -45,7 +45,7 @@ while read PKG; do
 
     echo -ne "[$YELLOW * $NC] Installing npm '$PKG'..."
 
-    npm install -g "$PKG" >"/dev/null"
+    sudo npm install -g "$PKG" >"/dev/null"
     echo -e "\r[$GREEN + $NC] npm '$PKG' installed    "
 
 done <"$DIR/npm.list"
@@ -63,7 +63,7 @@ while read PKG; do
 
     echo -ne "[$YELLOW * $NC] Installing perl '$PKG'..."
 
-    cpanm "$PKG" >"/dev/null"
+    cpanm --force "$PKG"
     echo -e "\r[$GREEN + $NC] perl '$PKG' installed    "
 
 done <"$DIR/cpanm.list"
@@ -75,7 +75,7 @@ while read PKG; do
     echo -ne "[$YELLOW * $NC] Cloning '$PKG'..."
 
     [[ -e "$PKG" ]] ||
-        git clone "https://aur.archlinux.org/$PKG" &>"/dev/null"
+        git clone "https://aur.archlinux.org/$PKG" >"/dev/null"
 
     echo -e "\r[$GREEN + $NC] '$PKG' cloned, runing 'makepkg'..."
     cd "$PKG"
@@ -84,7 +84,7 @@ while read PKG; do
         echo 'makepkg -si --noconfirm' >.install.sh
         chmod +x .install.sh
     fi
-    ./.install.sh &>"/dev/null"
+    ./.install.sh >"/dev/null"
 
 done <"$DIR/aur.list"
 

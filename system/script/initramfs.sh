@@ -7,6 +7,45 @@ set -e
 set -u
 
 GIT_DIR="/usr/local/src/github"
+SUDO_NOPASSWD="%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
+
+USERS="$(getent group "wheel" | cut -d ":" -f "4")"
+USR="$(cut -d ":" -f "1" <<<"$USERS")"
+USR="$(cut -d "," -f "1" <<<"$USR")"
+
+aur_install() {
+    local firmware="$1"
+    local dir="${firmware%.git}"
+
+    sudo -u "$USR" bash -c "
+
+        cd '$GIT_DIR'
+        echo -ne '[$YELLOW * $NC] Cloning $firmware...'
+        [[ -e '$dir' ]] ||
+            git clone 'https://aur.archlinux.org/$firmware' >'/dev/null'
+
+        echo -e '\r[$GREEN + $NC] $firmware cloned, running makepkg...'
+        cd '$dir'
+        if [[ ! -x .install.sh ]]; then
+
+            echo 'makepkg -si --noconfirm' >.install.sh
+            chmod +x .install.sh
+        fi
+        ./.install.sh
+    "
+}
+mkdir -p "$GIT_DIR" && chown "$USR:wheel" "$GIT_DIR"
+
+sed -i "s/# $SUDO_NOPASSWD/$SUDO_NOPASSWD/" "/etc/sudoers"
+set +e
+echo -ne "\n[$YELLOW * $NC] Creating initramfs..."
+
+PATTERN="(?<=WARNING: Possibly missing firmware for module: ')[^']+"
+MISSING="$(grep -oP "$PATTERN" <<<"$(aur_install "mkinitcpio-numlock.git" 2>&1)")"
+
+echo -e "\r[$GREEN + $NC] Created initramfs    "
+sed -i "s/$SUDO_NOPASSWD/# $SUDO_NOPASSWD/" "/etc/sudoers"
+set -e
 declare -A FIRMWARE_MAP=(
 
     [aic94xx]="aic94xx-firmware.git"
@@ -26,12 +65,6 @@ declare -A FIRMWARE_MAP=(
 sed -i "s/block filesystems/block lvm2 filesystems/" "/etc/mkinitcpio.conf"
 sed -i "s/consolefont block/consolefont numlock block/" "/etc/mkinitcpio.conf"
 
-echo -ne "\n[$YELLOW * $NC] Creating initramfs..."
-PATTERN="(?<=WARNING: Possibly missing firmware for module: ')[^']+"
-
-MISSING="$(grep -oP "$PATTERN" <<<"$(mkinitcpio -P 2>&1)")"
-echo -e "\r[$GREEN + $NC] Created initramfs    "
-
 BUFFER=()
 while read MODULE; do
 
@@ -46,46 +79,18 @@ while read MODULE; do
 done <<<"$MISSING"
 MISSING="$(printf "%s\n" "${BUFFER[@]}" | sort -u)"
 
-USERS="$(getent group "wheel" | cut -d ":" -f "4")"
-USR="$(cut -d ":" -f "1" <<<"$USERS")"
-
-aur_install() {
-    local firmware="$1"
-    local dir="${firmware%.git}"
-
-    sudo -u "$USR" bash -c "
-
-        cd '$GIT_DIR'
-        echo -ne '[$YELLOW * $NC] Cloning $firmware...'
-        [[ -e '$dir' ]] ||
-            git clone 'https://aur.archlinux.org/$firmware' &>'/dev/null'
-
-        echo -e '\r[$GREEN + $NC] $firmware cloned, running makepkg...'
-        cd '$dir'
-        if [[ ! -x .install.sh ]]; then
-
-            echo 'makepkg -si --noconfirm' >.install.sh
-            chmod +x .install.sh
-        fi
-        ./.install.sh
-    "
-}
-mkdir -p "$GIT_DIR" && chown "$USR:$USR" "$GIT_DIR"
-
-SUDO_NOPASSWD="%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
 sed -i "s/# $SUDO_NOPASSWD/$SUDO_NOPASSWD/" "/etc/sudoers"
 set +e
-for firmware in ${MISSING[@]} "mkinitcpio-numlock.git"; do
+for firmware in ${MISSING[@]}; do
+
+    echo -ne "[$YELLOW * $NC] Installing missing firmware: $firmware..."
 
     if [[ "$firmware" == *".git" ]]; then
 
-        aur_install "$firmware"
-    else
-        echo -ne "[$YELLOW * $NC] Installing missing firmware: $firmware..."
+        aur_install "$firmware" >"/dev/null"
+    else pacman -S --noconfirm --needed "$firmware" >"/dev/null"; fi
 
-        pacman -S --noconfirm --needed "$firmware" &>"/dev/null"
-        echo -e "\r[$GREEN + $NC] Installed missing firmware: $firmware    "
-    fi
+    echo -e "\r[$GREEN + $NC] Installed missing firmware: $firmware    "
 done
 sed -i "s/$SUDO_NOPASSWD/# $SUDO_NOPASSWD/" "/etc/sudoers"
 set -e

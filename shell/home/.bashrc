@@ -9,10 +9,10 @@ shopt -s "dirspell"     # Correct spelling errors during directory change
 shopt -s "autocd"       # Change to directory without cd
 shopt -s "cmdhist"      # Save multi-line commands as one command
 
-export PATH="$PATH:$HOME/go/bin"
-export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
 export PATH="$PATH:$HOME/perl5/bin"
+export PATH="$PATH:$HOME/go/bin"
 
 export HISTCONTROL="ignoreboth" # Ignore duplicates and commands starting with space
 export HISTSIZE=2000            # Number of commands to remember in history
@@ -66,7 +66,7 @@ NC="\[\033[00m\]"
 P1="\u$GRAY@$NC\h$GRAY"       # User@Host
 P2="-[$NC\t$GRAY]"            # Time
 P3="-[$NC\w$GRAY]$NC"         # Working directory
-P4="$GRAY[$NC\$?$GRAY]\$$NC " # Exit code and prompt
+P4="$GRAY[$NC\$?$GRAY]\$$NC " # Exit code & Prompt
 
 PS1="$P1$P2$P3\n$P4"
 unset GRAY NC P1 P2 P3 P4
