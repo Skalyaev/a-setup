@@ -1,6 +1,6 @@
 [window]
 padding = { x = 16, y = 16 }
-opacity = 0.90
+opacity = 0.88
 
 [cursor]
 style = { blinking = "On" }
@@ -21,7 +21,6 @@ magenta = "#cc40cc"
 cyan = "#40cccc"
 white = "#cccccc"
 
-
 [keyboard]
 bindings = [
 { key = "Numpad1", chars = "1" },
@@ -39,4 +38,9 @@ bindings = [
 { key = "NumpadMultiply", chars = "*" },
 { key = "NumpadDivide", chars = "/" },
 { key = "NumpadDecimal", chars = "." },
+{ key = "l", mods = "Control", action = "None" },
+{ key = "x", mods = "Control", chars = "\u000c" },
 ]
+
+[env]
+TERM = "xterm-256color"
