@@ -1,0 +1,12 @@
+$include /etc/inputrc
+
+set show-all-if-ambiguous On
+set completion-ignore-case On
+
+set colored-completion-prefix On
+set menu-complete-display-prefix On
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\C-\b": backward-kill-word
+"\C-x": "\C-l"

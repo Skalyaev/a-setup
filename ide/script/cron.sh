@@ -11,16 +11,13 @@ TASKLIST=(
 TASKS="$(crontab -l 2>"/dev/null")"
 for TASK in "${TASKLIST[@]}"; do
 
-    if [[ -z "$TASKS" ]] || ! grep -qF "$TASK" <<<"$TASKS" >"/dev/null"; then
+    [[ -n "$TASKS" ]] && grep -qF "$TASK" <<<"$TASKS" && continue
 
-        [[ -n "$TASKS" ]] && TASKS="$TASKS\n"
+    NAME="$(cut -d " " -f "6-" <<<"$TASK")"
+    echo -ne "[$YELLOW * $NC] Setting '$NAME' cronjob..."
 
-        NAME="$(cut -d' ' -f6- <<<"$TASK")"
-        echo -ne "[$YELLOW * $NC] Setting '$NAME' cronjob..."
+    crontab - <<<"$TASKS\n$TASK" &>"/dev/null"
+    echo -e "\r[$GREEN + $NC] '$NAME' cronjob set       "
 
-        echo -e "$TASKS$TASK" | crontab - >"/dev/null"
-        echo -e "\r[$GREEN + $NC] '$NAME' cronjob set       "
-
-        TASKS="$(crontab -l 2>"/dev/null")"
-    fi
+    TASKS="$(crontab -l 2>"/dev/null")"
 done

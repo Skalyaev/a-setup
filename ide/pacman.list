@@ -1,12 +1,6 @@
 neovim
 python-pip
 nodejs
-npm
-lua51
-luarocks
-ruby
-perl
-cpanminus
 ripgrep
 fd
 bc
