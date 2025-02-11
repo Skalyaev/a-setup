@@ -17,8 +17,7 @@ while read SRC; do
 
 done < <(find "$RSRC" -type "f")
 
-echo
-sudo echo >"/dev/null"
+sudo echo
 while read PKG; do
 
     pacman -Qi "$PKG" &>"/dev/null" && continue

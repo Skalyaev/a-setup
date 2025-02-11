@@ -5,6 +5,8 @@ NC='\033[0m'
 set -e
 set -u
 
+echo
+sudo localectl "set-x11-keymap" "fr"
 DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
 RSRC="$DIR/rsrc"
@@ -17,7 +19,6 @@ while read SRC; do
 
 done < <(find "$RSRC" -type "f")
 
-echo
 sudo echo >"/dev/null"
 while read PKG; do
 
@@ -49,7 +50,8 @@ while read PKG; do
 
 done <"$DIR/aur.list"
 
-"$DIR"/script/gsetting.sh
+"$DIR"/script/font.sh
+"$DIR"/script/gsetting/_run_.sh
 
 systemctl enable "gdm"
 echo -e "[$GREEN + $NC] Installation complete"

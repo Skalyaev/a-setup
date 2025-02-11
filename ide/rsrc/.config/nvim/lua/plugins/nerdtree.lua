@@ -10,6 +10,7 @@ return {
         vim.g.NERDTreeShowHidden = 1
         vim.g.NERDTreeChDirMode = 3
         vim.g.NERDTreeCascadeSingleChildDir = 0
+        vim.g.NERDTreeBookmarksFile = "/dev/null"
 
         vim.keymap.set("n", "²", ":NERDTreeToggle<CR>")
         vim.keymap.set("n", "~", ":NERDTreeFocus<CR>")

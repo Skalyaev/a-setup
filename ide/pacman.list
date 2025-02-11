@@ -4,7 +4,6 @@ nodejs
 ripgrep
 fd
 bc
-nerd-fonts
 tree-sitter-cli
 lua-language-server
 bash-language-server

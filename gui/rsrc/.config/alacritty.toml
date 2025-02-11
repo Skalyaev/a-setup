@@ -2,6 +2,10 @@
 padding = { x = 16, y = 16 }
 opacity = 0.88
 
+[font]
+normal = { family = "Red Hat Mono", style = "Regular" }
+size = 11
+
 [cursor]
 style = { blinking = "On" }
 blink_interval = 400
