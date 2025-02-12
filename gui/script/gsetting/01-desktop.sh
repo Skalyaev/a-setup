@@ -8,6 +8,7 @@ FONT_DISPLAY="Red Hat Display 11"
 FONT_TEXT="Red Hat Text 11"
 FONT_MONO="Red Hat Mono 11"
 
+ICONS="candy-icons"
 BACKGROUND="$HOME/document/media/image/background.jpeg"
 
 cat <<EOF | sudo tee "$DCONF" &>"/dev/null"
@@ -18,6 +19,7 @@ font-name='$FONT_DISPLAY'
 document-font-name='$FONT_TEXT'
 monospace-font-name='$FONT_MONO'
 enable-hot-corners=false
+icon-theme='$ICONS'
 
 [org/gnome/desktop/background]
 picture-uri='file://$BACKGROUND'
