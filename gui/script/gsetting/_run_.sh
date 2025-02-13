@@ -11,7 +11,6 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 "$DIR"/01-desktop.sh "$DCONF"
 "$DIR"/02-shell.sh "$DCONF"
 "$DIR"/03-builtin.sh "$DCONF"
-"$DIR"/custom_keybind.sh
 
 PROFILE="/etc/dconf/profile"
 sudo mkdir -p "$PROFILE"

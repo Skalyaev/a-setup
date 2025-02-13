@@ -1,15 +1,14 @@
 #!/bin/bash
 sudo pacman -Syu --noconfirm
-pkgfile -u
+sudo pkgfile -u
 
 ORPHANS="$(pacman -Qdtq)"
 [[ -n "$ORPHANS" ]] && sudo pacman -Rns "$ORPHANS" --noconfirm
 
 pip install --upgrade pip
-pip list --outdated |
-    tail -n+3 |
-    grep -v "notice" |
-    cut -d'=' -f1 |
+
+OUTDATED="$(pip list --outdated | tail -n "+3" | grep -v "notice")"
+[[ -n "$OUTDATED" ]] && cut -d " " -f1 <<< "$OUTDATED" |
     xargs pip install --upgrade
 
 GIT_DIR="/usr/local/src/github"
@@ -22,6 +21,6 @@ while read DIR; do
 
     ./.install.sh
 
-done < <(find "$1" -maxdepth "1" -mindepth "1" -type "d" -name ".git")
+done < <(find "$1" -maxdepth "1" -mindepth "1" -type "d" -name ".git" 2>"/dev/null")
 
 rmshit

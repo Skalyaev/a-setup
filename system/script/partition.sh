@@ -136,7 +136,12 @@ echo -ne "[$YELLOW * $NC] Setting LVM..."
 
 LVM_NAME="vg0"
 
-pvcreate -y -ff "$LVM_PARTITION" &>"/dev/null"
+while ! pvcreate -ffy "$LVM_PARTITION" &>"/dev/null"; do
+
+    swapoff -a &>"/dev/null"
+    vgchange -an &>"/dev/null"
+    parted -s "$DISK" "mklabel" "gpt" &>"/dev/null"
+done
 vgcreate "$LVM_NAME" "$LVM_PARTITION" &>"/dev/null"
 
 lvcreate -y -L "${VAR_SIZE}M" "$LVM_NAME" -n "var" &>"/dev/null"
