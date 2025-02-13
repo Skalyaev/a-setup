@@ -82,17 +82,17 @@ ask_size() {
     local idx="$3"
     while true; do
 
-        echo -ne "[$GRAY \$ $NC] Size for $name (default: $((size / 1024))G): " >&2
+        echo -ne "[$GRAY \$ $NC] Size for $name (default: ${size}G): " >&2
         read ANSWER
         if [[ -n "$ANSWER" && ! "$ANSWER" =~ ^[0-9]+$ ]]; then
 
             echo -e "[$RED - $NC] Invalid size" >&2
             continue
         fi
-        ANSWER="$((ANSWER * 1024))"
         ANSWER="${ANSWER:-$size}"
+        ANSWER="$((ANSWER * 1024))"
 
-        if [[ "$ANSWER" -lt 8192 || "$ANSWER" -gt "$((size * idx))" ]]; then
+        if [[ "$ANSWER" -lt 8192 || "$ANSWER" -gt "$((size * idx * 1024))" ]]; then
 
             echo -e "[$RED - $NC] Invalid size" >&2
             continue
@@ -102,8 +102,8 @@ ask_size() {
     done
     echo "$size"
 }
-VAR_SIZE="$(ask_size "var" "$VAR_SIZE" 2)"
-HOME_SIZE="$(ask_size "home" "$HOME_SIZE" 1)"
+VAR_SIZE="$(ask_size "var" "(($VAR_SIZE / 1024))" 2)"
+HOME_SIZE="$(ask_size "home" "$((HOME_SIZE / 1024))" 1)"
 
 echo -ne "\n[$YELLOW * $NC] Creating partitions..."
 set +e
@@ -136,13 +136,13 @@ echo -ne "[$YELLOW * $NC] Setting LVM..."
 
 LVM_NAME="vg0"
 
-pvcreate "$LVM_PARTITION" &>"/dev/null"
+pvcreate -y -ff "$LVM_PARTITION" &>"/dev/null"
 vgcreate "$LVM_NAME" "$LVM_PARTITION" &>"/dev/null"
 
-lvcreate -L "${VAR_SIZE}M" "$LVM_NAME" -n "var" &>"/dev/null"
-lvcreate -L "${HOME_SIZE}M" "$LVM_NAME" -n "home" &>"/dev/null"
-lvcreate -L "${TMP_SIZE}M" "$LVM_NAME" -n "tmp" &>"/dev/null"
-lvcreate -l "100%FREE" "$LVM_NAME" -n "root" &>"/dev/null"
+lvcreate -y -L "${VAR_SIZE}M" "$LVM_NAME" -n "var" &>"/dev/null"
+lvcreate -y -L "${HOME_SIZE}M" "$LVM_NAME" -n "home" &>"/dev/null"
+lvcreate -y -L "${TMP_SIZE}M" "$LVM_NAME" -n "tmp" &>"/dev/null"
+lvcreate -y -l "100%FREE" "$LVM_NAME" -n "root" &>"/dev/null"
 
 mkfs.ext4 "/dev/$LVM_NAME/root" &>"/dev/null"
 mkfs.ext4 "/dev/$LVM_NAME/home" &>"/dev/null"

@@ -13,11 +13,17 @@ RSRC="$DIR/rsrc"
 while read SRC; do
 
     DST="$(sed "s=$RSRC=$HOME=" <<<"$SRC")"
+    DIRNAME="$(dirname "$DST")"
 
-    mkdir -p "$(dirname "$DST")"
+    [[ -e "$DIRNAME" ]] || mkdir -p "$DIRNAME"
     ln -sf "$SRC" "$DST"
 
 done < <(find "$RSRC" -type "f")
+
+echo -ne "[$YELLOW * $NC] Updating 'pacman' database..."
+
+sudo pacman -Syu --noconfirm &>"/dev/null"
+echo -e "\r[$GREEN + $NC] 'pacman' database updated    "
 
 while read PKG; do
 
@@ -33,3 +39,5 @@ echo -ne "[$YELLOW * $NC] Updating 'pkgfile' database..."
 
 sudo pkgfile -u &>"/dev/null"
 echo -e "\r[$GREEN + $NC] 'pkgfile' database updated    "
+
+echo -e "[$GREEN + $NC] Installation complete"

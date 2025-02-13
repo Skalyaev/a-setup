@@ -10,6 +10,8 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 "$DIR"/00-settings-daemon.sh "$DCONF"
 "$DIR"/01-desktop.sh "$DCONF"
 "$DIR"/02-shell.sh "$DCONF"
+"$DIR"/03-builtin.sh "$DCONF"
+"$DIR"/custom_keybind.sh
 
 PROFILE="/etc/dconf/profile"
 sudo mkdir -p "$PROFILE"
@@ -20,6 +22,6 @@ system-db:local
 EOF
 sudo dconf update
 
-STATE="$HOME/.local/state/gsettings-state"
+STATE="$HOME/.local/state/gsettings"
 mkdir -p "$(dirname "$STATE")"
 gsettings list-recursively >"$STATE"

@@ -1,7 +1,10 @@
 gnome
-alacritty
-wl-clipboard
-dconf-editor
 gnome-shell-extension-dash-to-panel
 gnome-shell-extension-arc-menu
 gnome-shell-extension-appindicator
+gnome-tweaks
+dconf-editor
+alacritty
+alacarte
+wl-clipboard
+firefox

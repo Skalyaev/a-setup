@@ -2,13 +2,10 @@
 while read DIR; do
 
     cd "$(dirname "$DIR")" || continue
-
-    git fetch 2>"$HOME/error.log" || continue
-    if git status | grep -q 'git pull'; then
-
-        git pull 2>"$HOME/error.log" || continue
-    fi
     exec 2>"$HOME/error.log"
+
+    git fetch || continue
+    if git status | grep -q 'git pull'; then git pull || continue; fi
 
     git add * .* || continue
     git commit -m "sync" || continue

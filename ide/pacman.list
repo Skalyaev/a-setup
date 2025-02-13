@@ -3,7 +3,6 @@ python-pip
 nodejs
 ripgrep
 fd
-bc
 tree-sitter-cli
 lua-language-server
 bash-language-server

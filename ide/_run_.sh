@@ -11,13 +11,20 @@ RSRC="$DIR/rsrc"
 while read SRC; do
 
     DST="$(sed "s=$RSRC=$HOME=" <<<"$SRC")"
+    DIRNAME="$(dirname "$DST")"
 
-    mkdir -p "$(dirname "$DST")"
+    [[ -e "$DIRNAME" ]] || mkdir -p "$DIRNAME"
     ln -sf "$SRC" "$DST"
 
 done < <(find "$RSRC" -type "f")
+echo
+sudo echo &>"/dev/null"
 
-sudo echo
+echo -ne "[$YELLOW * $NC] Updating 'pacman' database..."
+
+sudo pacman -Syu --noconfirm &>"/dev/null"
+echo -e "\r[$GREEN + $NC] 'pacman' database updated    "
+
 while read PKG; do
 
     pacman -Qi "$PKG" &>"/dev/null" && continue
@@ -36,7 +43,6 @@ if [[ ! -e "$PYENV" ]]; then
     python -m venv "$PYENV" &>"/dev/null"
     echo -e "\r[$GREEN + $NC] Local python environment created    "
 fi
-
 while read PKG; do
 
     pip show "$PKG" &>"/dev/null" && continue
@@ -67,4 +73,10 @@ while read PKG; do
 
 done <"$DIR/aur.list"
 
-while read SCRIPT; do "$SCRIPT"; done < <(find "$DIR/script" -name "*.sh")
+while read SCRIPT; do
+
+    "$SCRIPT"
+
+done < <(find "$DIR/script" -name "*.sh")
+
+echo -e "[$GREEN + $NC] Installation complete"

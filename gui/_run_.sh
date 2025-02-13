@@ -13,13 +13,18 @@ RSRC="$DIR/rsrc"
 while read SRC; do
 
     DST="$(sed "s=$RSRC=$HOME=" <<<"$SRC")"
+    DIRNAME="$(dirname "$DST")"
 
-    mkdir -p "$(dirname "$DST")"
+    [[ -e "$DIRNAME" ]] || mkdir -p "$DIRNAME"
     ln -sf "$SRC" "$DST"
 
 done < <(find "$RSRC" -type "f")
 
-sudo echo >"/dev/null"
+echo -ne "[$YELLOW * $NC] Updating 'pacman' database..."
+
+sudo pacman -Syu --noconfirm &>"/dev/null"
+echo -e "\r[$GREEN + $NC] 'pacman' database updated    "
+
 while read PKG; do
 
     pacman -Qi "$PKG" &>"/dev/null" && continue
@@ -50,13 +55,11 @@ while read PKG; do
 
 done <"$DIR/aur.list"
 
+"$DIR"/script/user.sh
 "$DIR"/script/font.sh
+"$DIR"/script/gui.sh
 "$DIR"/script/gsetting/_run_.sh
 
 systemctl enable "gdm"
 echo -e "[$GREEN + $NC] Installation complete"
-echo "You can reboot now, VM might need 'xorg-server' pacman package"
-
-# https://github.com/lahwaacz/Scripts/blob/master/rmshit.py
-# https://aur.archlinux.org/packages/rmlint-git
-# INTEL & NVIDIA GPU
+echo "VM might need to install 'xorg-server' & 'xclip'"
