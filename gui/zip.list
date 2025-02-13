@@ -1,0 +1,3 @@
+applications .local/share/applications
+desktop-directories .local/share/desktop-directories
+gnome-applications .config/menus/gnome-applications.menu

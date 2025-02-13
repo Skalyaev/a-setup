@@ -55,6 +55,23 @@ while read PKG; do
 
 done <"$DIR/aur.list"
 
+SRC="$DIR/zip"
+while read ENTRY; do
+
+    IFS=" " read NAME DST <<<"$ENTRY"
+
+    SRC="$DIR/zip/$NAME.zip"
+    DST="$HOME/$DST"
+
+    [[ -e "$DST" ]] && rm -rf "$DST"
+    DST="$(dirname "$DST")"
+
+    echo -ne "[$YELLOW * $NC] Unzipping '$NAME'..."
+    unzip -o "$SRC" -d "$DST" &>"/dev/null"
+    echo -e "\r[$GREEN + $NC] '$NAME' unzipped    "
+
+done <"$DIR/zip.list"
+
 "$DIR"/script/user.sh
 "$DIR"/script/font.sh
 "$DIR"/script/gui.sh

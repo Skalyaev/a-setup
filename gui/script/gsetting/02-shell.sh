@@ -14,6 +14,7 @@ EXTENSIONS=(
     "no-overview@fthx"
     "forge@jmmaranan.com"
     "space-bar@luchrioh"
+    "blur-my-shell@aunetx"
 )
 EXTENSIONS="$(printf "'%s'," "${EXTENSIONS[@]}" | sed 's/,$//')"
 
@@ -177,4 +178,9 @@ position-index=0
 
 [org/gnome/shell/extensions/space-bar/shortcuts]
 enable-activate-workspace-shortcuts=false
+EOF
+cat <<EOF | sudo tee -a "$DCONF" &>"/dev/null"
+
+[org/gnome/shell/extensions/blur-my-shell]
+pipelines={'pipeline_default': {'name': <'Default'>, 'effects': <[<{'type': <'native_static_gaussian_blur'>, 'id': <'effect_000000000000'>, 'params': <{'radius': <30>, 'brightness': <0.59999999999999998>, 'unscaled_radius': <10>}>}>]>}, 'pipeline_default_rounded': {'name': <'Default rounded'>, 'effects': <[<{'type': <'native_static_gaussian_blur'>, 'id': <'effect_000000000001'>, 'params': <{'radius': <30>, 'brightness': <0.59999999999999998>, 'unscaled_radius': <10>}>}>, <{'type': <'corner'>, 'id': <'effect_000000000002'>, 'params': <{'radius': <24>}>}>]>}}
 EOF
