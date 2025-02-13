@@ -4,6 +4,7 @@ set -u
 
 DCONF="$1/02-shell"
 EXTENSIONS=(
+
     "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
     "system-monitor@gnome-shell-extensions.gcampax.github.com"
     "user-theme@gnome-shell-extensions.gcampax.github.com"
@@ -17,34 +18,12 @@ EXTENSIONS=(
 EXTENSIONS="$(printf "'%s'," "${EXTENSIONS[@]}" | sed 's/,$//')"
 
 FAVORITE_APPS=(
-    "org.gnome.Nautilus.desktop"
+
     "Alacritty.desktop"
+    "org.gnome.Nautilus.desktop"
     "firefox.desktop"
 )
 FAVORITE_APPS="$(printf "'%s'," "${FAVORITE_APPS[@]}" | sed 's/,$//')"
-
-declare -A PANEL=(
-["showAppsButton"]="false,stackedTL"
-["activitiesButton"]="false,stackedTL"
-["leftBox"]="true,stackedTL"
-["taskbar"]="true,stackedTL"
-["centerBox"]="true,stackedBR"
-["rightBox"]="true,stackedBR"
-["dateMenu"]="true,stackedBR"
-["systemMenu"]="false,stackedBR"
-["desktopButton"]="false,stackedBR"
-)
-PANEL_ORDER=(
-    "showAppsButton" "activitiesButton" "leftBox" "taskbar"
-    "centerBox" "rightBox" "dateMenu" "systemMenu" "desktopButton"
-)
-ITEMS=()
-for KEY in "${PANEL_ORDER[@]}"; do
-
-    IFS="," read -r VISIBLE POSITION <<< "${PANEL[$KEY]}"
-    ITEMS+=("{\"element\":\"$KEY\",\"visible\":$VISIBLE,\"position\":\"$POSITION\"}")
-done
-PANEL="{\"0\":[$(IFS=,; echo "${ITEMS[*]}")]}"
 
 cat <<EOF | sudo tee "$DCONF" &>"/dev/null"
 [org/gnome/shell]
@@ -100,14 +79,46 @@ group-apps-use-launchers=true
 hot-keys=true
 isolate-monitors=true
 isolate-workspaces=true
-panel-element-positions='$PANEL'
+panel-element-positions='{"0":[{"element":"showAppsButton","visible":false,"position":"stackedTL"},{"element":"activitiesButton","visible":false,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":true,"position":"stackedTL"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":false,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}]}'
 panel-sizes='{"0":42}'
 secondarymenu-contains-showdetails=true
 EOF
 cat <<EOF | sudo tee -a "$DCONF" &>"/dev/null"
 
 [org/gnome/shell/extensions/arcmenu]
+alphabetize-all-programs=false
+apps-show-extra-details=true
+button-item-icon-size='ExtraSmall'
+context-menu-items=[{'id': 'ArcMenu_Settings', 'name': 'ArcMenu Settings', 'icon': 'ArcMenu_ArcMenuIcon'}, {'id': 'ArcMenu_PanelExtensionSettings', 'name': 'Panel Extension Settings', 'icon': 'application-x-addon-symbolic'}, {'id': 'com.mattjakeman.ExtensionManager.desktop'}, {'name': 'Séparateur', 'icon': 'list-remove-symbolic', 'id': 'ArcMenu_Separator'}, {'id': 'gnome-wifi-panel.desktop'}, {'id': 'gnome-bluetooth-panel.desktop'}, {'id': 'ArcMenu_Separator', 'name': 'Separator', 'icon': 'list-remove-symbolic'}, {'id': 'org.gnome.Settings.desktop'}, {'id': 'ArcMenu_PowerOptions', 'name': 'Power Options', 'icon': 'system-shutdown-symbolic'}, {'name': 'Aperçu des activités', 'icon': 'view-fullscreen-symbolic', 'id': 'ArcMenu_ActivitiesOverview'}]
+custom-menu-button-icon='playonlinux'
+custom-menu-button-icon-size=26.0
+disable-recently-installed-apps=true
+extra-categories=[(1, true), (4, true), (2, true), (0, false), (3, false)]
+highlight-search-result-terms=true
+left-panel-width=240
+menu-arrow-rise=(true, 0)
+menu-border-radius=0
+menu-border-width=3
+menu-button-border-radius=(true, 0)
+menu-button-border-width=(true, 1)
+menu-button-icon='Custom_Icon'
+menu-height=800
+menu-item-active-bg-color='rgb(66,66,66)'
+menu-item-category-icon-size='Small'
+menu-item-hover-bg-color='rgb(66,66,66)'
+menu-item-icon-size='Extralarge'
 menu-layout='Whisker'
+multi-monitor=true
+override-menu-theme=true
+pinned-apps=@aa{ss} []
+quicklinks-item-icon-size='Small'
+right-panel-width=560
+search-provider-recent-files=true
+searchbar-default-top-location='Bottom'
+show-category-sub-menus=true
+show-hidden-recent-files=true
+show-search-result-details=true
+vert-separator=true
 EOF
 cat <<EOF | sudo tee -a "$DCONF" &>"/dev/null"
 

@@ -102,8 +102,8 @@ ask_size() {
     done
     echo "$size"
 }
-VAR_SIZE="$(ask_size "var" "(($VAR_SIZE / 1024))" 2)"
-HOME_SIZE="$(ask_size "home" "$((HOME_SIZE / 1024))" 1)"
+VAR_SIZE="$(ask_size "/var" "$(($VAR_SIZE / 1024))" 2)"
+HOME_SIZE="$(ask_size "/home" "$((HOME_SIZE / 1024))" 1)"
 
 echo -ne "\n[$YELLOW * $NC] Creating partitions..."
 set +e
