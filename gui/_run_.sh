@@ -77,6 +77,11 @@ done <"$DIR/zip.list"
 "$DIR"/script/gui.sh
 "$DIR"/script/gsetting/_run_.sh
 
+FONT="redhat"
+SRC="$HOME/.local/src/$FONT"
+DST="/usr/share/fonts/$FONT"
+sudo ln -sf "$SRC" "$DST"
+
 systemctl enable "gdm"
 echo -e "[$GREEN + $NC] Installation complete"
 echo "VM might need to install 'xorg-server' & 'xclip'"
