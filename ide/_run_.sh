@@ -66,8 +66,8 @@ while read PKG; do
     cd "$PKG"
     if [[ ! -x ".install.sh" ]]; then
 
-        echo 'makepkg -si --noconfirm' >.install.sh
-        chmod +x .install.sh
+        echo 'makepkg -si --noconfirm' >".install.sh"
+        chmod +x ".install.sh"
     fi
     ./.install.sh >"/dev/null"
 

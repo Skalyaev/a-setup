@@ -32,4 +32,24 @@ magnifier=@as []
 magnifier-zoom-in=@as []
 magnifier-zoom-out=@as []
 screenreader=@as []
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+name='Settings'
+binding='<Super>s'
+command='gnome-control-center'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1]
+name='Tweaks'
+binding='<Super>t'
+command='gnome-tweaks'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2]
+name='Dconf'
+binding='<Super>d'
+command='dconf-editor'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3]
+name='Extension'
+binding='<Super>e'
+command='extension-manager %U'
 EOF

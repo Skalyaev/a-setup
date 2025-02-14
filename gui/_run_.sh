@@ -48,8 +48,8 @@ while read PKG; do
     cd "$PKG"
     if [[ ! -x ".install.sh" ]]; then
 
-        echo 'makepkg -si --noconfirm' >.install.sh
-        chmod +x .install.sh
+        echo 'makepkg -si --noconfirm' >".install.sh"
+        chmod +x ".install.sh"
     fi
     ./.install.sh >"/dev/null"
 
@@ -73,8 +73,7 @@ while read ENTRY; do
 done <"$DIR/zip.list"
 
 "$DIR"/script/user.sh
-"$DIR"/script/font.sh
-"$DIR"/script/gui.sh
+"$DIR"/script/gpu.sh
 "$DIR"/script/gsetting/_run_.sh
 
 FONT="redhat"
