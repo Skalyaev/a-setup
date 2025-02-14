@@ -69,7 +69,10 @@ while read PKG; do
         echo 'makepkg -si --noconfirm' >".install.sh"
         chmod +x ".install.sh"
     fi
+    set +e
     ./.install.sh >"/dev/null"
+    [[ "$?" -ne 0 ]] && echo -e "[$RED - $NC] '$PKG' makepkg returned non-zero"
+    set -e
 
 done <"$DIR/aur.list"
 

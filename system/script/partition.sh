@@ -134,14 +134,13 @@ mkfs.fat -F32 "$BOOT_EFI_PARTITION" &>"/dev/null"
 echo -e "\r[$GREEN + $NC] Partitions created    "
 echo -ne "[$YELLOW * $NC] Setting LVM..."
 
-LVM_NAME="vg0"
-
 while ! pvcreate -ffy "$LVM_PARTITION" &>"/dev/null"; do
 
     swapoff -a &>"/dev/null"
     vgchange -an &>"/dev/null"
     parted -s "$DISK" "mklabel" "gpt" &>"/dev/null"
 done
+LVM_NAME="vg0"
 vgcreate "$LVM_NAME" "$LVM_PARTITION" &>"/dev/null"
 
 lvcreate -y -L "${VAR_SIZE}M" "$LVM_NAME" -n "var" &>"/dev/null"

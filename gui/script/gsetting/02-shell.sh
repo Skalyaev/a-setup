@@ -21,8 +21,8 @@ EXTENSIONS="$(printf "'%s'," "${EXTENSIONS[@]}" | sed 's/,$//')"
 FAVORITE_APPS=(
 
     "Alacritty.desktop"
-    "org.gnome.Nautilus.desktop"
     "firefox.desktop"
+    "org.gnome.Nautilus.desktop"
 )
 FAVORITE_APPS="$(printf "'%s'," "${FAVORITE_APPS[@]}" | sed 's/,$//')"
 
@@ -90,7 +90,7 @@ cat <<EOF | sudo tee -a "$DCONF" &>"/dev/null"
 alphabetize-all-programs=false
 apps-show-extra-details=true
 button-item-icon-size='ExtraSmall'
-context-menu-items=[{'id': 'ArcMenu_Settings', 'name': 'ArcMenu Settings', 'icon': 'ArcMenu_ArcMenuIcon'}, {'id': 'ArcMenu_PanelExtensionSettings', 'name': 'Panel Extension Settings', 'icon': 'application-x-addon-symbolic'}, {'id': 'com.mattjakeman.ExtensionManager.desktop'}, {'name': 'Séparateur', 'icon': 'list-remove-symbolic', 'id': 'ArcMenu_Separator'}, {'id': 'gnome-wifi-panel.desktop'}, {'id': 'gnome-bluetooth-panel.desktop'}, {'id': 'ArcMenu_Separator', 'name': 'Separator', 'icon': 'list-remove-symbolic'}, {'id': 'org.gnome.Settings.desktop'}, {'id': 'ArcMenu_PowerOptions', 'name': 'Power Options', 'icon': 'system-shutdown-symbolic'}, {'name': 'Aperçu des activités', 'icon': 'view-fullscreen-symbolic', 'id': 'ArcMenu_ActivitiesOverview'}]
+context-menu-items=[{'id': 'ArcMenu_Settings', 'name': 'ArcMenu Settings', 'icon': 'ArcMenu_ArcMenuIcon'}, {'id': 'ArcMenu_PanelExtensionSettings', 'name': 'Panel Extension Settings', 'icon': 'application-x-addon-symbolic'}, {'id': 'com.mattjakeman.ExtensionManager.desktop'}, {'name': 'Séparateur', 'icon': 'list-remove-symbolic', 'id': 'ArcMenu_Separator'}, {'id': 'gnome-wifi-panel.desktop'}, {'id': 'gnome-bluetooth-panel.desktop'}, {'id': 'org.gnome.Settings.desktop'}, {'id': 'ArcMenu_Separator', 'name': 'Separator', 'icon': 'list-remove-symbolic'}, {'id': 'ArcMenu_PowerOptions', 'name': 'Power Options', 'icon': 'system-shutdown-symbolic'}]
 custom-menu-button-icon='playonlinux'
 custom-menu-button-icon-size=26.0
 disable-recently-installed-apps=true

@@ -51,7 +51,10 @@ while read PKG; do
         echo 'makepkg -si --noconfirm' >".install.sh"
         chmod +x ".install.sh"
     fi
+    set +e
     ./.install.sh >"/dev/null"
+    [[ "$?" -ne 0 ]] && echo -e "[$RED - $NC] '$PKG' makepkg returned non-zero"
+    set -e
 
 done <"$DIR/aur.list"
 
@@ -79,6 +82,8 @@ done <"$DIR/zip.list"
 FONT="redhat"
 SRC="$HOME/.local/src/$FONT"
 DST="/usr/share/fonts/$FONT"
+
+[[ -e "$DST" ]] && sudo rm -rf "$DST"
 sudo ln -sf "$SRC" "$DST"
 
 systemctl enable "gdm"
