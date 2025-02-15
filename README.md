@@ -1,5 +1,3 @@
-![](preview.png)
-
 <table align="center">
 <tr>
 <th>Component</th>
@@ -32,3 +30,5 @@
 <td><a href="./gui/script/gsetting">gsettings</a></td>
 </tr>
 </table>
+
+![](preview.png)
