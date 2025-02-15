@@ -35,7 +35,7 @@ if ! shopt -oq "posix"; then
     done
     unset BASH_COMPLETION bash_completion
 fi
-
+who
 # TODO: Welcome message
 SYSTEMCTL_RET="$(systemctl --failed)"
 JOURNALCTL_RET="$(journalctl -p 3 -xb)"

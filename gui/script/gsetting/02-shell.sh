@@ -83,6 +83,8 @@ isolate-workspaces=true
 panel-element-positions='{"0":[{"element":"showAppsButton","visible":false,"position":"stackedTL"},{"element":"activitiesButton","visible":false,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":true,"position":"stackedTL"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":false,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}]}'
 panel-sizes='{"0":42}'
 secondarymenu-contains-showdetails=true
+trans-bg-color='#121212'
+trans-use-custom-bg=true
 EOF
 cat <<EOF | sudo tee -a "$DCONF" &>"/dev/null"
 
@@ -178,6 +180,19 @@ position-index=0
 
 [org/gnome/shell/extensions/space-bar/shortcuts]
 enable-activate-workspace-shortcuts=false
+
+[org/gnome/shell/extensions/space-bar/appearance]
+active-workspace-border-radius=0
+active-workspace-padding-h=7
+active-workspace-padding-v=14
+application-styles='.space-bar {\n  -natural-hpadding: 12px;\n}\n\n.space-bar-workspace-label.active {\n  margin: 0 4px;\n  background-color: rgba(255,255,255,0.3);\n  color: rgba(255,255,255,1);\n  border-color: rgba(0,0,0,0);\n  font-weight: 700;\n  border-radius: 0px;\n  border-width: 0px;\n  padding: 13px 7px;\n}\n\n.space-bar-workspace-label.inactive {\n  margin: 0 4px;\n  background-color: rgba(0,0,0,0);\n  color: rgb(154,153,150);\n  border-color: rgba(0,0,0,0);\n  font-weight: 700;\n  border-radius: 0px;\n  border-width: 0px;\n  padding: 13px 7px;\n}\n\n.space-bar-workspace-label.inactive.empty {\n  margin: 0 4px;\n  background-color: rgba(0,0,0,0);\n  color: rgba(255,255,255,0.5);\n  border-color: rgba(0,0,0,0);\n  font-weight: 700;\n  border-radius: 0px;\n  border-width: 0px;\n  padding: 13px 7px;\n}'
+empty-workspace-border-radius=0
+empty-workspace-padding-h=7
+empty-workspace-padding-v=14
+inactive-workspace-border-radius=0
+inactive-workspace-padding-h=7
+inactive-workspace-padding-v=14
+inactive-workspace-text-color='rgb(154,153,150)'
 EOF
 cat <<EOF | sudo tee -a "$DCONF" &>"/dev/null"
 

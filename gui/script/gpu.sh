@@ -1,8 +1,11 @@
 #!/bin/bash
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+NC="\033[0m"
 set -e
 set -u
 
-GPU="$(lspci -k -d ::03xx)"
+GPU="$(lspci -k -d "::03xx")"
 PKGS=()
 
 grep -iq "intel" <<<"$GPU" && PKGS+=("mesa")
