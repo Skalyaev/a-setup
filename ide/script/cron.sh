@@ -9,15 +9,15 @@ TASKLIST=(
 )
 TASKS="$(crontab -l 2>"/dev/null")"
 set -e
-for TASK in "${TASKLIST[@]}"; do
+for task in "${TASKLIST[@]}"; do
 
-    grep -q "$TASK" <<<"$TASKS" && continue
+    grep -q "$task" <<<"$TASKS" && continue
     [[ -n "$TASKS" ]] && TASKS+="\n"
 
-    NAME="$(cut -d " " -f "6-" <<<"$TASK")"
+    NAME="$(cut -d " " -f "6-" <<<"$task")"
     echo -ne "[$YELLOW * $NC] Setting '$NAME' cronjob..."
 
-    echo -e "$TASKS$TASK" | crontab - &>"/dev/null"
+    echo -e "$TASKS$task" | crontab - &>"/dev/null"
     echo -e "\r[$GREEN + $NC] '$NAME' cronjob set       "
 
     TASKS="$(crontab -l 2>"/dev/null")"

@@ -12,3 +12,4 @@ pyright
 ruff
 deno
 marksman
+docker

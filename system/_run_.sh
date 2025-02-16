@@ -9,9 +9,30 @@ set -u
 loadkeys "fr-latin1"
 DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
-"$DIR"/script/partition.sh
-"$DIR"/script/network.sh
-"$DIR"/script/pacstrap.sh "$DIR"
+"$DIR"/run/partition.sh
+
+while ! ping -c 1 "archlinux.org" &>"/dev/null"; do
+
+    echo -e "\n[$RED - $NC] Connection required"
+    echo -e "[$YELLOW * $NC] Running 'iwctl'"
+    iwctl
+done
+readarray -t pkgs <"$DIR/pacstrap.list"
+
+if grep -iq "intel" "/proc/cpuinfo"; then
+    pkgs+=("intel-ucode")
+
+elif grep -iq "amd" "/proc/cpuinfo"; then
+    pkgs+=("amd-ucode")
+fi
+echo
+for pkg in "${pkgs[@]}"; do
+
+    echo -ne "[$YELLOW * $NC] Installing '$pkg'..."
+
+    pacstrap -K "/mnt" "$pkg" &>"/dev/null"
+    echo -e "\r[$GREEN + $NC] '$pkg' installed    "
+done
 
 DST="/root/.local/src"
 mkdir -p "/mnt$DST"
@@ -22,5 +43,5 @@ echo -ne "[$YELLOW * $NC] Generating 'fstab'..."
 genfstab -U "/mnt" >>"/mnt/etc/fstab"
 echo -e "\r[$GREEN + $NC] 'fstab' generated    "
 
-echo -e "[$GREEN + $NC] Chrooting"
-arch-chroot "/mnt" "$DST/setup/system/script/chroot/_run_.sh"
+echo -e "[$GREEN + $NC] Chrooting\n"
+arch-chroot "/mnt" "$DST/setup/system/run/chroot/_run_.sh"

@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<!DOCTYPE Menu
+PUBLIC '-//freedesktop//DTD Menu 1.0//EN'
+'http://standards.freedesktop.org/menu-spec/menu-1.0.dtd'>
+<Menu>
+    <Name>Applications</Name>
+    <MergeFile type="parent">/etc/xdg/menus/gnome-applications.menu</MergeFile>
+    <DefaultLayout inline="false"/>
+    <Layout>
+        <Merge type="menus"/>
+        <Menuname>Service Enumeration</Menuname>
+        <Menuname>Web Discovery</Menuname>
+        <Menuname>Vulnerability Assessment</Menuname>
+        <Menuname>Exploitation</Menuname>
+        <Menuname>Post-Exploitation</Menuname>
+        <Menuname>Reverse Engineering</Menuname>
+        <Menuname>Development</Menuname>
+        <Menuname>Internet</Menuname>
+        <Menuname>Utilities</Menuname>
+        <Menuname>System</Menuname>
+        <Menuname>System Settings</Menuname>
+        <Menuname>Other</Menuname>
+        <Menuname>Games</Menuname>
+        <Menuname>Graphics</Menuname>
+        <Menuname>Multimedia</Menuname>
+        <Menuname>Office</Menuname>
+        <Menuname>Education</Menuname>
+        <Menuname>Universal Access</Menuname>
+        <Menuname>Web Applications</Menuname>
+        <Menuname>Accessories</Menuname>
+        <Merge type="files"/>
+    </Layout>
+    <Menu>
+        <Name>Service Enumeration</Name>
+        <Directory>Service-Enumeration.directory</Directory>
+        <Include>
+            <Category>Service Enumeration</Category>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Web Discovery</Name>
+        <Directory>Web-Discovery.directory</Directory>
+        <Include>
+            <Category>Web Discovery</Category>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Vulnerability Assessment</Name>
+        <Directory>Vulnerability-Assessment.directory</Directory>
+        <Include>
+            <Category>Vulnerability Assessment</Category>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Exploitation</Name>
+        <Directory>Exploitation.directory</Directory>
+        <Include>
+            <Category>Exploitation</Category>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Post-Exploitation</Name>
+        <Directory>Post-Exploitation.directory</Directory>
+        <Include>
+            <Category>Post-Exploitation</Category>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Reverse Engineering</Name>
+        <Directory>Reverse-Engineering.directory</Directory>
+        <Include>
+            <Category>Reverse Engineering</Category>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Development</Name>
+        <Include>
+            <Filename>nvim.desktop</Filename>
+            <Filename>Alacritty.desktop</Filename>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>Internet</Name>
+        <Exclude>
+            <Filename>bvnc.desktop</Filename>
+            <Filename>bssh.desktop</Filename>
+            <Filename>org.gnome.Connections.desktop</Filename>
+        </Exclude>
+    </Menu>
+    <Menu>
+        <Name>Utilities</Name>
+        <Exclude>
+            <Filename>org.gnome.Logs.desktop</Filename>
+            <Filename>org.gnome.DiskUtility.desktop</Filename>
+            <Filename>org.gnome.baobab.desktop</Filename>
+            <Filename>org.gnome.tweaks.desktop</Filename>
+        </Exclude>
+        <Include>
+            <Filename>org.gnome.clocks.desktop</Filename>
+            <Filename>org.gnome.Maps.desktop</Filename>
+            <Filename>org.gnome.Weather.desktop</Filename>
+            <Filename>org.gnome.Connections.desktop</Filename>
+            <Filename>org.gnome.Snapshot.desktop</Filename>
+            <Filename>org.gnome.font-viewer.desktop</Filename>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>System</Name>
+        <Exclude>
+            <Filename>Alacritty.desktop</Filename>
+            <Filename>ca.desrt.dconf-editor.desktop</Filename>
+            <Filename>avahi-discover.desktop</Filename>
+            <Filename>org.gnome.Software.desktop</Filename>
+        </Exclude>
+        <Include>
+            <Filename>org.gnome.Nautilus.desktop</Filename>
+        </Include>
+    </Menu>
+    <Menu>
+        <Name>System Settings</Name>
+        <Include>
+            <Filename>org.gnome.Settings.desktop</Filename>
+            <Filename>org.gnome.tweaks.desktop</Filename>
+            <Filename>com.mattjakeman.ExtensionManager.desktop</Filename>
+            <Filename>ca.desrt.dconf-editor.desktop</Filename>
+            <Filename>alacarte.desktop</Filename>
+            <Filename>org.gnome.Software.desktop</Filename>
+            <Filename>org.gnome.DiskUtility.desktop</Filename>
+        </Include>
+    </Menu>
+</Menu>
