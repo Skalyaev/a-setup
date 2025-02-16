@@ -1,0 +1,34 @@
+GREEN="\e[1;32m"
+RED="\e[1;31m"
+NC="\e[0m"
+
+FIGLET_FONTS="/usr/share/figlet/fonts"
+if [[ -e "$FIGLET_FONTS" ]]; then
+
+    mapfile -t fonts < <(find "$FIGLET_FONTS" -maxdepth "1" -name "*.flf")
+
+    font="${fonts[RANDOM % ${#fonts[@]}]}"
+    if which "lolcat" &>"/dev/null"; then
+
+        figlet -f "$font" -w "$(tput cols)" "${USER^^}" | lolcat
+    else
+        figlet -f "$font" -w "$(tput cols)" "${USER^^}"
+    fi
+    unset fonts
+fi
+SYSTEMCTL_RET="$(systemctl --failed)"
+JOURNALCTL_RET="$(journalctl -p 3 -xb)"
+
+SERVICE_COUNT="$(grep -c "failed" <<<"$SYSTEMCTL_RET")"
+JOURNAL_COUNT="$(grep -c "Error" <<<"$JOURNALCTL_RET")"
+unset SYSTEMCTL_RET JOURNALCTL_RET
+
+SERVICE_COLOR="$GREEN"
+JOURNAL_COLOR="$GREEN"
+
+[[ "$SERVICE_COUNT" -gt 0 ]] && SERVICE_COLOR="$RED"
+[[ "$JOURNAL_COUNT" -gt 0 ]] && JOURNAL_COLOR="$RED"
+
+echo -ne "\nSystemctl errors: $SERVICE_COLOR$SERVICE_COUNT$NC"
+echo -e "\tJournalctl errors: $JOURNAL_COLOR$JOURNAL_COUNT$NC\n"
+unset SERVICE_COUNT JOURNAL_COUNT SERVICE_COLOR JOURNAL_COLOR

@@ -14,6 +14,7 @@ USR="$(cut -d ":" -f "1" <<<"$USERS")"
 USR="$(cut -d "," -f "1" <<<"$USR")"
 
 aur_install() {
+
     local firmware="$1"
     local dir="${firmware%.git}"
 
@@ -64,7 +65,7 @@ sed -i "s/block filesystems/block lvm2 filesystems/" "/etc/mkinitcpio.conf"
 sed -i "s/consolefont block/consolefont numlock block/" "/etc/mkinitcpio.conf"
 
 BUFFER=()
-while read module; do
+for module in ${MISSING[@]}; do
 
     LINK="${FIRMWARE_MAP[$module]}"
     if [[ -n "$LINK" ]]; then
@@ -72,7 +73,7 @@ while read module; do
         BUFFER+=("$LINK")
     else echo -e "[$RED - $NC] Missing firmware: $module"; fi
 
-done <<<"$MISSING"
+done
 MISSING="$(printf "%s\n" "${BUFFER[@]}" | sort -u)"
 
 sed -i "s/# $SUDO_NOPASSWD/$SUDO_NOPASSWD/" "/etc/sudoers"

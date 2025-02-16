@@ -1,3 +1,2 @@
-desktop-applications-base .local/share/applications
-desktop-directories-base .local/share/desktop-directories
-gnome-applications .config/menus
+desktop-applications-base,/home/.local/share/applications
+desktop-directories-base,/home/.local/share/desktop-directories

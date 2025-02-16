@@ -37,24 +37,21 @@ do_pacman() {
     sudo pacman -Syu --noconfirm &>"/dev/null"
     echo -e "\r[$GREEN + $NC] 'pacman' database updated    "
 
-    local pkgs="$1/pacman.list"
-    while read pkg; do
+    for pkg in $(cat "$1/pacman.list"); do
 
         pacman -Qi "$pkg" &>"/dev/null" && continue
         echo -ne "[$YELLOW * $NC] Installing '$pkg'..."
 
         sudo pacman -S --noconfirm --needed "$pkg" &>"/dev/null"
         echo -e "\r[$GREEN + $NC] '$pkg' installed    "
-
-    done <"$pkgs"
+    done
 }
 
 # AUR PACKAGES
 # ============
 do_aur() {
 
-    local pkgs="$1/aur.list"
-    while read pkg; do
+    for pkg in $(cat "$1/aur.list"); do
 
         cd "/usr/local/src/github"
         if [[ ! -e "$pkg" ]]; then
@@ -74,11 +71,13 @@ do_aur() {
         set +e
         ./.install.sh &>"/dev/null"
 
-        [[ "$?" -ne 0 ]] && echo -e "[$RED - $NC] '$pkg' makepkg returned non-zero"
+        if [[ "$?" -ne 0 ]]; then
+            echo -e "[$RED - $NC] '$pkg' makepkg returned non-zero"
+        else
+            echo -e "[$GREEN + $NC] '$pkg' installed"
+        fi
         set -e
-        echo -e "[$GREEN + $NC] '$pkg' installed"
-
-    done <"$pkgs"
+    done
 }
 
 # PYTHON PACKAGES
@@ -93,37 +92,43 @@ do_pip() {
         python -m venv "$pyenv" &>"/dev/null"
         echo -e "\r[$GREEN + $NC] Local python environment created    "
     fi
-    local pkgs="$1/pip.list"
-    while read pkg; do
+    for pkg in $(cat "$1/pip.list"); do
 
         pip show "$pkg" &>"/dev/null" && continue
         echo -ne "[$YELLOW * $NC] Installing pip '$pkg'..."
 
         "$pyenv"/bin/pip install --no-cache-dir "$pkg" &>"/dev/null"
         echo -e "\r[$GREEN + $NC] pip '$pkg' installed    "
-
-    done <"$pkgs"
+    done
 }
 
 # ZIP FILES
 # =========
 do_zip() {
 
-    local pkgs="$1/zip.list"
-    while read file; do
+    local root="$1/zip"
+    for file in $(cat "$root.list"); do
 
-        IFS=" " read name dst <<<"$file"
+        IFS="," read name dst <<<"$file"
+        local src="$root/$name.zip"
 
-        local src="$1/zip/$name.zip"
-        dst="$HOME/$dst"
+        local dosudo="$(grep -q "/home/" <<<"$dst" && echo 1 || echo 0)"
+        if [[ "$dosudo" -ne 1 ]]; then
 
-        mkdir -p "$dst"
+            dst="$(sed "s=/home/=$HOME/=" <<<"$dst")"
+            mkdir -p "$dst"
+        else
+            sudo mkdir -p "$dst"
+        fi
         echo -ne "[$YELLOW * $NC] Unzipping '$name'..."
+        if [[ "$dosudo" -ne 1 ]]; then
 
-        unzip -o "$src" -d "$dst" &>"/dev/null"
+            unzip -o "$src" -d "$dst" &>"/dev/null"
+        else
+            sudo unzip -o "$src" -d "$dst" &>"/dev/null"
+        fi
         echo -e "\r[$GREEN + $NC] '$name' unzipped    "
-
-    done <"$pkgs"
+    done
 }
 
 # COPY & LINK
@@ -131,32 +136,48 @@ do_zip() {
 do_copy() {
 
     local root="$1/tocopy"
-    while read src; do
+    for src in $(find "$root" -type "f"); do
 
-        local dst="$(do_dirname "$src")"
-        cp -rf "$src" "$dst"
+        local dosudo="$(grep -q "/home/" <<<"$src" && echo 1 || echo 0)"
+        local dst="$(do_dirname "$src" "$root" "$dosudo")"
 
-    done < <(find "$root" -type "f")
+        if [[ "$dosudo" -ne 1 ]]; then
+            cp -rf "$src" "$dst"
+        else
+            sudo cp -rf "$src" "$dst"
+        fi
+    done
 }
 do_link() {
 
     local root="$1/tolink"
-    while read src; do
+    for src in $(find "$root" -type "f"); do
 
-        local dst="$(do_dirname "$src")"
-        ln -sf "$src" "$dst"
+        local dosudo="$(grep -q "/home/" <<<"$src" && echo 1 || echo 0)"
+        local dst="$(do_dirname "$src" "$root" "$dosudo")"
 
-    done < <(find "$root" -type "f")
+        if [[ "$dosudo" -ne 1 ]]; then
+            ln -sf "$src" "$dst"
+        else
+            sudo ln -sf "$src" "$dst"
+        fi
+    done
 }
 do_dirname() {
 
     local src="$1"
+    local root="$2"
+    local dosudo="$3"
 
     local dst="$(sed "s=$root=/=" <<<"$src")"
     dst=$(sed "s=/home/=$HOME/=" <<<"$dst")
 
     local dirname="$(dirname "$dst")"
-    [[ -e "$dirname" ]] || mkdir -p "$dirname"
+    if [[ "$dosudo" -ne 1 ]]; then
 
+        [[ -e "$dirname" ]] || mkdir -p "$dirname"
+    else
+        [[ -e "$dirname" ]] || sudo mkdir -p "$dirname"
+    fi
     echo "$dst"
 }

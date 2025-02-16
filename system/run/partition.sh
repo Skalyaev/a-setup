@@ -96,6 +96,7 @@ ask_size() {
     done
     echo "$size"
 }
+echo
 VAR_SIZE="$(ask_size "/var" "$(($UNIT_SIZE / 1024))" 2)"
 HOME_SIZE="$(ask_size "/home" "$((UNIT_SIZE / 1024))" 1)"
 

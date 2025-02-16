@@ -11,7 +11,9 @@ OUTDATED="$(pip list --outdated | tail -n "+3" | grep -v "notice")"
     xargs pip install --upgrade
 
 GIT_DIR="/usr/local/src/github"
-while read DIR; do
+DIRS="$(find "$GIT_DIR" -maxdepth "1" -mindepth "1" -type "d" 2>"/dev/null")"
+
+for DIR in $DIRS; do
 
     cd "$(dirname "$DIR")" || continue
 
@@ -19,7 +21,5 @@ while read DIR; do
     if git status | grep -q 'git pull'; then git pull || continue; fi
 
     ./.install.sh
-
-done < <(find "$1" -maxdepth "1" -mindepth "1" -type "d" -name ".git" 2>"/dev/null")
-
+done
 rmshit

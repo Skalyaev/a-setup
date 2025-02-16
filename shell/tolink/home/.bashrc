@@ -36,24 +36,7 @@ if ! shopt -oq "posix"; then
     unset BASH_COMPLETION bash_completion
 fi
 
-if [[ -z "$NO_WELCOME" ]]; then
-    # TODO: Welcome message
-
-    SYSTEMCTL_RET="$(systemctl --failed)"
-    JOURNALCTL_RET="$(journalctl -p 3 -xb)"
-
-    grep -q "0 loaded" <<<"$SYSTEMCTL_RET" || echo -e "\n$SYSTEMCTL_RET\n"
-    grep -q "No entries" <<<"$JOURNALCTL_RET" || echo -e "\n$JOURNALCTL_RET\n"
-    unset SYSTEMCTL_RET JOURNALCTL_RET
-
-    ERROR_LOG="$HOME/error.log"
-    if [[ -e "$ERROR_LOG" ]]; then
-
-        echo -e "\nUSER ERROR LOGS:"
-        cat "$ERROR_LOG" && rm "$ERROR_LOG"
-    fi
-    unset ERROR_LOG
-fi
+[[ -z "$NO_WELCOME" ]] && . "$HOME/.bash_welcome"
 
 GRAY="\[\033[38;5;240m\]"
 NC="\[\033[00m\]"

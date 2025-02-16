@@ -21,8 +21,8 @@ red = "#cc4040"
 green = "#40cc40"
 yellow = "#cccc40"
 blue = "#4040cc"
-magenta = "#cc40cc"
 cyan = "#40cccc"
+magenta = "#cc40cc"
 white = "#cccccc"
 
 [keyboard]

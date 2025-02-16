@@ -62,7 +62,8 @@ fi
 
 # MISCELLANEOUS
 # =============
-alias jzero='sudo journalctl --vacuum-time=1'
+alias jzero='sudo rm -rf /var/log/journal/*'
+alias jctl='journalctl -p 3 -xb'
 
 alias pacs='sudo pacman -S --needed --noconfirm'
 alias pacr='sudo pacman -Rs --noconfirm'

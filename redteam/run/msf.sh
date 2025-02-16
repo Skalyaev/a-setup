@@ -27,9 +27,11 @@ fi
 if [[ "$(ruby --version)" != *"$RUBY_VERSION"* ]]; then
 
     echo -ne "[$YELLOW * $NC] Installing Ruby $RUBY_VERSION..."
-    rvm install "$RUBY_VERSION" &>"/dev/null"
+    set +u
+    rvm install "$RUBY_VERSION"
 
-    rvm use "$RUBY_VERSION" --default &>"/dev/null"
+    rvm use "$RUBY_VERSION" --default
+    set -u
     echo -e "\r[$GREEN + $NC] Ruby $RUBY_VERSION installed    "
 fi
 echo -e "[$GREEN + $NC] Installing MSF bundler"

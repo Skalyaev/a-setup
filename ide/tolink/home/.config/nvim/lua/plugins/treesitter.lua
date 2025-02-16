@@ -14,8 +14,11 @@ return {
             auto_install = true
         }
         require("nvim-treesitter.configs").setup(settings)
+        local filename = {
 
-        local filename = { ['.bash_env'] = 'bash' }
+            ['.bash_env'] = 'bash',
+            ['.bash_welcome' ] = 'bash'
+        }
         vim.filetype.add({ filename = filename })
     end
 }

@@ -13,15 +13,13 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 "$DIR"/grub.sh
 
 RSRC="$(realpath "$DIR/tocopy")"
-while read src; do
+for src in $(find "$RSRC" -type "f"); do
 
     DST="$(sed "s=$RSRC==" <<<"$src")"
 
     mkdir -p "$(dirname "$DST")"
     cp "$src" "$DST"
-
-done < <(find "$RSRC" -type "f")
-
+done
 systemctl enable "NetworkManager" &>"/dev/null"
 systemctl enable "systemd-timesyncd" &>"/dev/null"
 systemctl enable "paccache.timer" &>"/dev/null"

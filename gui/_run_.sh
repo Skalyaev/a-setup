@@ -10,7 +10,6 @@ DIR="$(dirname "$(realpath "$BASH_SOURCE")")"
 
 "$DIR"/run/user.sh
 "$DIR"/run/gpu.sh
-"$DIR"/run/font.sh
 "$DIR"/run/gsetting/_run_.sh
 
 systemctl enable "gdm"
