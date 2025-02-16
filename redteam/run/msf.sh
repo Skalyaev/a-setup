@@ -28,18 +28,18 @@ if [[ "$(ruby --version)" != *"$RUBY_VERSION"* ]]; then
 
     echo -ne "[$YELLOW * $NC] Installing Ruby $RUBY_VERSION..."
     set +u
-    rvm install "$RUBY_VERSION"
+    rvm install "$RUBY_VERSION" &>"/dev/null"
 
-    rvm use "$RUBY_VERSION" --default
+    rvm use "$RUBY_VERSION" --default &>"/dev/null"
     set -u
     echo -e "\r[$GREEN + $NC] Ruby $RUBY_VERSION installed    "
 fi
 echo -e "[$GREEN + $NC] Installing MSF bundler"
 set +u
-cd "/opt/metasploit" && gem install "bundler"
+cd "/opt/metasploit" && gem install "bundler" &>"/dev/null"
 set -u
 
-sudo -u "$USER" bundle install
+sudo -u "$USER" bundle install &>"/dev/null"
 echo -e "[$GREEN + $NC] MSF bundler installed"
 
 echo -ne "[$YELLOW * $NC] Initializing Metasploit database..."

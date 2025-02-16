@@ -26,5 +26,5 @@ sudo -u "postgres" initdb \
 
 echo -e "\r[$GREEN + $NC] Postgres data initialized "
 
-sudo systemctl enable "postgresql"
-sudo systemctl start "postgresql"
+sudo systemctl enable "postgresql" &>"/dev/null"
+sudo systemctl start "postgresql" &>"/dev/null"

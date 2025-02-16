@@ -15,7 +15,7 @@ process() {
     [[ -e "$target/aur.list" ]] && do_aur "$target"
     [[ -e "$target/pip.list" ]] && do_pip "$target"
 
-    [[ -e "$target/zip.list" ]] && do_zip "$target"
+    [[ -e "$target/zip" ]] && do_zip "$target"
     [[ -e "$target/tocopy" ]] && do_copy "$target"
     [[ -e "$target/tolink" ]] && do_link "$target"
 
@@ -102,44 +102,15 @@ do_pip() {
     done
 }
 
-# ZIP FILES
-# =========
-do_zip() {
-
-    local root="$1/zip"
-    for file in $(cat "$root.list"); do
-
-        IFS="," read name dst <<<"$file"
-        local src="$root/$name.zip"
-
-        local dosudo="$(grep -q "/home/" <<<"$dst" && echo 1 || echo 0)"
-        if [[ "$dosudo" -ne 1 ]]; then
-
-            dst="$(sed "s=/home/=$HOME/=" <<<"$dst")"
-            mkdir -p "$dst"
-        else
-            sudo mkdir -p "$dst"
-        fi
-        echo -ne "[$YELLOW * $NC] Unzipping '$name'..."
-        if [[ "$dosudo" -ne 1 ]]; then
-
-            unzip -o "$src" -d "$dst" &>"/dev/null"
-        else
-            sudo unzip -o "$src" -d "$dst" &>"/dev/null"
-        fi
-        echo -e "\r[$GREEN + $NC] '$name' unzipped    "
-    done
-}
-
-# COPY & LINK
-# ===========
+# COPY & LINK & ZIP
+# =================
 do_copy() {
 
     local root="$1/tocopy"
     for src in $(find "$root" -type "f"); do
 
-        local dosudo="$(grep -q "/home/" <<<"$src" && echo 1 || echo 0)"
-        local dst="$(do_dirname "$src" "$root" "$dosudo")"
+        local dst="$(do_dirname "$src" "$root")"
+        local dosudo="$(grep -q "/home/" <<<"$dst" && echo 0 || echo 1)"
 
         if [[ "$dosudo" -ne 1 ]]; then
             cp -rf "$src" "$dst"
@@ -153,8 +124,8 @@ do_link() {
     local root="$1/tolink"
     for src in $(find "$root" -type "f"); do
 
-        local dosudo="$(grep -q "/home/" <<<"$src" && echo 1 || echo 0)"
-        local dst="$(do_dirname "$src" "$root" "$dosudo")"
+        local dst="$(do_dirname "$src" "$root")"
+        local dosudo="$(grep -q "/home/" <<<"$dst" && echo 0 || echo 1)"
 
         if [[ "$dosudo" -ne 1 ]]; then
             ln -sf "$src" "$dst"
@@ -163,13 +134,31 @@ do_link() {
         fi
     done
 }
+do_zip() {
+
+    local root="$1/zip"
+    for src in $(find "$root" -type "f"); do
+
+        local dst="$(do_dirname "$src" "$root")"
+        local dosudo="$(grep -q "/home/" <<<"$dst" && echo 0 || echo 1)"
+
+        echo -ne "[$YELLOW * $NC] Unzipping '$(basename "$src")..."
+        if [[ "$dosudo" -ne 1 ]]; then
+
+            unzip -o "$src" -d "$dst" &>"/dev/null"
+        else
+            sudo unzip -o "$src" -d "$dst" &>"/dev/null"
+        fi
+        echo -e "\r[$GREEN + $NC] '$src' unzipped    "
+    done
+}
 do_dirname() {
 
     local src="$1"
     local root="$2"
-    local dosudo="$3"
 
     local dst="$(sed "s=$root=/=" <<<"$src")"
+    local dosudo="$(grep -q "/home/" <<<"$dst" && echo 0 || echo 1)"
     dst=$(sed "s=/home/=$HOME/=" <<<"$dst")
 
     local dirname="$(dirname "$dst")"
