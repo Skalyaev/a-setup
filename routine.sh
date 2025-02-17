@@ -140,6 +140,8 @@ do_zip() {
     for src in $(find "$root" -type "f"); do
 
         local dst="$(do_dirname "$src" "$root")"
+        dst="$(dirname "$dst")"
+
         local dosudo="$(grep -q "/home/" <<<"$dst" && echo 0 || echo 1)"
 
         echo -ne "[$YELLOW * $NC] Unzipping '$(basename "$src")..."
@@ -149,7 +151,7 @@ do_zip() {
         else
             sudo unzip -o "$src" -d "$dst" &>"/dev/null"
         fi
-        echo -e "\r[$GREEN + $NC] '$src' unzipped    "
+        echo -e "\r[$GREEN + $NC] '$(basename "$src")' unzipped   "
     done
 }
 do_dirname() {
