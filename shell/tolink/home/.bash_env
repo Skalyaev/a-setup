@@ -2,6 +2,7 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.rvm/bin"
 
 export INPUTRC="$HOME/.config/.inputrc"
+export GOPATH="$HOME/.local/share/go"
 
 export HISTCONTROL="ignoreboth" # Ignore duplicates and commands starting with space
 export HISTSIZE=2000            # Number of commands to remember in history

@@ -34,6 +34,8 @@ if [[ "$(ruby --version)" != *"$RUBY_VERSION"* ]]; then
     set -u
     echo -e "\r[$GREEN + $NC] Ruby $RUBY_VERSION installed    "
 fi
+[[ -e "$HOME/.msf4/database.yml" ]] && exit
+
 echo -e "[$GREEN + $NC] Installing MSF bundler"
 set +u
 cd "/opt/metasploit" && gem install "bundler" &>"/dev/null"

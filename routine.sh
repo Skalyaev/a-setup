@@ -15,6 +15,7 @@ process() {
     [[ -e "$target/aur.list" ]] && do_aur "$target"
     [[ -e "$target/pip.list" ]] && do_pip "$target"
 
+    [[ -e "$target/git" ]] && do_git "$target"
     [[ -e "$target/zip" ]] && do_zip "$target"
     [[ -e "$target/tocopy" ]] && do_copy "$target"
     [[ -e "$target/tolink" ]] && do_link "$target"
@@ -60,8 +61,15 @@ do_aur() {
 
             git clone "https://aur.archlinux.org/$pkg.git" &>"/dev/null"
             echo -e "\r[$GREEN + $NC] '$pkg' cloned    "
+            cd "$pkg"
+        else
+            cd "$pkg"
+            echo -ne "[$YELLOW * $NC] Checking '$pkg'..."
+            local fetch="$(git fetch)"
+
+            echo -ne "\r$(python -c "print(' ' * $(tput cols), end='')")\r"
+            [[ -z "$fetch" ]] && continue
         fi
-        cd "$pkg"
         if [[ ! -x ".install.sh" ]]; then
 
             echo 'makepkg -si --noconfirm' >".install.sh"
@@ -94,11 +102,28 @@ do_pip() {
     fi
     for pkg in $(cat "$1/pip.list"); do
 
-        pip show "$pkg" &>"/dev/null" && continue
+        echo -ne "[$YELLOW * $NC] Checking '$pkg'..."
+        pip show "$pkg" &>"/dev/null"
+        local exists="$?"
+
+        echo -ne "\r$(python -c "print(' ' * $(tput cols), end='')")\r"
+        [[ "$exists" -eq 0 ]] && continue
+
         echo -ne "[$YELLOW * $NC] Installing pip '$pkg'..."
 
         "$pyenv"/bin/pip install --no-cache-dir "$pkg" &>"/dev/null"
         echo -e "\r[$GREEN + $NC] pip '$pkg' installed    "
+    done
+}
+
+# GIT
+# ===
+do_git() {
+
+    local root="$1/git"
+    for src in $(find "$root" -maxdepth "1" -name "*.sh"); do
+
+        bash "$src"
     done
 }
 
@@ -142,16 +167,17 @@ do_zip() {
         local dst="$(do_dirname "$src" "$root")"
         dst="$(dirname "$dst")"
 
+        local creating="$(basename "$dst")/$(basename "$src")"
         local dosudo="$(grep -q "/home/" <<<"$dst" && echo 0 || echo 1)"
 
-        echo -ne "[$YELLOW * $NC] Unzipping '$(basename "$src")..."
+        echo -ne "[$YELLOW * $NC] Unzipping '$creating'..."
         if [[ "$dosudo" -ne 1 ]]; then
 
             unzip -o "$src" -d "$dst" &>"/dev/null"
         else
             sudo unzip -o "$src" -d "$dst" &>"/dev/null"
         fi
-        echo -e "\r[$GREEN + $NC] '$(basename "$src")' unzipped   "
+        echo -e "\r[$GREEN + $NC] '$creating' unzipped    "
     done
 }
 do_dirname() {

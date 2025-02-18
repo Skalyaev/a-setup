@@ -1,10 +1,13 @@
 #!/bin/bash
 sudo pacman -Syu --noconfirm
 
-ORPHANS="$(pacman -Qdtq)"
-[[ -n "$ORPHANS" ]] && sudo pacman -Rns "$ORPHANS" --noconfirm
+ORPHANS="$(pacman -Qdtq 2>&1)"
+for ORPHAN in $ORPHANS; do
 
-pip install --upgrade pip
+    sudo pacman -Rns "$ORPHAN" --noconfirm
+done
+
+pip install --upgrade pip 2>"/dev/null"
 
 OUTDATED="$(pip list --outdated | tail -n "+3" | grep -v "notice")"
 [[ -n "$OUTDATED" ]] && cut -d " " -f1 <<< "$OUTDATED" |
@@ -15,11 +18,12 @@ DIRS="$(find "$GIT_DIR" -maxdepth "1" -mindepth "1" -type "d" 2>"/dev/null")"
 
 for DIR in $DIRS; do
 
-    cd "$(dirname "$DIR")" || continue
+    cd "$DIR" && echo -ne "Checking '$DIR'..."
+    FETCH="$(git fetch)"
 
-    git fetch || continue
-    if git status | grep -q 'git pull'; then git pull || continue; fi
+    echo -ne "\r$(python -c "print(' ' * $(tput cols), end='')")\r"
+    [[ -z "$FETCH" ]] && continue
 
-    ./.install.sh
+    git pull && ./install.sh
 done
 rmshit

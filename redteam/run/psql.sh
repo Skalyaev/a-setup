@@ -6,11 +6,8 @@ set -e
 set -u
 
 PGDATA_DIR="/var/lib/postgres/data"
-if [[ "$(sudo ls "$PGDATA_DIR" 2>"/dev/null")" ]]; then
+[[ "$(sudo ls "$PGDATA_DIR" 2>"/dev/null")" ]] && exit
 
-    echo -e "[$GREEN + $NC] Postgres data set"
-    exit
-fi
 echo -ne "[$YELLOW * $NC] Initializing Postgres data"
 
 sudo mkdir -p "$PGDATA_DIR"

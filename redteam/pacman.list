@@ -4,3 +4,9 @@ exploitdb
 metasploit
 postgresql
 radare2
+netcat
+wget
+bind
+nfs-utils
+hydra
+whois
