@@ -20,10 +20,10 @@ if [[ ! -e "$DST" ]]; then
 else
     cd "$DST"
     echo -ne "[$YELLOW * $NC] Checking '$PKG'..."
-    local fetch="$(git fetch)"
+    FETCH="$(git fetch)"
 
     echo -ne "\r$(python -c "print(' ' * $(tput cols), end='')")\r"
-    [[ -z "$fetch" ]] && continue
+    [[ -z "$FETCH" ]] && continue
 fi
 cat <<EOF >".install.sh"
 pip install -r requirements.txt
